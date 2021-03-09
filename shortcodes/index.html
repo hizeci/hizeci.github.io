@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Shortcodes - Even - A super concise theme for Hugo</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="hizeci" /><meta name="description" content="Admonition I&amp;#39;m title!
+biu biu biu.
+notebiu biu biu.
+ Without title.
+  1 2 3 4 5 6 7 8 9 10 11 12  {{% admonition note &amp;#34;I&amp;#39;m title!&amp;#34; false %}} biu biu biu. {{% admonition type=&amp;#34;note&amp;#34; title=&amp;#34;note&amp;#34; details=&amp;#34;true&amp;#34; %}} biu biu biu. {{% /admonition %}} {{% admonition example %}} Without title. {{% /admonition %}} {{% /admonition %}}   " /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.81.0 with theme even" />
+
+
+<link rel="canonical" href="https://hizeci.github.io/shortcodes/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+
+<link href="/sass/main.min.6a025d60334ccde9f765dedcf6936f4c2eb3ea8d22276e9f389bb2efc2d55e11.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Shortcodes" />
+<meta property="og:description" content="Admonition
+I&#39;m title!
+biu biu biu.
+note
+  biu biu biu.
+
+
+  Without title.
+
+
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+
+
+{{% admonition note &#34;I&#39;m title!&#34; false %}}
+biu biu biu.
+
+{{% admonition type=&#34;note&#34; title=&#34;note&#34; details=&#34;true&#34; %}}
+biu biu biu.
+{{% /admonition %}}
+
+{{% admonition example %}}
+Without title.
+{{% /admonition %}}
+
+{{% /admonition %}}
+
+
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hizeci.github.io/shortcodes/" /><meta property="article:section" content="" />
+<meta property="article:published_time" content="2016-08-30T16:01:23&#43;08:00" />
+<meta property="article:modified_time" content="2018-02-01T18:01:23&#43;08:00" />
+
+<meta itemprop="name" content="Shortcodes">
+<meta itemprop="description" content="Admonition
+I&#39;m title!
+biu biu biu.
+note
+  biu biu biu.
+
+
+  Without title.
+
+
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+
+
+{{% admonition note &#34;I&#39;m title!&#34; false %}}
+biu biu biu.
+
+{{% admonition type=&#34;note&#34; title=&#34;note&#34; details=&#34;true&#34; %}}
+biu biu biu.
+{{% /admonition %}}
+
+{{% admonition example %}}
+Without title.
+{{% /admonition %}}
+
+{{% /admonition %}}
+
+
+"><meta itemprop="datePublished" content="2016-08-30T16:01:23&#43;08:00" />
+<meta itemprop="dateModified" content="2018-02-01T18:01:23&#43;08:00" />
+<meta itemprop="wordCount" content="338">
+<meta itemprop="keywords" content="shortcodes," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Shortcodes"/>
+<meta name="twitter:description" content="Admonition
+I&#39;m title!
+biu biu biu.
+note
+  biu biu biu.
+
+
+  Without title.
+
+
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+
+
+{{% admonition note &#34;I&#39;m title!&#34; false %}}
+biu biu biu.
+
+{{% admonition type=&#34;note&#34; title=&#34;note&#34; details=&#34;true&#34; %}}
+biu biu biu.
+{{% /admonition %}}
+
+{{% admonition example %}}
+Without title.
+{{% /admonition %}}
+
+{{% /admonition %}}
+
+
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Coldice</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Coldice</a>
+</div>
+
+
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu"><li style="display:inline-block;margin-right:10px;">
+        <input type="search" class="docsearch-input" placeholder="Search" />
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+  <div class="post-content">
+    <h1 id="admonition">Admonition</h1>
+<div class="admonition note"><p class="admonition-title">I&#39;m title!</p>
+<p>biu biu biu.</p>
+<details class="admonition note"><summary class="admonition-title">note</summary>
+  <p>biu biu biu.</p>
+</details>
+<div class="admonition example">
+  <p>Without title.</p>
+</div>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-markdown" data-lang="markdown">{{% admonition note &#34;I&#39;m title!&#34; false %}}
+biu biu biu.
+
+{{% admonition type=&#34;note&#34; title=&#34;note&#34; details=&#34;true&#34; %}}
+biu biu biu.
+{{% /admonition %}}
+
+{{% admonition example %}}
+Without title.
+{{% /admonition %}}
+
+{{% /admonition %}}
+</code></pre></td></tr></table>
+</div>
+</div><div class="admonition abstract"><p class="admonition-title">abstract</p>
+<p>biu biu biu.</p>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-markdown" data-lang="markdown">{{% admonition abstract abstract %}}
+biu biu biu.
+{{% /admonition %}}
+</code></pre></td></tr></table>
+</div>
+</div><div class="admonition info"><p class="admonition-title">info</p>
+<p>biu biu biu.</p>
+</div>
+<div class="admonition tip"><p class="admonition-title">tip</p>
+<p>biu biu biu.</p>
+</div>
+<div class="admonition success"><p class="admonition-title">success</p>
+<p>biu biu biu.</p>
+</div>
+<div class="admonition question"><p class="admonition-title">question</p>
+<p>biu biu biu.</p>
+</div>
+<div class="admonition warning"><p class="admonition-title">warning</p>
+<p>biu biu biu.</p>
+</div>
+<div class="admonition failure"><p class="admonition-title">failure</p>
+<p>biu biu biu.</p>
+</div>
+<div class="admonition danger"><p class="admonition-title">danger</p>
+<p>biu biu biu.</p>
+</div>
+<div class="admonition bug"><p class="admonition-title">bug</p>
+<p>biu biu biu.</p>
+</div>
+<div class="admonition example"><p class="admonition-title">example</p>
+<p>biu biu biu.</p>
+</div>
+<div class="admonition quote"><p class="admonition-title">quote</p>
+<p>biu biu biu.</p>
+</div>
+<h1 id="center-right-left">center, right, left</h1>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-markdown" data-lang="markdown"><span class="gu">## default
+</span><span class="gu"></span>![<span class="nt">img</span>](<span class="na">/path/to/img.gif &#34;img&#34;</span>)
+
+{{% center %}}
+<span class="gu">## center
+</span><span class="gu"></span>![<span class="nt">img</span>](<span class="na">/path/to/img.gif &#34;img&#34;</span>)
+{{% /center %}}
+
+{{% right %}}
+<span class="gu">## right
+</span><span class="gu"></span>![<span class="nt">img</span>](<span class="na">/path/to/img.gif &#34;img&#34;</span>)
+{{% /right %}}
+
+{{% left %}}
+<span class="gu">## left
+</span><span class="gu"></span>![<span class="nt">img</span>](<span class="na">/path/to/img.gif &#34;img&#34;</span>)
+{{% /left %}}
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="default">default</h2>
+<p><img src="https://wx1.sinaimg.cn/small/006SToa6ly1fm07summ2gj30qo0qomzu.jpg" alt="img" title="img"></p>
+<div class='align-center'>
+<h2 id="center">center</h2>
+<p><img src="https://wx1.sinaimg.cn/small/006SToa6ly1fm07summ2gj30qo0qomzu.jpg" alt="img" title="img"></p>
+</div>
+<div class='align-right'>
+<h2 id="right">right</h2>
+<p><img src="https://wx1.sinaimg.cn/small/006SToa6ly1fm07summ2gj30qo0qomzu.jpg" alt="img" title="img"></p>
+</div>
+<div class='align-left'>
+<h2 id="left">left</h2>
+<p><img src="https://wx1.sinaimg.cn/small/006SToa6ly1fm07summ2gj30qo0qomzu.jpg" alt="img" title="img"></p>
+</div>
+<hr>
+<h2 id="figure-with-class">figure with class</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">{{% figure src=&#34;/path/to/img.gif&#34; title=&#34;default&#34; alt=&#34;img&#34; %}}
+{{% figure class=&#34;center&#34; src=&#34;/path/to/img.gif&#34; title=&#34;center&#34; alt=&#34;img&#34; %}}
+{{% figure class=&#34;right&#34; src=&#34;/path/to/img.gif&#34; title=&#34;right&#34; alt=&#34;img&#34; %}}
+{{% figure class=&#34;left&#34; src=&#34;/path/to/img.gif&#34; title=&#34;left&#34; alt=&#34;img&#34; %}}
+</code></pre></td></tr></table>
+</div>
+</div><figure>
+    <img src="https://wx1.sinaimg.cn/small/006SToa6ly1fm07summ2gj30qo0qomzu.jpg"
+         alt="img"/> <figcaption>
+            <h4>default</h4>
+        </figcaption>
+</figure>
+<figure class="center">
+    <img src="https://wx1.sinaimg.cn/small/006SToa6ly1fm07summ2gj30qo0qomzu.jpg"
+         alt="img"/> <figcaption>
+            <h4>center</h4>
+        </figcaption>
+</figure>
+<figure class="right">
+    <img src="https://wx1.sinaimg.cn/small/006SToa6ly1fm07summ2gj30qo0qomzu.jpg"
+         alt="img"/> <figcaption>
+            <h4>right</h4>
+        </figcaption>
+</figure>
+<figure class="left">
+    <img src="https://wx1.sinaimg.cn/small/006SToa6ly1fm07summ2gj30qo0qomzu.jpg"
+         alt="img"/> <figcaption>
+            <h4>left</h4>
+        </figcaption>
+</figure>
+<hr>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">{{% center %}}
+
+## hybrid in center
+{{% figure src=&#34;/path/to/img.gif&#34; title=&#34;default&#34; alt=&#34;img&#34; %}}
+{{% figure class=&#34;right&#34; src=&#34;/path/to/img.gif&#34; title=&#34;right&#34; alt=&#34;img&#34; %}}
+
+{{% left %}}
+{{% figure src=&#34;/path/to/img.gif&#34; title=&#34;default in left&#34; alt=&#34;img&#34; %}}
+{{% /left %}}
+
+{{% /center %}}
+</code></pre></td></tr></table>
+</div>
+</div><div class='align-center'>
+<h2 id="hybrid-in-center">hybrid in center</h2>
+<figure>
+    <img src="https://wx1.sinaimg.cn/small/006SToa6ly1fm07summ2gj30qo0qomzu.jpg"
+         alt="img"/> <figcaption>
+            <h4>default</h4>
+        </figcaption>
+</figure>
+<figure class="right">
+    <img src="https://wx1.sinaimg.cn/small/006SToa6ly1fm07summ2gj30qo0qomzu.jpg"
+         alt="img"/> <figcaption>
+            <h4>right</h4>
+        </figcaption>
+</figure>
+<div class='align-left'>
+  <figure>
+    <img src="https://wx1.sinaimg.cn/small/006SToa6ly1fm07summ2gj30qo0qomzu.jpg"
+         alt="img"/> <figcaption>
+            <h4>default in left</h4>
+        </figcaption>
+</figure>
+</div>
+</div>
+<hr>
+<h1 id="music-163">Music 163</h1>
+<h2 id="params">Params</h2>
+<ul>
+<li>
+<p><code>id</code></p>
+<ul>
+<li>required param</li>
+<li>you can extract from music url</li>
+<li>url format <a href="http://music.163.com/#/song?id=28196554">http://music.163.com/#/song?id=28196554</a></li>
+</ul>
+</li>
+<li>
+<p>Fiddle <code>auto</code></p>
+<ul>
+<li>optional param</li>
+<li>default value 0</li>
+<li>you can overwrite it with 1</li>
+</ul>
+</li>
+</ul>
+<h2 id="examples">Examples</h2>
+<ul>
+<li>Simple</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">{{% music &#34;28196554&#34; %}}
+{{% music &#34;28196554&#34; &#34;1&#34; %}}
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Named Params</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">{{% music id=&#34;28196554&#34; %}}
+{{% music id=&#34;28196554&#34; auto=&#34;1&#34; %}}
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Example</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">{{% music &#34;28196554&#34; %}}
+</code></pre></td></tr></table>
+</div>
+</div><p>{{% music &ldquo;28196554&rdquo; %}}</p>
+<style>
+.post-content img {
+  height: 64px;
+}
+</style>
+  </div>
+</article>
+        </div>
+        <div id="comments-gitment"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitment.browser.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      var gitment = new Gitment({
+        id: '2016-08-30 16:01:23 \u002b0800 CST',
+        title: 'Shortcodes',
+        link: decodeURI(location.href),
+        desc: '\u003ch1 id=\u0022admonition\u0022\u003eAdmonition\u003c\/h1\u003e\n\u003cdiv class=\u0022admonition note\u0022\u003e\u003cp class=\u0022admonition-title\u0022\u003eI\u0026#39;m title!\u003c\/p\u003e\r\n\u003cp\u003ebiu biu biu.\u003c\/p\u003e\n\u003cdetails class=\u0022admonition note\u0022\u003e\u003csummary class=\u0022admonition-title\u0022\u003enote\u003c\/summary\u003e\r\n  \u003cp\u003ebiu biu biu.\u003c\/p\u003e\n\u003c\/details\u003e\n\u003cdiv class=\u0022admonition example\u0022\u003e\r\n  \u003cp\u003eWithout title.\u003c\/p\u003e\n\u003c\/div\u003e\n\u003c\/div\u003e\n\u003cdiv class=\u0022highlight\u0022\u003e\u003cdiv class=\u0022chroma\u0022\u003e\n\u003ctable class=\u0022lntable\u0022\u003e\u003ctr\u003e\u003ctd class=\u0022lntd\u0022\u003e\n\u003cpre class=\u0022chroma\u0022\u003e\u003ccode\u003e\u003cspan class=\u0022lnt\u0022\u003e 1\n\u003c\/span\u003e\u003cspan class=\u0022lnt\u0022\u003e 2\n\u003c\/span\u003e\u003cspan class=\u0022lnt\u0022\u003e 3\n\u003c\/span\u003e\u003cspan class=\u0022lnt\u0022\u003e 4\n\u003c\/span\u003e\u003cspan class=\u0022lnt\u0022\u003e 5\n\u003c\/span\u003e\u003cspan class=\u0022lnt\u0022\u003e 6\n\u003c\/span\u003e\u003cspan class=\u0022lnt\u0022\u003e 7\n\u003c\/span\u003e\u003cspan class=\u0022lnt\u0022\u003e 8\n\u003c\/span\u003e\u003cspan class=\u0022lnt\u0022\u003e 9\n\u003c\/span\u003e\u003cspan class=\u0022lnt\u0022\u003e10\n\u003c\/span\u003e\u003cspan class=\u0022lnt\u0022\u003e11\n\u003c\/span\u003e\u003cspan class=\u0022lnt\u0022\u003e12\n\u003c\/span\u003e\u003c\/code\u003e\u003c\/pre\u003e\u003c\/td\u003e\n\u003ctd class=\u0022lntd\u0022\u003e\n\u003cpre class=\u0022chroma\u0022\u003e\u003ccode class=\u0022language-markdown\u0022 data-lang=\u0022markdown\u0022\u003e{{% admonition note \u0026#34;I\u0026#39;m title!\u0026#34; false %}}\nbiu biu biu.\n\n{{% admonition type=\u0026#34;note\u0026#34; title=\u0026#34;note\u0026#34; details=\u0026#34;true\u0026#34; %}}\nbiu biu biu.\n{{% \/admonition %}}\n\n{{% admonition example %}}\nWithout title.\n{{% \/admonition %}}\n\n{{% \/admonition %}}\n\u003c\/code\u003e\u003c\/pre\u003e\u003c\/td\u003e\u003c\/tr\u003e\u003c\/table\u003e\n\u003c\/div\u003e\n\u003c\/div\u003e',
+        owner: 'hizeci',
+        repo: 'hizeci',
+        oauth: {
+          client_id: '7ffae9b597980c454fa7',
+          client_secret: 'd05fe1e9ee78e645e861f1c208ba4f576a785eab'
+        }
+      });
+      gitment.render('comments-gitment');
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/imsun/gitment">comments powered by gitment.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/hizeci" class="iconfont icon-github" title="github"></a>
+  <a href="https://hizeci.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>hizeci</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+    docsearch({
+    apiKey: "97c22106dbe3955818bc05a0be5f3511",
+    indexName: "hizeci's blog",
+    appId: "9HLPOQJVAD",
+    inputSelector: '.docsearch-input',
+    debug: false,
+    });
+</script>
+
+
+</body>
+</html>
