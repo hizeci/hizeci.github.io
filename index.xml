@@ -29,11 +29,20 @@ It makes use of a variety of open source projects including:
     
     <item>
       <title>[CTSC2018]暴力写挂</title>
-      <link>https://hizeci.github.io/post/ctsc2018%E6%9A%B4%E5%8A%9B%E5%86%99%E6%8C%82/</link>
+      <link>https://hizeci.github.io/post/aaaa/</link>
       <pubDate>Wed, 10 Mar 2021 20:30:30 +0800</pubDate>
       
-      <guid>https://hizeci.github.io/post/ctsc2018%E6%9A%B4%E5%8A%9B%E5%86%99%E6%8C%82/</guid>
-      <description></description>
+      <guid>https://hizeci.github.io/post/aaaa/</guid>
+      <description>&lt;p&gt;www&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>test_another</title>
+      <link>https://hizeci.github.io/post/caixiangyu/</link>
+      <pubDate>Wed, 10 Mar 2021 20:30:30 +0800</pubDate>
+      
+      <guid>https://hizeci.github.io/post/caixiangyu/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;这里必须存在一些明文文字以及概要标签:&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -249,15 +258,6 @@ Andrew-&amp;gt;&amp;gt;China: I am good thanks!
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description>
-    </item>
-    
-    <item>
-      <title>这是一篇加密文章</title>
-      <link>https://hizeci.github.io/post/caixiangyu/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://hizeci.github.io/post/caixiangyu/</guid>
-      <description>&lt;p&gt;&lt;strong&gt;这里必须存在一些明文文字以及概要标签:&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>
