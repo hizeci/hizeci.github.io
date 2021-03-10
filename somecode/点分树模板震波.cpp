@@ -1,3 +1,7 @@
+#pragma GCC optimize(3)
+#pragma GCC target("avx")
+#pragma GCC optimize("Ofast")
+
 #include<bits/stdc++.h>
 #define ld long double
 #define tset puts("qwq");
@@ -19,7 +23,7 @@
 #define us unsigned 
 #define ll long long
 #define ull unsigned long long
-#define int long long
+//#define int long long
 #define Swap(x,y) (x^=y^=x^=y)
 template<typename T> inline void ckmax(T& x, T y) { x = (y > x ? y : x); }
 template<typename T> inline void ckmin(T& x, T y) { x = (y < x ? y : x); }
@@ -64,28 +68,47 @@ uniform_int_distribution<long long> dist(0, 10000000);  // ¸ø¶¨·¶Î§
 printf("%lld ",dist(rand_num));
 */
 const int N=4e5+10;
-const int M=5e6+10;
+const int M=1e7+10;
 int n,m,lst_ans;
 int a[N];
-int dep[N],st[22][N],tim,Lg[N];
-int vis[N],Mx_s[N],siz[N],dfn[N],dsiz[N],dfG[N];
-
+int dep[N],st[22][M],tim,Lg[N];
+int vis[N],Mx_s[N],siz[N],dfn[N],dfG[N],fa[N][22];
 struct edge{int nxt,to;}e[N<<1];
 int head[N],cnt;
 inline void add_edge(int u,int v){e[++cnt]=(edge){head[u],v};head[u]=cnt;}
-void dfs1(int u,int f,int dp) 
+void dfs1(int u,int f) 
 {
-	dep[u]=dp,st[0][++tim]=u,dfn[u]=tim;
+	st[0][++tim]=u;
+	//fa[u][0]=f;
+	dfn[u]=tim;
 	for(int i=head[u];i!=-1;i=e[i].nxt) 
 	{
-		int v=e[i].to;if(v==f) continue;
-		dfs1(v,u,dp+1);st[0][++tim]=u;
+		int v=e[i].to;
+		if(v==f) continue;
+		dep[v]=dep[u]+1;
+		dfs1(v,u);
+		st[0][++tim]=u;
 	}
 }
+/*
+void init_st()
+{
+	R(i,1,18) R(j,1,n) fa[j][i]=fa[fa[j][i-1]][i-1];
+}
+inline int get_LCA(int x,int y)
+{
+	if(dep[x]<dep[y]) Swap(x,y);
+	int del=dep[x]-dep[y];
+	L(i,0,18) if(del&(1<<i)) x=fa[x][i];
+	if(x==y) return x;
+	L(i,0,18) if(fa[x][i]!=fa[y][i]) x=fa[x][i],y=fa[y][i];
+	return fa[x][0];
+}
+*/
 inline int get_lopoi(int x,int y){return dep[x]<dep[y]?x:y;}
 void init_st() 
 {
-	R(i,2,tim) Lg[i]=Lg[i>>1]+1;
+	R(i,2,tim+5) Lg[i]=Lg[i>>1]+1;
 	for(int i=1;(1<<i)<=tim;i++)
 	{
 		int w=(1<<i);
@@ -99,7 +122,12 @@ inline int get_LCA(int x,int y)
 	int i=Lg[y-x+1],w=(1<<i);
 	return get_lopoi(st[i][x],st[i][y-w+1]);
 }
-inline int get_dis(int x,int y) {return dep[x]+dep[y]-2*dep[get_LCA(x,y)];}
+
+inline int get_dis(int x,int y) {
+	return dep[x]+dep[y]-2*dep[get_LCA(x,y)];
+}
+
+/*
 int dfs2(int u,int f,int siz_tr) 
 {
 	int rt=0;
@@ -109,30 +137,50 @@ int dfs2(int u,int f,int siz_tr)
 		int v=e[i].to;
 		if(v==f||vis[v]) continue;
 		int rtv=dfs2(v,u,siz_tr);
+		rt=(Mx_s[rtv]<Mx_s[rt]||!rt)?rtv:rt;
 		siz[u]+=siz[v];
 		ckmax(Mx_s[u],siz[v]);		
-		rt=(Mx_s[rt]<Mx_s[rtv]||!rt)?rt:rtv;
 	}
 	ckmax(Mx_s[u],siz_tr-siz[u]);
 	rt=(Mx_s[u]<Mx_s[rt]||!rt)?u:rt;
 	return rt;
 }
-void buildtr(int rt,int siz_tr) 
+*/
+int rt;
+void dfs2(int u,int f,int siz_tr)
 {
-	vis[rt]=1;dsiz[rt]=siz_tr;
-	for(int i=head[rt];i!=-1;i=e[i].nxt) 
+	Mx_s[u]=0,siz[u]=1;
+	for(int i=head[u];i!=-1;i=e[i].nxt)
+	{
+		int v=e[i].to;
+		if(v==f||vis[v]) continue;
+		dfs2(v,u,siz_tr);
+		siz[u]+=siz[v];
+		ckmax(Mx_s[u],siz[v]);
+	}
+	ckmax(Mx_s[u],siz_tr-siz[u]);
+	rt=(Mx_s[u]<Mx_s[rt])?u:rt;
+}
+void buildtr(int u,int siz_tr) 
+{
+	//printf("rt:%lld\n",rt);
+	vis[u]=1;
+	for(int i=head[u];i!=-1;i=e[i].nxt) 
 	{
 		int v=e[i].to;
 		if(vis[v]) continue;
-		int vsiz=(siz[v]<siz[rt])?siz[v]:siz_tr-siz[rt];
-		int rtv=dfs2(v,-1,vsiz);rtv=dfs2(rtv,-1,vsiz);
-		dfG[rtv]=rt;
-		buildtr(rtv,vsiz);
+		int vsiz=(siz[v]<siz[u])?siz[v]:(siz_tr-siz[u]);
+		//int rtv=dfs2(v,rt,vsiz);rtv=dfs2(rtv,-1,vsiz);
+		Mx_s[rt=0]=inf;
+		dfs2(v,-1,vsiz);
+		dfs2(rt,-1,vsiz);
+		dfG[rt]=u;
+		buildtr(rt,vsiz);
 	}
 }
-struct chairman
+struct segmentree
 {
-	int Rt[N],Ls[M],Rs[M],val[M],tot_seg;
+	int Rt[N],Ls[M],Rs[M],val[M],tot_seg=0;
 	void modify(int pos,int l,int r,int &x,int k) 
 	{
 		if(!x) x=++tot_seg;
@@ -149,6 +197,14 @@ struct chairman
 		if(L<=mid) ret+=query(L,R,l,mid,Ls[x]);
 		if(mid<R)  ret+=query(L,R,mid+1,r,Rs[x]);
 		return ret;
+		//if(R<=mid) return query(L,R,l,mid,Ls[x]);
+		//else if(L>mid) return query(L,R,mid+1,r,Rs[x]);
+		//else return query(L,mid,l,mid,Ls[x])+query(mid+1,R,mid+1,r,Rs[x]);
+	}
+	void print()
+	{
+		writeln(tot_seg);
+		R(i,1,1000) printf("%d %d %d %d\n",Rt[i],Ls[i],Rs[i],val[i]);	
 	}
 }T1,T2;
 void mmodify(int u,int k)
@@ -156,6 +212,7 @@ void mmodify(int u,int k)
 	int now=u;
 	while(now)
 	{
+		//printf("%lld %lld %lld %lld\n",u,now,get_dis(now,u),T1.Rt[now]);
 		T1.modify(get_dis(now,u),0,n-1,T1.Rt[now],k);
 		if(dfG[now]) T2.modify(get_dis(dfG[now],u),0,n-1,T2.Rt[now],k);
 		now=dfG[now];
@@ -166,25 +223,36 @@ int qquery(int u,int k)
 	int now=u,pre=0,ret=0;
 	while(now) 
 	{
-		if(get_dis(now,u)>k){pre=now;now=dfG[now];continue;}
-		ret+=T1.query(0,k-get_dis(now,u),0,n-1,T1.Rt[now]);
-		if(pre) ret-=T2.query(0,k-get_dis(now,u),0,n-1,T2.Rt[now]);
+		int dist=get_dis(now,u);//printf("dis:%lld\n",dist);
+		if(dist>k){pre=now;now=dfG[now];continue;}
+		ret+=T1.query(0,k-dist,0,n-1,T1.Rt[now]);
+		if(pre) ret-=T2.query(0,k-dist,0,n-1,T2.Rt[pre]);
 		pre=now;now=dfG[now];
 	}
 	return ret;
 }
-inline void init_all(){dfs1(1,-1,0);init_st();Mx_s[0]=inf;int rt=dfs2(1,-1,n);rt=dfs2(rt,-1,n);buildtr(rt,n);R(i,1,n)mmodify(i,a[i]);}
+//inline void init_all(){dfs1(1,-1);init_st();int rt=dfs2(1,-1,n);rt=dfs2(rt,-1,n);buildtr(rt,n);R(i,1,n)mmodify(i,a[i]);}
 signed main()
 {
+//	freopen("1.in","r",stdin);
 	memset(head,-1,sizeof(head));
 	n=read(),m=read();
 	R(i,1,n) a[i]=read();
 	int u,v;R(i,2,n) u=read(),v=read(),add_edge(u,v),add_edge(v,u);
-	init_all();
+	//init_all();
+	dfs1(1,-1);
+	init_st();
+	Mx_s[rt=0]=inf;
+	dfs2(1,-1,n);
+	dfs2(rt,-1,n);
+	buildtr(rt,n);
+	R(i,1,n) mmodify(i,a[i]);
+	//		m=2;
 	for(;m--;)
 	{
+		//T1.print(),T2.print();
 		int opt=read(),x=read()^lst_ans,y=read()^lst_ans;
-		if(!opt) lst_ans=qquery(x,y),writeln(lst_ans);
+		if(!opt) writeln(lst_ans=qquery(x,y));
 		if(opt) mmodify(x,y-a[x]),a[x]=y;
 	}
 	return 0;
