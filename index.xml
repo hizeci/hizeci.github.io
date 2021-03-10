@@ -6,7 +6,7 @@
     <description>Recent content on having little or no sense, use, or purpose.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 09 Mar 2021 19:48:09 +0800</lastBuildDate><atom:link href="https://hizeci.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 10 Mar 2021 11:29:31 +0800</lastBuildDate><atom:link href="https://hizeci.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Theme preview</title>
       <link>https://hizeci.github.io/even-preview/</link>
@@ -25,6 +25,15 @@
       <description>Hugo is a static site engine written in Go.
 It makes use of a variety of open source projects including:
  Cobra Viper J Walter Weatherman Cast  Learn more and contribute on GitHub.</description>
+    </item>
+    
+    <item>
+      <title>Asd</title>
+      <link>https://hizeci.github.io/post/asd/</link>
+      <pubDate>Wed, 10 Mar 2021 11:29:31 +0800</pubDate>
+      
+      <guid>https://hizeci.github.io/post/asd/</guid>
+      <description>&lt;p&gt;wwwwwwwwwww&lt;/p&gt;</description>
     </item>
     
     <item>
