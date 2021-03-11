@@ -16,6 +16,6 @@ $114514$
 adkjhdsaklj
 $sadada$
 
-{{% hugo-encryptor  %}}
+{{% \hugo-encryptor  %}}
 
 sda
