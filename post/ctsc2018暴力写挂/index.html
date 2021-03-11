@@ -36,12 +36,12 @@
 <meta content="边分治," itemprop="keywords"/><meta content="summary" name="twitter:card"/>
 <meta content="[CTSC2018]暴力写挂" name="twitter:title"/>
 <meta content="" name="twitter:description"/>
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
 <![endif]-->
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
 <![endif]-->
 </head>
 <body>
@@ -106,7 +106,7 @@
 </div>
 </header>
 <div class="post-content">
-<p>考虑枚举$T'$中两点的$lca$,之后要做的为最大化$dep_x+dep_y-dep_{lca(x,y)}$,转化一下式子就是$\frac {dep_x+dep_y+dist_{x,y} }{2}$.
+<p>考虑枚举$T'$中两点的$lca$,之后要做的为最大化$dep_x+dep_y-dep_{lca(x,y)}$,转化一下式子就是$\frac {dep_x+dep_y+dist_{x,y} }{2}$.
 那么我们考虑在边分树的每一个节点维护往左最大的$dep_x+dist_{a,x}$和往右最大的$dep_y+dist_{b,y}$.</p>
 <p>考虑因为边分树的树高是$\log n$的，每次加入一个节点可以暴力更新他的所有祖先。</p>
 <p>最后是合并，由于边分树是一棵二叉树，与线段树的结构相似，所以可是使用类似线段树合并的方式合并边分树。</p>
@@ -134,17 +134,17 @@
 <div id="vcomments"></div>
 <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
 <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
-<script type="text/javascript">
-    new Valine({
-        el: '#vcomments' ,
-        appId: 'F8xu4BfgVST0H6107wApro6n-gzGzoHsz',
-        appKey: 'qlgvukJKICXwyoy3NkVygfIu',
-        notify:  false ,
-        verify:  false ,
-        avatar:'mm',
-        placeholder: '说点什么吧...',
-        visitor:  true 
-    });
+<script type="text/javascript">
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'F8xu4BfgVST0H6107wApro6n-gzGzoHsz',
+        appKey: 'qlgvukJKICXwyoy3NkVygfIu',
+        notify:  false ,
+        verify:  false ,
+        avatar:'mm',
+        placeholder: '说点什么吧...',
+        visitor:  true 
+    });
   </script>
 </div>
 </main>
@@ -154,16 +154,16 @@
 <a class="iconfont icon-rss" href="https://hizeci.github.io/index.xml" title="rss" type="application/rss+xml"></a>
 </div>
 <div class="copyright">
-<span class="power-by">
-    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+<span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
   </span>
 <span class="division">|</span>
-<span class="theme-info">
-    主题 - 
+<span class="theme-info">
+    主题 - 
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
 </span>
-<span class="copyright-year">
-    © 
+<span class="copyright-year">
+    © 
     2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>hizeci</span>
 </span>
 </div>
@@ -176,22 +176,22 @@
 <script src="/lib/slideout/slideout-1.0.1.min.js" type="text/javascript"></script>
 <script src="/lib/fancybox/jquery.fancybox-3.1.20.min.js" type="text/javascript"></script>
 <script src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js" type="text/javascript"></script>
-<script type="text/javascript">
-    window.MathJax = {
-      tex: {
-        }
-    };
+<script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        }
+    };
   </script>
 <script async="" crossorigin="anonymous" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
-<script>
-    docsearch({
-    apiKey: "97c22106dbe3955818bc05a0be5f3511",
-    indexName: "hizeci's blog",
-    appId: "9HLPOQJVAD",
-    inputSelector: '.docsearch-input',
-    debug: false,
-    });
+<script>
+    docsearch({
+    apiKey: "97c22106dbe3955818bc05a0be5f3511",
+    indexName: "hizeci's blog",
+    appId: "9HLPOQJVAD",
+    inputSelector: '.docsearch-input',
+    debug: false,
+    });
 </script>
 </body>
 </html>
