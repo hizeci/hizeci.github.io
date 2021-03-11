@@ -12,9 +12,7 @@ nothing
 
 时间复杂度为边分树合并均摊$O(n \log n )$和边分治本身复杂度$O(n\log n)$
 
-代码:
-
-```c++
+```cpp
 int n,ans=-inf;
 int Rt[444444];
 namespace T1r1e1e
@@ -128,13 +126,10 @@ namespace T2r2e2e
 signed main()
 {
 	n=read();int u,v,d;
-	R(i,1,n-1) u=read(),v=read(),d=read(),T1r1e1e::add_edge1(u,v,d)，T1r1e1e::add_edge1(v,u,d);
+	R(i,1,n-1) u=read(),v=read(),d=read(),T1r1e1e::add_edge1(u,v,d),T1r1e1e::add_edge1(v,u,d);
 	R(i,1,n-1) u=read(),v=read(),d=read(),T2r2e2e::add_edge(u,v,d),T2r2e2e::add_edge(v,u,d);
 	T1r1e1e::mian();
 	T2r2e2e::dfs(1,-1);
 	printf("%lld\n",ans>>1);
 }
 ```
-
-
-
