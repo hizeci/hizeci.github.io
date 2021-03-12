@@ -6,24 +6,24 @@
     <description>Recent content in 题解 on having little or no sense, use, or purpose.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 11 Mar 2021 18:42:39 +0800</lastBuildDate><atom:link href="https://hizeci.github.io/categories/%E9%A2%98%E8%A7%A3/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 10 Mar 2021 20:30:30 +0800</lastBuildDate><atom:link href="https://hizeci.github.io/categories/%E9%A2%98%E8%A7%A3/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>[WC2018]通道</title>
-      <link>https://hizeci.github.io/post/wc2018%E9%80%9A%E9%81%93/</link>
-      <pubDate>Thu, 11 Mar 2021 18:42:39 +0800</pubDate>
+      <title>[CTSC2018]暴力写挂</title>
+      <link>https://hizeci.github.io/post/baolixiegua/</link>
+      <pubDate>Wed, 10 Mar 2021 20:30:30 +0800</pubDate>
       
-      <guid>https://hizeci.github.io/post/wc2018%E9%80%9A%E9%81%93/</guid>
-      <description>&lt;p&gt;想不出来题&lt;/p&gt;
-&lt;p&gt;简要不精确题意:给定三棵树,求$\max(dist_1(a,b)+dist_2(a,b)+dist_3(a,b))$&lt;/p&gt;</description>
+      <guid>https://hizeci.github.io/post/baolixiegua/</guid>
+      <description>&lt;p&gt;nothing&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>[CTSC2018]暴力写挂</title>
-      <link>https://hizeci.github.io/post/ctsc2018%E6%9A%B4%E5%8A%9B%E5%86%99%E6%8C%82/</link>
+      <title>[WC2018]通道</title>
+      <link>https://hizeci.github.io/post/tongdao/</link>
       <pubDate>Wed, 10 Mar 2021 20:30:30 +0800</pubDate>
       
-      <guid>https://hizeci.github.io/post/ctsc2018%E6%9A%B4%E5%8A%9B%E5%86%99%E6%8C%82/</guid>
-      <description>&lt;p&gt;nothing&lt;/p&gt;</description>
+      <guid>https://hizeci.github.io/post/tongdao/</guid>
+      <description>&lt;p&gt;想不出来题&lt;/p&gt;
+&lt;p&gt;简要不精确题意:给定三棵树,求$\max(dist_1(a,b)+dist_2(a,b)+dist_3(a,b))$&lt;/p&gt;</description>
     </item>
     
   </channel>
