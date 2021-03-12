@@ -6,7 +6,7 @@
     <description>Recent content on having little or no sense, use, or purpose.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 10 Mar 2021 20:30:30 +0800</lastBuildDate><atom:link href="https://hizeci.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 12 Mar 2021 18:37:57 +0800</lastBuildDate><atom:link href="https://hizeci.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Theme preview</title>
       <link>https://hizeci.github.io/even-preview/</link>
@@ -25,6 +25,18 @@
       <description>Hugo is a static site engine written in Go.
 It makes use of a variety of open source projects including:
  Cobra Viper J Walter Weatherman Cast  Learn more and contribute on GitHub.</description>
+    </item>
+    
+    <item>
+      <title>无向图三或四元环计数</title>
+      <link>https://hizeci.github.io/post/%E6%97%A0%E5%90%91%E5%9B%BE%E4%B8%89%E6%88%96%E5%9B%9B%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0/</link>
+      <pubDate>Fri, 12 Mar 2021 18:37:57 +0800</pubDate>
+      
+      <guid>https://hizeci.github.io/post/%E6%97%A0%E5%90%91%E5%9B%BE%E4%B8%89%E6%88%96%E5%9B%9B%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0/</guid>
+      <description>&lt;h3 id=&#34;题意&#34;&gt;题意:&lt;/h3&gt;
+&lt;p&gt;给定一个$n$个点$m$条边的简单无向图,求其三/四元环个数.&lt;/p&gt;
+&lt;p&gt;$1\leq n\leq 10^5,1\leq m\leq 2\times 10^5,1\leq u,v\leq n$.&lt;/p&gt;
+&lt;p&gt;给出的图不存在重边和子环,但不保证图联通.&lt;/p&gt;</description>
     </item>
     
     <item>

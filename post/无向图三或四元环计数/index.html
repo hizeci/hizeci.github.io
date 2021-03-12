@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>无向图三或四元环计数 - having little or no sense, use, or purpose.</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="TRAGEDY:ETERNITY" /><meta name="description" content="题意: 给定一个$n$个点$m$条边的简单无向图,求其三/四元环个数.
+$1\leq n\leq 10^5,1\leq m\leq 2\times 10^5,1\leq u,v\leq n$.
+给出的图不存在重边和子环,但不保证图联通.
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.81.0 with theme even" />
+
+
+<link rel="canonical" href="https://hizeci.github.io/post/%E6%97%A0%E5%90%91%E5%9B%BE%E4%B8%89%E6%88%96%E5%9B%9B%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+
+<link href="/sass/main.min.6a025d60334ccde9f765dedcf6936f4c2eb3ea8d22276e9f389bb2efc2d55e11.css" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+<meta property="og:title" content="无向图三或四元环计数" />
+<meta property="og:description" content="题意:
+给定一个$n$个点$m$条边的简单无向图,求其三/四元环个数.
+$1\leq n\leq 10^5,1\leq m\leq 2\times 10^5,1\leq u,v\leq n$.
+给出的图不存在重边和子环,但不保证图联通." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hizeci.github.io/post/%E6%97%A0%E5%90%91%E5%9B%BE%E4%B8%89%E6%88%96%E5%9B%9B%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-03-12T18:37:57&#43;08:00" />
+<meta property="article:modified_time" content="2021-03-12T18:37:57&#43;08:00" />
+
+<meta itemprop="name" content="无向图三或四元环计数">
+<meta itemprop="description" content="题意:
+给定一个$n$个点$m$条边的简单无向图,求其三/四元环个数.
+$1\leq n\leq 10^5,1\leq m\leq 2\times 10^5,1\leq u,v\leq n$.
+给出的图不存在重边和子环,但不保证图联通."><meta itemprop="datePublished" content="2021-03-12T18:37:57&#43;08:00" />
+<meta itemprop="dateModified" content="2021-03-12T18:37:57&#43;08:00" />
+<meta itemprop="wordCount" content="1379">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="无向图三或四元环计数"/>
+<meta name="twitter:description" content="题意:
+给定一个$n$个点$m$条边的简单无向图,求其三/四元环个数.
+$1\leq n\leq 10^5,1\leq m\leq 2\times 10^5,1\leq u,v\leq n$.
+给出的图不存在重边和子环,但不保证图联通."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Coldice</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">无向图三或四元环计数</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-03-12 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#题意">题意:</a></li>
+            <li><a href="#总">总</a></li>
+            <li><a href="#三元环计数">三元环计数</a></li>
+            <li><a href="#四元环计数">四元环计数</a></li>
+            <li><a href="#五六元环">五/六元环</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="题意">题意:</h3>
+<p>给定一个$n$个点$m$条边的简单无向图,求其三/四元环个数.</p>
+<p>$1\leq n\leq 10^5,1\leq m\leq 2\times 10^5,1\leq u,v\leq n$.</p>
+<p>给出的图不存在重边和子环,但不保证图联通.</p>
+<h3 id="总">总</h3>
+<p>使用根号分治的思想.</p>
+<p>考虑一个节点的度数,我们重新建一个新图,对于原图的每条边,建一条从度数小的点建一条从度数小的点向度数大的点的一条有向边,如果度数一样那就编号从小到大连.显然这个图为一个$DAG$(因为从一个结点出发到达的点要么度数比它大，要么结点编号比它大，所以不会回到自己).可以证明所有节点的出度是$O(\sqrt m)$的.</p>
+<h4 id="具体证明-来自扶苏httpswwwluogucomcnblogfusu2333solution-p1989"><a href="https://www.luogu.com.cn/blog/fusu2333/solution-p1989">具体证明 (来自扶苏)</a></h4>
+<ol>
+<li>当$v$在原图(无向图)上的度数不大于$\sqrt m$时,由于新图每个节点的出度不可能小于原图的度数,所以$out_v=O(\sqrt m)$.</li>
+<li>当$v$的原图上的度数大于$\sqrt m$时,注意到它只能向原图中度数不小于它的点连边,又因为原图中所有的点的度数和为$O(m)$,所以原图中度数大于$\sqrt m$的点只有$O(\sqrt m)$个.因此$v$的出边只有$O(\sqrt m)$条,也即$out_v=O(\sqrt m) $</li>
+</ol>
+<p>因此所有节点的出度均为$O(\sqrt m)$.</p>
+<p>菜鸡的想法:</p>
+<p>考虑度数和大约为$2m$左右,假设有点出度$\geq \sqrt m$,但是显然这些点的数量也不会超过$O(\sqrt m)$个.</p>
+<h3 id="三元环计数">三元环计数</h3>
+<h4 id="题解">题解</h4>
+<p>枚举原图中的一条边,考虑两端的节点为$u$和$v$,我们需要统计新图中$u,v$连向的公共节点的个数.</p>
+<p>先对$u$所有的出边扫一遍,给所有出点打上标记,再扫一遍$v$的所有出边,统计一下有标记的点的个数.这样子就可以了.</p>
+<p>时间复杂度为$O(m\sqrt m)$</p>
+<h4 id="代码">代码:</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">const</span> <span class="kt">int</span> <span class="n">N</span><span class="o">=</span><span class="mf">2e5</span><span class="o">+</span><span class="mi">10</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">;</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="n">g</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">e</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">deg</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">vis</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">ans</span><span class="p">;</span>
+<span class="kt">signed</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>	
+	<span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">m</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+	<span class="kt">int</span> <span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">;</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">m</span><span class="p">)</span> <span class="n">u</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">v</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">g</span><span class="p">[</span><span class="n">u</span><span class="p">].</span><span class="n">pb</span><span class="p">(</span><span class="n">v</span><span class="p">),</span><span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">].</span><span class="n">pb</span><span class="p">(</span><span class="n">u</span><span class="p">),</span><span class="n">deg</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">++</span><span class="p">,</span><span class="n">deg</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="nl">v</span><span class="p">:</span><span class="n">g</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="k">if</span><span class="p">((</span><span class="n">deg</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">&lt;</span><span class="n">deg</span><span class="p">[</span><span class="n">v</span><span class="p">])</span><span class="o">||</span><span class="p">(</span><span class="n">deg</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">==</span><span class="n">deg</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">&amp;&amp;</span><span class="n">u</span><span class="o">&lt;</span><span class="n">v</span><span class="p">))</span> <span class="n">e</span><span class="p">[</span><span class="n">u</span><span class="p">].</span><span class="n">pb</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> 
+	<span class="p">{</span>
+		<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="nl">v</span><span class="p">:</span><span class="n">e</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="n">vis</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">=</span><span class="n">u</span><span class="p">;</span>
+		<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="nl">v</span><span class="p">:</span><span class="n">e</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="nl">w</span><span class="p">:</span><span class="n">e</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="n">ans</span><span class="o">+=</span><span class="p">(</span><span class="n">vis</span><span class="p">[</span><span class="n">w</span><span class="p">]</span><span class="o">==</span><span class="n">u</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">writeln</span><span class="p">(</span><span class="n">ans</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="四元环计数">四元环计数</h3>
+<h4 id="题解-1">题解</h4>
+<p>枚举原图中的一条边.考虑两端的节点为$u,v$,我们求出一个$v$连出的点$w(u&lt;w)$,考虑一个四元环是由两条$u \to v,v\to w$和$u \to v',v'\to w$组成的(我们以度数最大的点$w$计数),所以我们维护一个$cnt$,每找到一个$w$,让$ans+=cnt[w],cnt[w]++$.每次改变$u$的时候将$cnt$清$0$即可.</p>
+<p>时间复杂度为$O(m\sqrt m)$</p>
+<p><a href="https://blog.csdn.net/weixin_43466755/article/details/112985722">这里参照这个</a></p>
+<p>搬运:按照三元环的方式建出有向图，并按照这个规则给每个结点赋一个排名$rk$如果还想按三元环的思路往下走会遇到一个问题，就是原图的四元环在新建的有向图中可能有两种形式，</p>
+<p><img src="https://img-blog.csdnimg.cn/20210122165855720.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzQ2Njc1NQ==,size_16,color_FFFFFF,t_70##pic_center" alt="在这里插入图片描述"></p>
+<p>所有需要使用别的枚举方法。可以发现这两种形式都可以由两条无向边+两条有向边表示，即</p>
+<p><img src="https://img-blog.csdnimg.cn/2021012217034387.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzQ2Njc1NQ==,size_16,color_FFFFFF,t_70##pic_center" alt="在这里插入图片描述"></p>
+<p>且两条无向边的替代位置唯一，所以我们可以把原图的四元环当成两端无向边</p>
+<p>$(u,v)+$有向边$&lt;v,w&gt;$拼起来的,且无论是哪种情况,$rk_u\leq rk_v$。之后便是最上面那段</p>
+<p>版权声明：本文为CSDN博主「恩比德爱上大帝」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/weixin_43466755/article/details/112985722</p>
+<p>时间复杂度仍为$O(m\sqrt m)$</p>
+<h4 id="代码-1">代码</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">const</span> <span class="kt">int</span> <span class="n">N</span><span class="o">=</span><span class="mf">2e5</span><span class="o">+</span><span class="mi">10</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">;</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="n">g</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">e</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">deg</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">cnt</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">id</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">rnk</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">ans</span><span class="p">;</span>
+<span class="kr">inline</span> <span class="kt">int</span> <span class="nf">cmp</span><span class="p">(</span><span class="kt">int</span> <span class="n">u</span><span class="p">,</span><span class="kt">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span><span class="k">return</span> <span class="p">(</span><span class="n">deg</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">&lt;</span><span class="n">deg</span><span class="p">[</span><span class="n">v</span><span class="p">])</span><span class="o">||</span><span class="p">(</span><span class="n">deg</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">==</span><span class="n">deg</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">&amp;&amp;</span><span class="n">u</span><span class="o">&lt;</span><span class="n">v</span><span class="p">);}</span>
+<span class="kt">signed</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>	
+	<span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">m</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+	<span class="kt">int</span> <span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">;</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">m</span><span class="p">)</span> <span class="n">u</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">v</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">g</span><span class="p">[</span><span class="n">u</span><span class="p">].</span><span class="n">pb</span><span class="p">(</span><span class="n">v</span><span class="p">),</span><span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">].</span><span class="n">pb</span><span class="p">(</span><span class="n">u</span><span class="p">),</span><span class="n">deg</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">++</span><span class="p">,</span><span class="n">deg</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="n">id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
+	<span class="n">sort</span><span class="p">(</span><span class="n">id</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">id</span><span class="o">+</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">cmp</span><span class="p">);</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="n">rnk</span><span class="p">[</span><span class="n">id</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="nl">v</span><span class="p">:</span><span class="n">g</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="k">if</span><span class="p">(</span><span class="n">cmp</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">))</span> <span class="n">e</span><span class="p">[</span><span class="n">u</span><span class="p">].</span><span class="n">pb</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> 
+	<span class="p">{</span>
+		<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="nl">v</span><span class="p">:</span><span class="n">g</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="nl">w</span><span class="p">:</span><span class="n">e</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="k">if</span><span class="p">(</span><span class="n">rnk</span><span class="p">[</span><span class="n">w</span><span class="p">]</span><span class="o">&gt;</span><span class="n">rnk</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="n">ans</span><span class="o">+=</span><span class="n">cnt</span><span class="p">[</span><span class="n">w</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+		<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="nl">v</span><span class="p">:</span><span class="n">g</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="nl">w</span><span class="p">:</span><span class="n">e</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="n">cnt</span><span class="p">[</span><span class="n">w</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">writeln</span><span class="p">(</span><span class="n">ans</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="五六元环">五/六元环</h3>
+<p>似乎能$O(m^2)$，但是菜鸡不会。</p>
+    </div>
+
+    
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/baolixiegua/">
+            <span class="next-text nav-default">[CTSC2018]暴力写挂</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  <span id="/post/%E6%97%A0%E5%90%91%E5%9B%BE%E4%B8%89%E6%88%96%E5%9B%9B%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0/" class="leancloud_visitors" data-flag-title="无向图三或四元环计数">
+		<span class="post-meta-item-text">文章阅读量 </span>
+		<span class="leancloud-visitors-count">0</span>
+		<p></p>
+	  </span>
+  <div id="vcomments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'F8xu4BfgVST0H6107wApro6n-gzGzoHsz',
+        appKey: 'qlgvukJKICXwyoy3NkVygfIu',
+        notify:  false ,
+        verify:  false ,
+        avatar:'mm',
+        placeholder: '说点什么吧...',
+        visitor:  true 
+    });
+  </script>
+
+  
+
+      </div>
+    </main>
+
+    
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        tags: 'ams',
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+    docsearch({
+    apiKey: "97c22106dbe3955818bc05a0be5f3511",
+    indexName: "hizeci's blog",
+    appId: "9HLPOQJVAD",
+    inputSelector: '.docsearch-input',
+    debug: false,
+    });
+</script>
+
+
+</body>
+</html>
