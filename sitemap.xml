@@ -17,14 +17,105 @@
   
   <url>
     <loc>https://hizeci.github.io/</loc>
-    <lastmod>2021-03-12T18:37:57+08:00</lastmod>
+    <lastmod>2021-03-16T11:48:53+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://hizeci.github.io/tags/math/</loc>
+    <lastmod>2021-03-16T11:48:53+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://hizeci.github.io/post/</loc>
-    <lastmod>2021-03-12T18:37:57+08:00</lastmod>
+    <lastmod>2021-03-16T11:48:53+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://hizeci.github.io/tags/</loc>
+    <lastmod>2021-03-16T11:48:53+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://hizeci.github.io/tags/whk/</loc>
+    <lastmod>2021-03-16T11:48:53+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://hizeci.github.io/post/%E4%B8%80%E9%81%93%E7%AE%80%E5%8D%95%E5%88%9D%E4%B8%AD%E6%95%B0%E5%AD%A6%E9%A2%981/</loc>
+    <lastmod>2021-03-16T11:48:53+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://hizeci.github.io/categories/</loc>
+    <lastmod>2021-03-15T14:01:59+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://hizeci.github.io/post/%E5%BF%AB%E9%80%9F%E5%8F%96%E6%A8%A1/</loc>
+    <lastmod>2021-03-15T14:01:59+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://hizeci.github.io/tags/%E6%A8%A1%E6%9D%BF/</loc>
+    <lastmod>2021-03-15T14:01:59+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://hizeci.github.io/categories/%E6%A8%A1%E6%9D%BF/</loc>
+    <lastmod>2021-03-15T14:01:59+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://hizeci.github.io/tags/sa/</loc>
+    <lastmod>2021-03-12T20:38:43+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://hizeci.github.io/post/%E5%90%8E%E7%BC%80%E6%95%B0%E7%BB%84sa/</loc>
+    <lastmod>2021-03-12T20:38:43+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://hizeci.github.io/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/</loc>
+    <lastmod>2021-03-12T20:38:43+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://hizeci.github.io/categories/%E5%AD%97%E7%AC%A6%E4%B8%B2/</loc>
+    <lastmod>2021-03-12T20:38:43+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://hizeci.github.io/categories/%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2021-03-12T20:38:43+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -45,20 +136,6 @@
   
   <url>
     <loc>https://hizeci.github.io/post/tongdao/</loc>
-    <lastmod>2021-03-10T20:30:30+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://hizeci.github.io/categories/</loc>
-    <lastmod>2021-03-10T20:30:30+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://hizeci.github.io/tags/</loc>
     <lastmod>2021-03-10T20:30:30+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
