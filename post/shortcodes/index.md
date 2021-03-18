@@ -1,8 +1,6 @@
 
 {{% music id="1455974449" %}}
 
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1455974449&auto=1&height=66"></iframe>
-
 {{% youtube "w7Ft2ymGmfc" %}}
 
 {{< bilibiliano BV1p64y1D7PG >}} 

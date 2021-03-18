@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+<title>[NOI2015] 品酒大会 - having little or no sense, use, or purpose.</title>
+<meta content="webkit" name="renderer"/>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
+<meta content="no-transform" http-equiv="Cache-Control"/>
+<meta content="no-siteapp" http-equiv="Cache-Control"/>
+<meta content="#f8f5ec" name="theme-color"/>
+<meta content="#f8f5ec" name="msapplication-navbutton-color"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="#f8f5ec" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="TRAGEDY:ETERNITY" name="author"/><meta content="简要题意：
+$\forall i\in [0,n)$求有多少对后缀满足$Len(lcp)\ge i$，以及满足条件的两个后缀的权值乘积的最大值
+" name="description"/><meta content="Hugo, theme, even" name="keywords"/>
+<meta content="Hugo 0.81.0 with theme even" name="generator"/>
+<link href="https://hizeci.github.io/post/noi2015-%E5%93%81%E9%85%92%E5%A4%A7%E4%BC%9A/" rel="canonical"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/manifest.json" rel="manifest"/>
+<link color="#5bbad5" href="/safari-pinned-tab.svg" rel="mask-icon"/>
+<link href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" rel="stylesheet"/>
+<link href="/sass/main.min.6a025d60334ccde9f765dedcf6936f4c2eb3ea8d22276e9f389bb2efc2d55e11.css" rel="stylesheet"/>
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet"/>
+<meta content="[NOI2015] 品酒大会" property="og:title"/>
+<meta content="简要题意：
+$\forall i\in [0,n)$求有多少对后缀满足$Len(lcp)\ge i$，以及满足条件的两个后缀的权值乘积的最大值" property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="https://hizeci.github.io/post/noi2015-%E5%93%81%E9%85%92%E5%A4%A7%E4%BC%9A/" property="og:url"/><meta content="post" property="article:section"/>
+<meta content="2021-03-17T20:42:40+08:00" property="article:published_time"/>
+<meta content="2021-03-17T20:42:40+08:00" property="article:modified_time"/>
+<meta content="[NOI2015] 品酒大会" itemprop="name"/>
+<meta content="简要题意：
+$\forall i\in [0,n)$求有多少对后缀满足$Len(lcp)\ge i$，以及满足条件的两个后缀的权值乘积的最大值" itemprop="description"/><meta content="2021-03-17T20:42:40+08:00" itemprop="datePublished"/>
+<meta content="2021-03-17T20:42:40+08:00" itemprop="dateModified"/>
+<meta content="1291" itemprop="wordCount"/>
+<meta content="SA,字符串," itemprop="keywords"/><meta content="summary" name="twitter:card"/>
+<meta content="[NOI2015] 品酒大会" name="twitter:title"/>
+<meta content="简要题意：
+$\forall i\in [0,n)$求有多少对后缀满足$Len(lcp)\ge i$，以及满足条件的两个后缀的权值乘积的最大值" name="twitter:description"/>
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+</head>
+<body>
+<div class="mobile-navbar" id="mobile-navbar">
+<div class="mobile-header-logo">
+<a class="logo" href="/">Coldice</a>
+</div>
+<div class="mobile-navbar-icon">
+<span></span>
+<span></span>
+<span></span>
+</div>
+</div>
+<nav class="mobile-menu slideout-menu" id="mobile-menu">
+<ul class="mobile-menu-list">
+<a href="/">
+<li class="mobile-menu-item">Home</li>
+</a><a href="/post/">
+<li class="mobile-menu-item">Archives</li>
+</a><a href="/tags/">
+<li class="mobile-menu-item">Tags</li>
+</a><a href="/categories/">
+<li class="mobile-menu-item">Categories</li>
+</a><a href="/about/">
+<li class="mobile-menu-item">About</li>
+</a>
+</ul>
+</nav>
+<div class="container" id="mobile-panel">
+<main class="main" id="main">
+<div class="content-wrapper">
+<div class="content" id="content">
+<article class="post">
+<header class="post-header">
+<h1 class="post-title">[NOI2015] 品酒大会</h1>
+<div class="post-meta">
+<span class="post-time"> 2021-03-17 </span>
+<div class="post-category">
+<a href="/categories/%E9%A2%98%E8%A7%A3/"> 题解 </a>
+</div>
+</div>
+</header>
+<div class="post-toc" id="post-toc">
+<h2 class="post-toc-title">文章目录</h2>
+<div class="post-toc-content">
+<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<div class="post-content">
+<p>简要题意：</p>
+<p>$\forall i\in [0,n)$求有多少对后缀满足$Len(lcp)\ge i$，以及满足条件的两个后缀的权值乘积的最大值</p>
+<p>由于菜鸡目前只学了$\texttt {SA}$所以先放两篇$\texttt {SA}$的题解，之后有机会补一篇后缀树的。</p>
+<h4 id="题解1后缀数组并查集">题解1（后缀数组+并查集）：</h4>
+<p>第一问的可以转化为求有多少个区间$[l,r]$满足$min\left{height[l\cdots r]\right}=i$</p>
+<p>考虑用并查集维护后缀集合，从$n-1$到$0$倒序枚举每一个可能的后缀长度$\texttt i$，</p>
+<p>在此之前，每个集合内部的任意两个后缀的$\texttt {LCP}$都大于$\texttt i$。</p>
+<p>这时假如有两个排名相邻并且$\texttt {LCP}$为$\texttt i$的后缀，我们就可以把它们所处的集合合并起来。</p>
+<p>具体地，把$\texttt{height}$降序排序然后顺序插入把$\texttt{ans[height]}$的值加上当前合并的两个相邻的集合的大小乘积。然后我们可以把问题理解成：对于每次插入，我可以连接连续两堆数，然后这两堆数中每一个数值都比r大，所以我们可以把第一堆数的个数和第二堆数的个数相乘，得到的就是这两堆数对答案的贡献。</p>
+<p>举个例子：</p>
+<p>假设我现在的数列长这样（还未被插入的数（即比$\texttt r$小的数）为$\texttt *$）：$\texttt{5 4 * 4 5 6 7 * * 4 * 8}$</p>
+<p>然后现在要在第三个位置插入一个$\texttt 3$</p>
+<p>不难发现，一共有$(2+1)\times (4+1)-1=14$种方案（$+1$是因为$3$本身也可以算进来，$-1$是因为$[3,3]$不能算）。</p>
+<p>然后合并集合，需要维护$\texttt{sz,mx,mn}$，维护$\texttt{mn}$是因为两个负数乘积可能大于两个正数的乘积</p>
+<p>记录的时候需要注意，因为我们合并的时候都是合并排名相邻的一些后缀，所以出现在一个集合中的所有后缀必然是连续的，所以我们只需要记录每个集合的左右端点就可以了。合并的时候也只用更新端点的值就好了。</p>
+<p>对于第二问，我们在合并的时候可以将$a_i$的值也顺路合并）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kr">inline</span> <span class="kt">int</span> <span class="nf">find_fff</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">){</span><span class="k">return</span> <span class="n">x</span><span class="o">==</span><span class="n">fff</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">?</span><span class="nl">x</span><span class="p">:</span><span class="n">fff</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">=</span><span class="n">find_fff</span><span class="p">(</span><span class="n">fff</span><span class="p">[</span><span class="n">x</span><span class="p">]);}</span>
+<span class="kr">inline</span> <span class="kt">void</span> <span class="nf">uun</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span><span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">fx</span><span class="o">=</span><span class="n">find_fff</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="n">fy</span><span class="o">=</span><span class="n">find_fff</span><span class="p">(</span><span class="n">y</span><span class="p">);</span> 
+	<span class="c1">//printf("x:%lld y:%lld fx:%lld fy:%lld\n",x,y,fx,fy);
+</span><span class="c1"></span>	<span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">ht</span><span class="p">[</span><span class="n">x</span><span class="p">];</span>
+	<span class="n">ans1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+=</span><span class="mi">1ll</span><span class="o">*</span><span class="n">sz</span><span class="p">[</span><span class="n">fx</span><span class="p">]</span><span class="o">*</span><span class="n">sz</span><span class="p">[</span><span class="n">fy</span><span class="p">];</span>
+	<span class="n">ckmax</span><span class="p">(</span><span class="n">ans2</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">max</span><span class="p">(</span><span class="mi">1ll</span><span class="o">*</span><span class="n">mx</span><span class="p">[</span><span class="n">fx</span><span class="p">]</span><span class="o">*</span><span class="n">mx</span><span class="p">[</span><span class="n">fy</span><span class="p">],</span><span class="mi">1ll</span><span class="o">*</span><span class="n">mn</span><span class="p">[</span><span class="n">fx</span><span class="p">]</span><span class="o">*</span><span class="n">mn</span><span class="p">[</span><span class="n">fy</span><span class="p">]));</span>
+	<span class="n">ckmax</span><span class="p">(</span><span class="n">mx</span><span class="p">[</span><span class="n">fx</span><span class="p">],</span><span class="n">mx</span><span class="p">[</span><span class="n">fy</span><span class="p">]),</span><span class="n">ckmin</span><span class="p">(</span><span class="n">mn</span><span class="p">[</span><span class="n">fx</span><span class="p">],</span><span class="n">mn</span><span class="p">[</span><span class="n">fy</span><span class="p">]);</span>
+	<span class="n">fff</span><span class="p">[</span><span class="n">fy</span><span class="p">]</span><span class="o">=</span><span class="n">fx</span><span class="p">,</span><span class="n">sz</span><span class="p">[</span><span class="n">fx</span><span class="p">]</span><span class="o">+=</span><span class="n">sz</span><span class="p">[</span><span class="n">fy</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="kt">signed</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+	<span class="n">scanf</span><span class="p">(</span><span class="s">"%s"</span><span class="p">,</span><span class="n">str</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="sc">'a'</span><span class="o">+</span><span class="mi">2</span><span class="p">;</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+	<span class="n">get_SA</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">sa</span><span class="p">,</span><span class="n">rk</span><span class="p">,</span><span class="n">n</span><span class="p">);</span><span class="n">get_ht</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">ht</span><span class="p">);</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="n">id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">fff</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">i</span><span class="p">,</span><span class="n">sz</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="n">ans1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">ans2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=-</span><span class="n">inf</span><span class="p">,</span><span class="n">mx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">mn</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">sa</span><span class="p">[</span><span class="n">i</span><span class="p">]];</span>
+	<span class="n">sort</span><span class="p">(</span><span class="n">id</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span><span class="n">id</span><span class="o">+</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,[</span><span class="o">&amp;</span><span class="p">](</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span><span class="kt">int</span> <span class="n">y</span><span class="p">){</span><span class="k">return</span> <span class="n">ht</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">&gt;</span><span class="n">ht</span><span class="p">[</span><span class="n">y</span><span class="p">];});</span>
+	<span class="c1">//R(i,1,n) writeln(id[i]);
+</span><span class="c1"></span>	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="k">if</span><span class="p">(</span><span class="n">find_fff</span><span class="p">(</span><span class="n">id</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">!=</span><span class="n">find_fff</span><span class="p">(</span><span class="n">id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="n">uun</span><span class="p">(</span><span class="n">id</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+	<span class="n">L</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="n">ans1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+=</span><span class="n">ans1</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span><span class="n">ckmax</span><span class="p">(</span><span class="n">ans2</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">ans2</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]);</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">printf</span><span class="p">(</span><span class="s">"%lld %lld</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">ans1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="o">!</span><span class="n">ans1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">?</span><span class="mi">0</span><span class="o">:</span><span class="n">ans2</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="题解2后缀数组单调栈">题解2（后缀数组+单调栈）：</h4>
+<p>仍然排名从小到大处理。</p>
+<p>单调栈内存的元素不是一个后缀的开头而是一个按照排名连续的后缀开头区间。</p>
+<p>考虑需要维护什么：</p>
+<p>$\texttt{ST}$:区间末尾$\texttt{Ht}$值，即如果该区间后面的一个后缀开头要和该区间的任何一个元素搭配，酒都是$\texttt{ST}$相似的，即维护当前最大是$\texttt{ST}$相似。</p>
+<p>$\texttt{sz}$：区间元素个数  $\texttt{mx}$：区间最大值  $\texttt{mn}$区间最小值 同上。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="n">stk</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">top</span><span class="p">;</span>
+<span class="kt">signed</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+	<span class="n">scanf</span><span class="p">(</span><span class="s">"%s"</span><span class="p">,</span><span class="n">str</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="sc">'a'</span><span class="o">+</span><span class="mi">2</span><span class="p">;</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+	<span class="n">get_SA</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">sa</span><span class="p">,</span><span class="n">rk</span><span class="p">,</span><span class="n">n</span><span class="p">);</span><span class="n">get_ht</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">ht</span><span class="p">);</span>
+	<span class="c1">//R(i,1,n) writeln(sa[i]);
+</span><span class="c1"></span>	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="n">ans1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">ans2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=-</span><span class="n">inf</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">tsz</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">tmx</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">tmi</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> 
+	<span class="p">{</span>
+		<span class="n">tsz</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">tmx</span><span class="o">=</span><span class="n">tmi</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">sa</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]];</span>
+		<span class="k">while</span><span class="p">(</span><span class="n">top</span><span class="o">&amp;&amp;</span><span class="n">stk</span><span class="p">[</span><span class="n">top</span><span class="p">]</span><span class="o">&gt;=</span><span class="n">ht</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> 
+		<span class="p">{</span>
+			<span class="c1">//printf("%lld %lld %lld %lld\n",top,stk[top],i,ht[i]);
+</span><span class="c1"></span>			<span class="c1">//printf("1:%lld %lld %lld\n",tsz,tmx,tmi);
+</span><span class="c1"></span>			<span class="n">ans1</span><span class="p">[</span><span class="n">stk</span><span class="p">[</span><span class="n">top</span><span class="p">]]</span><span class="o">+=</span><span class="mi">1ll</span><span class="o">*</span><span class="n">sz</span><span class="p">[</span><span class="n">top</span><span class="p">]</span><span class="o">*</span><span class="n">tsz</span><span class="p">;</span>
+			<span class="n">ckmax</span><span class="p">(</span><span class="n">ans2</span><span class="p">[</span><span class="n">stk</span><span class="p">[</span><span class="n">top</span><span class="p">]],</span><span class="n">max</span><span class="p">(</span><span class="mi">1ll</span><span class="o">*</span><span class="n">mx</span><span class="p">[</span><span class="n">top</span><span class="p">]</span><span class="o">*</span><span class="n">tmx</span><span class="p">,</span><span class="mi">1ll</span><span class="o">*</span><span class="n">mn</span><span class="p">[</span><span class="n">top</span><span class="p">]</span><span class="o">*</span><span class="n">tmi</span><span class="p">));</span>
+			<span class="n">tsz</span><span class="o">+=</span><span class="n">sz</span><span class="p">[</span><span class="n">top</span><span class="p">],</span><span class="n">ckmax</span><span class="p">(</span><span class="n">tmx</span><span class="p">,</span><span class="n">mx</span><span class="p">[</span><span class="n">top</span><span class="p">]),</span><span class="n">ckmin</span><span class="p">(</span><span class="n">tmi</span><span class="p">,</span><span class="n">mn</span><span class="p">[</span><span class="n">top</span><span class="p">]);</span>
+			<span class="c1">//printf("2:%lld %lld %lld\n",tsz,tmx,tmi);
+</span><span class="c1"></span>			<span class="n">top</span><span class="o">--</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="o">++</span><span class="n">top</span><span class="p">;</span><span class="n">stk</span><span class="p">[</span><span class="n">top</span><span class="p">]</span><span class="o">=</span><span class="n">ht</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">sz</span><span class="p">[</span><span class="n">top</span><span class="p">]</span><span class="o">=</span><span class="n">tsz</span><span class="p">,</span><span class="n">mx</span><span class="p">[</span><span class="n">top</span><span class="p">]</span><span class="o">=</span><span class="n">tmx</span><span class="p">,</span><span class="n">mn</span><span class="p">[</span><span class="n">top</span><span class="p">]</span><span class="o">=</span><span class="n">tmi</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">tsz</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">tmx</span><span class="o">=</span><span class="n">tmi</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">sa</span><span class="p">[</span><span class="n">n</span><span class="p">]];</span>
+	<span class="c1">//L(w,1,top)
+</span><span class="c1"></span>	<span class="c1">//R(i,1,n) printf("%lld %lld\n",ans1[i],ans2[i]);
+</span><span class="c1"></span>	<span class="n">L</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">top</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">ans1</span><span class="p">[</span><span class="n">stk</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">+=</span><span class="mi">1ll</span><span class="o">*</span><span class="n">sz</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">tsz</span><span class="p">;</span>
+		<span class="n">ckmax</span><span class="p">(</span><span class="n">ans2</span><span class="p">[</span><span class="n">stk</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span><span class="n">max</span><span class="p">(</span><span class="mi">1ll</span><span class="o">*</span><span class="n">mx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">tmx</span><span class="p">,</span><span class="mi">1ll</span><span class="o">*</span><span class="n">mn</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">tmi</span><span class="p">));</span>
+		<span class="n">tsz</span><span class="o">+=</span><span class="n">sz</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">ckmax</span><span class="p">(</span><span class="n">tmx</span><span class="p">,</span><span class="n">mx</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span><span class="n">ckmin</span><span class="p">(</span><span class="n">tmi</span><span class="p">,</span><span class="n">mn</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+	<span class="p">}</span>
+	<span class="n">L</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="n">ans1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+=</span><span class="n">ans1</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span><span class="n">ckmax</span><span class="p">(</span><span class="n">ans2</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">ans2</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]);</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">printf</span><span class="p">(</span><span class="s">"%lld %lld</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">ans1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="o">!</span><span class="n">ans1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">?</span><span class="mi">0</span><span class="o">:</span><span class="n">ans2</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="题解3后缀树">题解3（后缀树）：</h4>
+<p>不会，先咕咕咕了</p>
+</div>
+<footer class="post-footer">
+<div class="post-tags">
+<a href="/tags/sa/">SA</a>
+<a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/">字符串</a>
+</div>
+<nav class="post-nav">
+<a class="prev" href="/post/shortcodes/">
+<i class="iconfont icon-left"></i>
+<span class="prev-text nav-default">Shortcodes</span>
+<span class="prev-text nav-mobile">上一篇</span>
+</a>
+<a class="next" href="/post/%E4%B8%80%E9%81%93cxy%E8%AE%A4%E4%B8%BA%E7%AE%80%E5%8D%95%E7%9A%84%E7%AE%80%E5%8D%95%E5%88%9D%E4%B8%AD%E6%95%B0%E5%AD%A6%E9%A2%981/">
+<span class="next-text nav-default">一道简单初中数学题1</span>
+<span class="next-text nav-mobile">下一篇</span>
+<i class="iconfont icon-right"></i>
+</a>
+</nav>
+</footer>
+</article>
+</div>
+<span class="leancloud_visitors" data-flag-title="[NOI2015] 品酒大会" id="/post/noi2015-%E5%93%81%E9%85%92%E5%A4%A7%E4%BC%9A/">
+<span class="post-meta-item-text">文章阅读量 </span>
+<span class="leancloud-visitors-count">0</span>
+<p></p>
+</span>
+<div id="vcomments"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script type="text/javascript">
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'F8xu4BfgVST0H6107wApro6n-gzGzoHsz',
+        appKey: 'qlgvukJKICXwyoy3NkVygfIu',
+        notify:  false ,
+        verify:  false ,
+        avatar:'mm',
+        placeholder: '说点什么吧...',
+        visitor:  true 
+    });
+  </script>
+</div>
+</main>
+<div class="back-to-top" id="back-to-top">
+<i class="iconfont icon-up"></i>
+</div>
+</div>
+<script src="/lib/jquery/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script src="/lib/slideout/slideout-1.0.1.min.js" type="text/javascript"></script>
+<script src="/lib/fancybox/jquery.fancybox-3.1.20.min.js" type="text/javascript"></script>
+<script src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js" type="text/javascript"></script>
+<script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        tags: 'ams',
+        }
+    };
+  </script>
+<script async="" crossorigin="anonymous" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+    docsearch({
+    apiKey: "97c22106dbe3955818bc05a0be5f3511",
+    indexName: "hizeci's blog",
+    appId: "9HLPOQJVAD",
+    inputSelector: '.docsearch-input',
+    debug: false,
+    });
+</script>
+</body>
+</html>
