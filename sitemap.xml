@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://hizeci.github.io/post/%E6%89%BE%E7%9B%B8%E5%90%8C%E5%AD%97%E7%AC%A6/</loc>
+    <lastmod>2021-03-18T19:37:01+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://hizeci.github.io/post/%E5%B7%AE%E5%BC%82/</loc>
     <lastmod>2021-03-18T15:41:05+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -38,42 +45,42 @@
   
   <url>
     <loc>https://hizeci.github.io/categories/</loc>
-    <lastmod>2021-03-18T15:41:05+08:00</lastmod>
+    <lastmod>2021-03-18T19:37:01+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://hizeci.github.io/</loc>
-    <lastmod>2021-03-18T15:41:05+08:00</lastmod>
+    <lastmod>2021-03-18T19:37:01+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://hizeci.github.io/post/</loc>
-    <lastmod>2021-03-18T15:41:05+08:00</lastmod>
+    <lastmod>2021-03-18T19:37:01+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://hizeci.github.io/tags/sa/</loc>
-    <lastmod>2021-03-18T15:41:05+08:00</lastmod>
+    <lastmod>2021-03-18T19:37:01+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://hizeci.github.io/tags/</loc>
-    <lastmod>2021-03-18T15:41:05+08:00</lastmod>
+    <lastmod>2021-03-18T19:37:01+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://hizeci.github.io/categories/%E9%A2%98%E8%A7%A3/</loc>
-    <lastmod>2021-03-18T15:41:05+08:00</lastmod>
+    <lastmod>2021-03-18T19:37:01+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

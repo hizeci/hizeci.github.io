@@ -6,7 +6,17 @@
     <description>Recent content in SA on having little or no sense, use, or purpose.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 18 Mar 2021 15:41:05 +0800</lastBuildDate><atom:link href="https://hizeci.github.io/tags/sa/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 18 Mar 2021 19:37:01 +0800</lastBuildDate><atom:link href="https://hizeci.github.io/tags/sa/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[HAOI2016]找相同字符</title>
+      <link>https://hizeci.github.io/post/%E6%89%BE%E7%9B%B8%E5%90%8C%E5%AD%97%E7%AC%A6/</link>
+      <pubDate>Thu, 18 Mar 2021 19:37:01 +0800</pubDate>
+      
+      <guid>https://hizeci.github.io/post/%E6%89%BE%E7%9B%B8%E5%90%8C%E5%AD%97%E7%AC%A6/</guid>
+      <description>&lt;p&gt;题意：&lt;/p&gt;
+&lt;p&gt;给定两个字符串，求出在两个字符串中各取出一个子串使得这两个子串相同的方案数。两个方案不同当且仅当这两个子串有一个位置不同。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>[AHOI2013]差异</title>
       <link>https://hizeci.github.io/post/%E5%B7%AE%E5%BC%82/</link>
