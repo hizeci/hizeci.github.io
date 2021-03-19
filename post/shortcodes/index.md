@@ -1,4 +1,6 @@
 
+<!--more-->
+
 {{% music id="1455974449" %}}
 
 {{% youtube "w7Ft2ymGmfc" %}}
@@ -34,8 +36,6 @@ Without title.
 
 {{%/* /admonition */%}}
 ```
-
-<!--more-->
 
 {{% admonition abstract abstract %}}
 biu biu biu.

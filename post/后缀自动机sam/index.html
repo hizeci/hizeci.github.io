@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>后缀自动机SAM - having little or no sense, use, or purpose.</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="TRAGEDY:ETERNITY" /><meta name="description" content="" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.81.0 with theme even" />
+
+
+<link rel="canonical" href="https://hizeci.github.io/post/%E5%90%8E%E7%BC%80%E8%87%AA%E5%8A%A8%E6%9C%BAsam/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+
+<link href="/sass/main.min.6a025d60334ccde9f765dedcf6936f4c2eb3ea8d22276e9f389bb2efc2d55e11.css" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+<meta property="og:title" content="后缀自动机SAM" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hizeci.github.io/post/%E5%90%8E%E7%BC%80%E8%87%AA%E5%8A%A8%E6%9C%BAsam/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-03-19T07:56:56&#43;08:00" />
+<meta property="article:modified_time" content="2021-03-19T07:56:56&#43;08:00" />
+
+<meta itemprop="name" content="后缀自动机SAM">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-03-19T07:56:56&#43;08:00" />
+<meta itemprop="dateModified" content="2021-03-19T07:56:56&#43;08:00" />
+<meta itemprop="wordCount" content="5579">
+<meta itemprop="keywords" content="SAM," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="后缀自动机SAM"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">having little or no sense, use, or purpose.</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">后缀自动机SAM</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-03-19 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#一些前置约定定义">一些前置约定/定义</a></li>
+        <li><a href="#概述">概述</a></li>
+        <li><a href="#sam的定义">SAM的定义</a></li>
+        <li><a href="#子串的性质">子串的性质</a></li>
+        <li><a href="#结束位置endpos">结束位置endpos</a></li>
+        <li><a href="#后缀链接link">后缀链接link</a></li>
+        <li><a href="#小结">小结</a>
+          <ul>
+            <li><a href="#dawg">DAWG</a></li>
+            <li><a href="#parent--树">parent  树</a></li>
+          </ul>
+        </li>
+        <li><a href="#构建增量法">构建：增量法</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="一些前置约定定义">一些前置约定/定义</h2>
+<p>记$\Sigma$为字符集，$|\Sigma|$为字符集大小。对于一个字符串$\texttt s$，记$|s|$为其长度。</p>
+<h2 id="概述">概述</h2>
+<p><strong>后缀自动机</strong>$\texttt{(suffix automaton,SAM)}$是一个能解决许多字符串相关问题的数据结构。</p>
+<p>举个例子，以下的字符串问题都可以在线性时间内通过$\texttt{SAM}$解决。</p>
+<ul>
+<li>在另一个字符串中搜索一个字符串的所有出现位置。</li>
+<li>计算给定的字符串中有多少个不同的子串。</li>
+</ul>
+<p>直观上，字符串的$\texttt{SAM}$可以理解为给定字符串的<strong>所有子串</strong>的压缩形式。值得注意的事实是，$\texttt{SAM}$将所有的这些信息以高度压缩的形式储存。对于一个长度为$\texttt n$的字符串，它的空间复杂度仅为$O(n)$。此外，构造$\texttt{SAM}$的时间复杂度仅为$O(n)$。准确地说，一个$\texttt{SAM}$最多有$2n-1$个节点和$3n-4$条转移边。</p>
+<h2 id="sam的定义">SAM的定义</h2>
+<p>可以且仅可以接受母串$\texttt S$的后缀的$\texttt{DFA}$（确定性有限自动机或确定性有限状态自动机）。</p>
+<p>换句话说：</p>
+<ul>
+<li>$\texttt{SAM}$是一张$\texttt{DAG}$。节点被称为<strong>状态</strong>，边被称作状态间的<strong>转移</strong>。</li>
+<li>图存在一个源点$t_0$，称为<strong>初始状态</strong>，其它各节点均可从$t_0$出发到达。</li>
+<li>每个<strong>转移</strong>都标有一些字母（？个人认为就是一个字符）。从一个节点出发的所有转移均<strong>不同</strong>。</li>
+<li>存在一个或多个<strong>终止状态</strong>。如果我们从初始状态$t_0$出发，最终转移到了一个终止状态，则路径上的所有转移连接起来一定是字符串$\texttt s$的一个后缀。$\texttt s$的每个后缀均可用一条从$t_0$到某个终止状态的路径构成。</li>
+<li>在所有满足上述条件的自动机中，$\texttt{SAM}$的节点是最少的。</li>
+</ul>
+<h2 id="子串的性质">子串的性质</h2>
+<p>$\texttt{SAM}$最简单、也最重要的性质是，它包含关于字符串$\texttt s$的所有子串的信息。任意从初始状态$t_0$开始的路径，如果我们将转移路径上的标号写下来，都会形成$\texttt s$的一个<strong>子串</strong>。反之每个$\texttt s$的子串对应从$t_0$开始的某条路径。</p>
+<p>为了简化表达，我们称子串<strong>对应</strong>一条路径（从$t_0$开始、由一些标号构成这些子串）。反过来，我们说任意一条路径<strong>对应</strong>它的标号构成的字符串。</p>
+<p>到达某个状态的路径可能不止一条，因此我们说一个状态对应一些字符串的集合，这个集合的每个元素对应这些路径。</p>
+<h2 id="结束位置endpos">结束位置endpos</h2>
+<p>考虑字符串$\texttt s$的任意非空子串$\texttt t$，我们记$\texttt{endpos(t)}$为在字符串$\texttt s$中$\texttt t$的所有结束位置（假设对字符串中字符的编号从零开始）。例如，对于字符串$\texttt{abcbc}$，我们有$\texttt{endpos(&ldquo;bc&rdquo;)=2,4}$。</p>
+<p>两个子串$t_1$与$t_2$的$\texttt{endpos}$集合可能相同：$endpos(t1)=endpos(t2)$。这样所有字符串$\texttt s$的非空子串都可以根据它们的$\texttt{endpos}$集合被分为若干<strong>等价类</strong>。</p>
+<p>显然，$\texttt{SAM}$中的每个状态对应一个或多个$\texttt{endpos}$相同的子串。换句话说，$\texttt{SAM}$中的状态数等于所有子串的等价类的个数，再加上初始状态。$\texttt{SAM}$的状态个数等价于$\texttt{endpos}$相同的一个或多个子串所组成的集合的个数$+1$。</p>
+<p>我们稍后将会用这个假设来介绍构造$\texttt{SAM}$的算法。我们将发现，$\texttt{SAM}$需要满足的所有性质，除了最小性以外都满足了。由$\texttt{Nerode}$定理我们可以得出最小性（不会在这篇文章中证明）。</p>
+<p>由$\texttt{endpos}$的值我们可以得到一些重要结论：</p>
+<blockquote>
+<p><strong>引理$\texttt 1$：</strong> 字符串$\texttt s$的两个非空子串$\texttt u$和$\texttt w$（假设$|u|\leq |w|$）的$\texttt{endpos}$相同，当且仅当字符串$\texttt u$在$\texttt s$中的每次出现，都是以$\texttt w$后缀的形式存在的。</p>
+</blockquote>
+<p>引理显然成立。且如果$\texttt u$为$\texttt w$的一个后缀，且只以后缀的形式在$\texttt s$中出现时，两个子串的$\texttt{endpos}$相同。</p>
+<blockquote>
+<p>**引理 $\texttt 2$：**考虑两个非空子串$\texttt u$和$\texttt w$（假设$|u|\leq|w|$）。那么要么$endpos(u)\cap endpos(w)=\varnothing$，要么$endpos(w)\subseteq endpos(u)$,取决于$\texttt u$是否是$\texttt w$的一个后缀：</p>
+<p>$\begin{cases} endpos(w)\subseteq  endpos(u) &amp; \mbox{if }u\mbox{ is a suffix of w} \ endpos(w)\cap  endpos(u)=\varnothing   &amp; otherwise \end{cases}$</p>
+</blockquote>
+<p>证明：如果集合$endpos(u)$与$endpos(w)$有至少一个公共元素，那么由于字符串$\texttt u$和$\texttt w$在相同位置结束，$\texttt u$是$\texttt w$是的一个后缀。所以每次$\texttt w$出现的位置，子串$\texttt u$也会出现。所以$endpos(w)\subseteq endpos(u)$。</p>
+<blockquote>
+<p>**引理$\texttt 3$：**考虑一个$endpos$等价类，将类中的所有子串按长度非递增的顺序排序。每个子串都不会比它前一个子串长，与此同时每个子串也是它前一个子串的后缀。换句话说，对于同一等价类的任一两子串，较短者为较长者的后缀，且该等价类中的子串长度恰好覆盖整个区间 $[x,y]$</p>
+</blockquote>
+<p>证明：如果$endpos$等价类中只包含一个子串，引理显然成立。现在我们来讨论子串元素个数大于$\texttt 1$的等价类。</p>
+<p>由引理$\texttt 1$，两个不同的$endpos$等价的字符串中，较短者总是较长者的真后缀。因此，等价类中没有等长的字符串。</p>
+<p>记$\texttt w$为等价类中最长的字符串、$\texttt u$为等价类中最短的字符串。由引理$\texttt 1$，字符串$\texttt u$是字符串$\texttt w$的真后缀。现在考虑长度在区间$\texttt{[|u|,|w|]}$中的$\texttt{|w|}$的任意后缀。容易看出，这个后缀也在同一等价类中，因为这个后缀只能在字符串$\texttt s$中以$\texttt w$的一个后缀的形式存在（也因为较短的后缀$\texttt u$在$\texttt s$中只以$\texttt w$的后缀形式存在）。因此，由引理$\texttt 1$，这个后缀和字符串$\texttt w$的$\texttt{endpos}$相同。</p>
+<h2 id="后缀链接link">后缀链接link</h2>
+<p>考虑$\texttt{SAM}$中某个不是$t_0$的状态$\texttt v$。我们已经知道，状态$\texttt v$对应于具有相同$\texttt{endpos}$的等价类。我们如果定义$\texttt w$为这些字符串中最长的一个，则所有其他的字符串都是$\texttt w$的后缀。</p>
+<p>我们还知道字符串$\texttt w$的前几个后缀（按长度降序考虑）全部包含于这个等价类，且所有其他后缀（至少有一个——空后缀）在其他的等价类中。我们即$\texttt t$为最长的这样的后缀，然后将$\texttt v$的后缀链接到$\texttt t$上。</p>
+<p>换句话说，一个**后缀链接$\texttt{link(v)}$**连接到对应于$\texttt w$的最长后缀的另一个$\texttt{endpos}$等价类的状态。</p>
+<p>以下我们假设初始状态$t_0$对应与它自己这个等价类（只包含一个空字符串）。为了方便，我们规定$\operatorname {endpos}(t_0)={-1,0,\cdots,|S|-1}$。</p>
+<blockquote>
+<p><strong>引理$\texttt 4$：</strong> 所有后缀链接构成一棵根节点为$t_0$的树。</p>
+</blockquote>
+<p>证明：考虑任意不是$t_0$的状态$\texttt v$，后缀链接$\texttt{link(v)}$连接到的状态对应严格更短的字符串（后缀链接的定义、引理$\texttt 3$）。因此，沿后缀链接移动，我们总是能到达对应空串的初始状态$t_0$。</p>
+<blockquote>
+<p><strong>引理$\texttt 5$：</strong> 通过$\texttt{endpos}$集合构造的树（每个子节点的$\texttt{subset}$都包含在在父节点的$\texttt{subset}$中）与通过后缀链接$\texttt{link}$构造的树相同。</p>
+</blockquote>
+<p>证明：由引理$\texttt{2}$，任意一个$\texttt{SAM}$的$\texttt{endpos}$集合形成了一棵树（因为两个集合要么完全没有交集要么一个是另一个的子集）。</p>
+<p>我们现在考虑任意不是$t_0$的状态$\texttt v$及后缀链接$\texttt{link(v)}$，由后缀链接和引理$\texttt 2$，我们可以得到</p>
+<p>$endpos(v)\subset endpos(link(v))$，</p>
+<p>注意这里是真子集，因为若$\texttt{endpos(v)=endpos(link(v))}$，那么$\texttt v$和$\texttt{link(v)}$应该被合并为一个节点。</p>
+<p>结合前面的引理有：后缀链接构成的树本质上是由$\texttt{endpos}$集合构成的一棵树。</p>
+<p>以下是对字符串$\texttt{&ldquo;abcbc&rdquo;}$构造$\texttt{SAM}$时产生的后缀链接树的一个<strong>例子</strong>，节点被标记为对应等价类中最长的子串。</p>
+<p><img src="https://oi-wiki.org/string/images/SAM/SA_suffix_links.svg" alt="img"></p>
+<h2 id="小结">小结</h2>
+<ul>
+<li>$\texttt s$的子串可以根据它们结束的位置$\texttt {endpos}$被划分为多个等价类；</li>
+<li>$\texttt{SAM}$由初始状态$t_0$和与每一个$\texttt{endpos}$等价类对应的每个状态组成；</li>
+<li>对于每一个状态$\texttt v$一个或多个子串与之匹配。我们记$\texttt{longest(v)}$为其中最长的一个字符串，记$\texttt{len(v)}$为它的长度。类似地，记$\texttt{shortest(v)}$为最短的子串，它的长度为$\texttt{minlen(v)}$。那么对应这个状态的所有字符串都是字符串$\texttt{longest(v)}$的不同的后缀 ，且所有字符串的长度恰好覆盖区间$\texttt{[minlen(v),len(v)]}$中的每一个整数。</li>
+<li>对于任意不是$t_0$的状态$\texttt v$，定义后缀链接为连接到对应字符串$\texttt{longest(v)}$的长度为$\texttt{minlen(v)-1}$的后缀的一条边。从根节点$t_0$出发的后缀链接可以形成一棵树。这棵树也表示$\texttt{endpos}$集合间的包含关系。</li>
+<li>对于$t_0$以外的状态$\texttt v$，可用后缀链接$\texttt{link(v)}$表达$\texttt{minlen(v)}$：$\texttt{minlen(v)=len(link(v))+1}$。</li>
+<li>如果我们从任意状态$v_0$开始顺着后缀链接遍历，总会到达初始状态$t_0$。这种情况下我们可以得到一个互不相交的区间$[minlen(v_i),len(v_i)]$的序列，且它们的并集形成了连续的区级$[0,len(v_0)]$。</li>
+</ul>
+<p>以上内容均来自<a href="https://oi-wiki.org/string/sam/#_2">oi-wiki</a></p>
+<p>其结构包含两部分：有向单词无环图（$\texttt{DAWG}$）以及一棵树（$\texttt{parent}$树）。</p>
+<p>它们的节点集合相同。</p>
+<p>目标：最小化节点集合大小！</p>
+<h3 id="dawg">DAWG</h3>
+<p>$\texttt{DAWG}$是$\texttt{DAG}$，其中每个<strong>节点</strong>表示一个或多个$\texttt{S}$的子串。特别地，起始节点对应$\varnothing$。</p>
+<p>每条转移边上仅有一个字符。从起始节点出发，沿着转移边移动，则每条<strong>路径</strong>都会唯一对应$\texttt{S}$的一个子串。</p>
+<p>每个节点所代表的字符串是$\texttt{S}$的<strong>某个前缀</strong>的<strong>长度连续的后缀</strong>。设$\texttt u$的长度最小、最大的子串分别为$\min_u$和$\max_v$，$\max_u$在$\texttt S$中出现的位置集合为$end_u$。</p>
+<h4 id="定理">定理</h4>
+<p>任意两个节点的 end 集合互不相同。</p>
+<h3 id="parent--树">parent  树</h3>
+<h4 id="定义">定义</h4>
+<p>定义$\texttt u$的**$\texttt{parent}$指针**指向$\texttt v$,当且仅当$|\min_u|=|\max_v|+1$，且$\texttt v$所代表的子串均为$\texttt u$子串的后缀，记作$next_u=v$。</p>
+<p>显然，所有节点沿着**$\texttt{parent}$指针**向前走，都会走到$\texttt{DAWG}$的起始节点。因此以**$\texttt{parent}$指针**为边，所有节点组成了一棵树，称为**$\texttt{parent}$树**。</p>
+<h4 id="定理-1">定理</h4>
+<p>在**$\texttt{parent}$树**中，子节点的$end$集合一定是父亲的真子集，即$end_u \subset end_{next_u}$。</p>
+<h4 id="简易构造sam例子">简易构造SAM例子</h4>
+<p>用蓝色表示初始状态，用绿色表示终止状态。</p>
+<p>对于字符串$s=\varnothing$</p>
+<p><img src="https://oi-wiki.org/string/images/SAM/SA.svg" alt="img"></p>
+<p>对于字符串$s=a:$</p>
+<p><img src="https://oi-wiki.org/string/images/SAM/SAa.svg" alt="img"></p>
+<p>对于字符串$s=aa:$</p>
+<p><img src="https://oi-wiki.org/string/images/SAM/SAaa.svg" alt="img"></p>
+<p>对于字符串$s=ab:$</p>
+<p><img src="https://oi-wiki.org/string/images/SAM/SAab.svg" alt="img"></p>
+<p>对于字符串$s=abb:$</p>
+<p><img src="https://oi-wiki.org/string/images/SAM/SAabb.svg" alt="img"></p>
+<p>对于字符串$s=abbb:$</p>
+<p><img src="https://oi-wiki.org/string/images/SAM/SAabbb.svg" alt="img"></p>
+<h2 id="构建增量法">构建：增量法</h2>
+<p>$\texttt{SAM}$的构建使用<strong>增量法</strong>：通过$\texttt S$的$\texttt{SAM}$求出$\texttt{S+c}$的$\texttt{SAM}$。</p>
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/sam/">SAM</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/%E6%89%BE%E7%9B%B8%E5%90%8C%E5%AD%97%E7%AC%A6/">
+            <span class="next-text nav-default">[HAOI2016]找相同字符</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  <span id="/post/%E5%90%8E%E7%BC%80%E8%87%AA%E5%8A%A8%E6%9C%BAsam/" class="leancloud_visitors" data-flag-title="后缀自动机SAM">
+		<span class="post-meta-item-text">文章阅读量 </span>
+		<span class="leancloud-visitors-count">0</span>
+		<p></p>
+	  </span>
+  <div id="vcomments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'F8xu4BfgVST0H6107wApro6n-gzGzoHsz',
+        appKey: 'qlgvukJKICXwyoy3NkVygfIu',
+        notify:  false ,
+        verify:  false ,
+        avatar:'mm',
+        placeholder: '说点什么吧...',
+        visitor:  true 
+    });
+  </script>
+
+  
+
+      </div>
+    </main>
+
+    
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        tags: 'ams',
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+    docsearch({
+    apiKey: "97c22106dbe3955818bc05a0be5f3511",
+    indexName: "hizeci's blog",
+    appId: "9HLPOQJVAD",
+    inputSelector: '.docsearch-input',
+    debug: false,
+    });
+</script>
+
+
+</body>
+</html>

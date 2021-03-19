@@ -5,8 +5,6 @@
 
 nonononononononononononono
 
-{{% hugo-encryptor "E3EIgy$qN#vy0hMM3#!S" %}}
-
 [oi-wiki](https://oi-wiki.org/string/sa/)
 
 [自为风月马前卒](https://www.cnblogs.com/zwfymqz/)
@@ -1306,6 +1304,4 @@ signed main()
 之后写了其他题目再更新
 
 
-
-{{% /hugo-encryptor %}}
 
