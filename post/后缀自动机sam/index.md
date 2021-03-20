@@ -105,7 +105,11 @@ $endpos(v)\subset endpos(link(v))$，
 - 对于$t_0$以外的状态$\texttt v$，可用后缀链接$\texttt{link(v)}$表达$\texttt{minlen(v)}$：$\texttt{minlen(v)=len(link(v))+1}$。
 - 如果我们从任意状态$v_0$开始顺着后缀链接遍历，总会到达初始状态$t_0$。这种情况下我们可以得到一个互不相交的区间$[minlen(v_i),len(v_i)]$的序列，且它们的并集形成了连续的区级$[0,len(v_0)]$。
 
+
+
 以上内容均来自[oi-wiki](https://oi-wiki.org/string/sam/#_2)
+
+
 
 其结构包含两部分：有向单词无环图（$\texttt{DAWG}$）以及一棵树（$\texttt{parent}$树）。
 
@@ -168,4 +172,38 @@ $\texttt{DAWG}$是$\texttt{DAG}$，其中每个**节点**表示一个或多个$\
 ## 构建：增量法
 
 $\texttt{SAM}$的构建使用**增量法**：通过$\texttt S$的$\texttt{SAM}$求出$\texttt{S+c}$的$\texttt{SAM}$。
+
+设此前表示$\texttt S$的节点为$\texttt p$，$\texttt{parent}$树上从$\texttt p$到起始节点的路径为
+
+$v_1=p,v_2,\cdots,v_k$，则一定存在一个$\texttt i$，使得$v_1$~$v_i$都没有$\texttt c$的转移边：
+
+![Picture.png](https://i.loli.net/2021/03/19/17XPAR8ZK4iMu2v.png)
+
+若$v_i$有$\texttt c$的转移边，则$v_{i+1}$也必有，故没有$\texttt c$转移边的点是$\texttt v$序列的一个前缀：在这个例子中为$v_1$~$v_2$。
+
+（注：由于$\max_{v_5}+c$属于白板，$\min_{v_4}+c$属于$d$，且$v_4$是$v_5$的$\texttt{parent}$，所以有$|\max_{v_5}|+1=|min_{v_4}|$，所以$d$的$\texttt{parent}$为白板。）
+
+$v_1$~$v_2$添加$\texttt c$得到的是新串长度连续的后缀，用新节点$\texttt u$表示，则：$\max_u=\max_{v_1}+\texttt c,\min_u=\min_{v_2}+\texttt c$。
+
+![Pi2cture.png](https://i.loli.net/2021/03/19/vI1wGCMLxWqolU6.png)
+
+
+
+共新增了$\texttt{|S|+1}$的后缀，节点$\texttt u$表示了$\min_u$及更长的后缀，而更短的那些可以由$d$及其后缀链接上的路径上的节点来表示。
+
+（注：这里$v_1\to v_2,v_3\to v_4,v_5\to v_6$中间实际上可能有很多点,如$v_{1.5},v_{3.4},v_{5.6}$之类的，
+
+
+
+因此$\texttt{DAWG}$的性质已经被满足，接下来考虑$\texttt{parent}$树。
+
+分三种情况讨论：
+
+- 不存在图中的$v_3$。（即所有的点都没有到$\texttt c$的一个转移边）.
+
+![graph.png](https://i.loli.net/2021/03/20/H5ymXgSU7Zul8Aq.png)
+
+
+
+建一个新节点$\texttt{u}$,代表$\texttt{S+c}$串的所有后缀（最短串为$\texttt c$），既然最短的串只有一个字符那么它的$\texttt{parent}$为只能有$0$个字符的东西，空串由起始节点代表，所以新节点$\texttt u$的$\texttt{parent}$指针应该指向$\texttt{start}$节点。
 
