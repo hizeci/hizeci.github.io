@@ -49,7 +49,7 @@
 <meta itemprop="name" content="后缀自动机SAM">
 <meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-03-19T07:56:56&#43;08:00" />
 <meta itemprop="dateModified" content="2021-03-19T07:56:56&#43;08:00" />
-<meta itemprop="wordCount" content="6448">
+<meta itemprop="wordCount" content="14979">
 <meta itemprop="keywords" content="SAM," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="后缀自动机SAM"/>
 <meta name="twitter:description" content=""/>
@@ -67,7 +67,7 @@
 <body>
   <div id="mobile-navbar" class="mobile-navbar">
   <div class="mobile-header-logo">
-    <a href="/" class="logo">having little or no sense, use, or purpose.</a>
+    <a href="/" class="logo">菜鸡的博客</a>
   </div>
   <div class="mobile-navbar-icon">
     <span></span>
@@ -132,7 +132,29 @@
             <li><a href="#parent--树">parent  树</a></li>
           </ul>
         </li>
-        <li><a href="#构建增量法">构建：增量法</a></li>
+        <li><a href="#构建增量法">构建：增量法</a>
+          <ul>
+            <li><a href="#伪代码">伪代码</a></li>
+            <li><a href="#算法">算法</a></li>
+            <li><a href="#正确性证明">正确性证明</a></li>
+            <li><a href="#对操作次数为线性的证明">对操作次数为线性的证明</a></li>
+          </ul>
+        </li>
+        <li><a href="#更多性质">更多性质</a>
+          <ul>
+            <li><a href="#状态数">状态数</a></li>
+            <li><a href="#转移数">转移数</a></li>
+            <li><a href="#额外信息">额外信息</a></li>
+            <li><a href="#实现">实现</a></li>
+          </ul>
+        </li>
+        <li><a href="#应用">应用</a>
+          <ul>
+            <li><a href="#检查字符串是否出现">检查字符串是否出现</a></li>
+            <li><a href="#不同子串个数">不同子串个数</a></li>
+            <li><a href="#参考资料">参考资料</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -256,11 +278,489 @@
 <p>（注：这里$v_1\to v_2,v_3\to v_4,v_5\to v_6$中间实际上可能有很多点,如$v_{1.5},v_{3.4},v_{5.6}$之类的，</p>
 <p>因此$\texttt{DAWG}$的性质已经被满足，接下来考虑$\texttt{parent}$树。</p>
 <p>分三种情况讨论：</p>
+<p>第一种情况</p>
 <ul>
 <li>不存在图中的$v_3$。（即所有的点都没有到$\texttt c$的一个转移边）.</li>
 </ul>
 <p><img src="https://i.loli.net/2021/03/20/H5ymXgSU7Zul8Aq.png" alt="graph.png"></p>
 <p>建一个新节点$\texttt{u}$,代表$\texttt{S+c}$串的所有后缀（最短串为$\texttt c$），既然最短的串只有一个字符那么它的$\texttt{parent}$为只能有$0$个字符的东西，空串由起始节点代表，所以新节点$\texttt u$的$\texttt{parent}$指针应该指向$\texttt{start}$节点。</p>
+<ul>
+<li>当$v_3$存在时，分$\max_d$是否等于$\max_{v_3}+C$两种情况讨论</li>
+</ul>
+<p>（这里黄色代表$\texttt{DAG}$上的，绿色代表$\texttt{parent}$树上的。）</p>
+<p><img src="https://i.loli.net/2021/03/20/2R9qbvweS4z8QTk.png" alt="guidingsat%2L7XCO.png"></p>
+<p>如现在有串$\texttt {S=cbabba}$</p>
+<p><img src="https://i.loli.net/2021/03/20/SGUs8qR6czWZFe1.png" alt="L9SW~8XTYCY55SA2(DY20.png"></p>
+<p>此时假设$\texttt x$为绿色这一段，此时新增一个$\texttt b$</p>
+<p>$x\to \texttt{bab},\texttt{end={4}}$</p>
+<p>$v_3 \to \texttt {bab,ab,end={4}}$</p>
+<p>因为这两个集合一样，因此将会被合为一个节点，假设这个节点为$\texttt d$。</p>
+<p>那么这个$x$点$+c$转移到的是$\texttt d$，且$x$点的父亲也是$\texttt d$。</p>
+<p>那么就会变成这个样子,这时候会产生一个问题</p>
+<p><img src="https://i.loli.net/2021/03/20/mPHv9xkfcM7R6Q5.png" alt="wwww55.png"></p>
+<p>考虑新加进来了字符$b$</p>
+<p>那么$v_3$集合的$\texttt{bab,ab}$变了，而$\texttt{end={4,7}}$。</p>
+<p>那么此时就要将$x$和$v_3$切开。</p>
+<p>而当$max_d=max_{v_3}+C$时，即不存在这样的$x$节点。</p>
+<p>此时情况比较简单因为我们不用拆这个点。</p>
+<p>此时考虑一下$\texttt{u}$和$\texttt{d}$的关系。（猜一下$\texttt u$的父亲是$\texttt d$。）</p>
+<p>证明：</p>
+<p>首先$\texttt d$的所有串是$\texttt u$的后缀，并且需要考虑一下长度是否吻合。（这里猜一下是吻合的。）</p>
+<p>这里稍微推一下：</p>
+<p>$\begin{align} |max_{d}| &amp; = |max_{v_3}+1| \ &amp; = |min_{v_2}|-1+1 \ &amp; = |min_u| -1 \ \end{align}$</p>
+<p>所以$u$的$\texttt{parent}$应指向$d$.</p>
+<p>那么当$\max_d \not= \max_{v_3}+C$.</p>
+<p>考虑$d$中的串怎么切。</p>
+<p>假设被分割后的集合为$x+C$和$v_3+C$。（两个集合拼起来为$d$.）</p>
+<p>用$d'$表示$x+C$,用$v$表示$v_3+C$。</p>
+<p>首先$d'$的$\texttt{parent}$指针应该指向$v$，然后$v$的$\texttt{parent}$指向原$v_3$指向的东西。</p>
+<p>对于原来$\texttt{parent}$指向$d$的应该都指向$d'$。（因为$d'$保留了最长串，而$\texttt{parent}$是按照最长串定的）。</p>
+<p>然后$u$的$\texttt{parent}$应该指向$v$。</p>
+<p>关于新建节点。</p>
+<p>在实际操作中，每一个点需要存$\max,\min,end,next$。</p>
+<p>而$\max$直接存长度即可，因为可以从$end$集合取一个$|\max|$的再随便弄一个下来就是$\max$了。</p>
+<p>而$\min$可以不存，因为它一定是$next$的$\max$加上什么东西。</p>
+<p>（因为有$end$集合所以有长度集合就可以知道有什么串）</p>
+<p>$end$与其说是存整个集合一般情况为只存第一个出现（即$end$集合最小的数）。要得到完整的$end$集合直接在$\texttt{parent}$树上所有子树上的拼起来就得到了。所以$end$也只需要存一个数。</p>
+<h3 id="伪代码">伪代码</h3>
+<p><img src="https://i.loli.net/2021/03/21/fEHABvVmZsCrDdu.png" alt="fff.png"></p>
+<p><img src="https://i.loli.net/2021/03/21/lVsgAQJPwxB5GSU.png" alt="ggg.png"></p>
+<p>空间复杂度是线性的：</p>
+<p>证明：</p>
+<p>节点数肯定是线性的，因为一次新建一个$u$，然后把$d$拆成两个点，所有说每次最多加$2$个点，最后总的节点数一定不到$2$倍的字符串长度。</p>
+<p>$\texttt{parent}$树的边数也一定是线性的，因为$\texttt{parent}$树是一棵树，边数等于点数$-1$。</p>
+<p>接下来考虑$\texttt{DAWG}$，考虑给$\texttt{DAWG}$搞一棵生成树，对于一条非树边$u\to v$，来拼一个字符串，沿着树边走到$u$，再沿着非树边走到$v$，接着随便走，（比如以字典序最小）走到一个终态。我们会经过若干条边，将这些边首尾相连就得到了一个字符串$w$，记作$f(u,v)$。（因为是树，所以沿着树边到$u$是唯一的，$u\to v$是唯一的，接下来每一步以字典序最小走也是唯一的）。</p>
+<p>$f(u,v)=w$，$w$一定是$s$的一个后缀，因为走到接受态（接受态经过的所有东西都是后缀）。由于给出$f(u,v)$能求出唯一的$w$，给出$w$不一定能求出$f(u,v)$，所以$|u\to v|\leq |w|=|s|$，所以$|u\to v|$的数量是$\leq$串长的，所以非树边的个数是小于串长的，然后树边的个数是线性的，所以最后总的边数也是线性的。</p>
+<p>所以空间复杂度是线性的。（用到的部分）。</p>
+<p>时间复杂度是线性的：</p>
+<p>懒得证了&hellip;</p>
+<p>就大概第一个循环考虑$|\max_{next_{last}}|$，第二个考虑$|\min_{next_{last}}|$。</p>
+<p>然后复杂度可能还有考虑如何复制边的复杂度。</p>
+<p>接下来又是搬<a href="https://oi-wiki.org/string/sam/#_5">oi-wiki</a>。</p>
+<h3 id="算法">算法</h3>
+<p>现在我们可以学习构造 SAM 的算法了。这个算法是 <strong>在线</strong> 算法，我们可以逐个加入字符串中的每个字符，并且在每一步中对应地维护 SAM。</p>
+<p>为了保证线性的空间复杂度，我们将只保存 $\operatorname{len}$ 和 $\operatorname{link}$ 的值和每个状态的转移列表，我们不会标记终止状态（但是我们稍后会展示在构造 SAM 后如何分配这些标记）。</p>
+<p>一开始 SAM 只包含一个状态 $t_0$，编号为 $0$（其它状态的编号为 $1,2,\ldots$）。为了方便，对于状态 $t_0$ 我们指定 $\operatorname{len}=0$、$\operatorname{link}=-1$（$-1$ 表示虚拟状态）。</p>
+<p>现在，任务转化为实现给当前字符串添加一个字符 $c$ 的过程。算法流程如下：</p>
+<ul>
+<li>令 $\textit{last}$ 为添加字符 $c$ 之前，整个字符串对应的状态（一开始我们设 $\textit{last}=0$，算法的最后一步更新 $\textit{last}$）。</li>
+<li>创建一个新的状态 $\textit{cur}$，并将 $\operatorname{len}(\textit{cur})$ 赋值为 $\operatorname{len}(\textit{last})+1$，在这时 $\operatorname{link}(\textit{cur})$ 的值还未知。</li>
+<li>现在我们按以下流程进行（从状态 $\textit{last}$ 开始）。如果还没有到字符 $c$ 的转移，我们就添加一个到状态 $\textit{cur}$ 的转移，遍历后缀链接。如果在某个点已经存在到字符 $c$ 的转移，我们就停下来，并将这个状态标记为 $p$。</li>
+<li>如果没有找到这样的状态 $p$，我们就到达了虚拟状态 $-1$，我们将 $\operatorname{link}(\textit{cur})$ 赋值为 $0$ 并退出。</li>
+<li>假设现在我们找到了一个状态 $p$，其可以通过字符 $c$ 转移。我们将转移到的状态标记为 $q$。</li>
+<li>现在我们分类讨论两种状态，要么 $\operatorname{len}(p) + 1 = \operatorname{len}(q)$，要么不是。</li>
+<li>如果 $\operatorname{len}(p)+1=\operatorname{len}(q)$，我们只要将 $\operatorname{link}(\textit{cur})$ 赋值为 $q$ 并退出。</li>
+<li>否则就会有些复杂。需要 <strong>复制</strong> 状态 $q$：我们创建一个新的状态 $\textit{clone}$，复制 $q$ 的除了 $\operatorname{len}$ 的值以外的所有信息（后缀链接和转移）。我们将 $\operatorname{len}(\textit{clone})$ 赋值为 $\operatorname{len}(p)+1$。<br>
+复制之后，我们将后缀链接从 $\textit{cur}$ 指向 $\textit{clone}$，也从 $q$ 指向 $\textit{clone}$。<br>
+最终我们需要使用后缀链接从状态 $p$ 往回走，只要存在一条通过 $p$ 到状态 $q$ 的转移，就将该转移重定向到状态 $\textit{clone}$。</li>
+<li>以上三种情况，在完成这个过程之后，我们将 $\textit{last}$ 的值更新为状态 $\textit{cur}$。</li>
+</ul>
+<p>如果我们还想知道哪些状态是 <strong>终止状态</strong> 而哪些不是，我们可以在为字符串 $s$ 构造完完整的 SAM 后找到所有的终止状态。为此，我们从对应整个字符串的状态（存储在变量 $\textit{last}$ 中），遍历它的后缀链接，直到到达初始状态。我们将所有遍历到的节点都标记为终止节点。容易理解这样做我们会准确地标记字符串 $s$ 的所有后缀，这些状态都是终止状态。</p>
+<p>在下一部分，我们将详细叙述算法每一步的细节，并证明它的 <strong>正确性</strong>。
+因为我们只为 $s$ 的每个字符创建一个或两个新状态，所以 SAM 只包含 <strong>线性个</strong> 状态。</p>
+<p>而线性规模的转移个数，以及算法总体的线性运行时间还不那么清楚。</p>
+<h3 id="正确性证明">正确性证明</h3>
+<ul>
+<li>若一个转移 $(p,q)$ 满足 $\operatorname{len}(p)+1=\operatorname{len}(q)$，则我们称这个转移是 <strong>连续的</strong>。否则，即当 $\operatorname{len}(p)+1&lt;\operatorname{len}(q)$ 时，这个转移被称为 <strong>不连续的</strong>。从算法描述中可以看出，连续的、不连续的转移是算法的不同情况。连续的转移是固定的，我们不会再改变了。与此相反，当向字符串中插入一个新的字符时，不连续的转移可能会改变（转移边的端点可能会改变）。</li>
+<li>为了避免引起歧义，我们记向 SAM 中插入当前字符 $c$ 之前的字符串为 $s$。</li>
+<li>算法从创建一个新状态 $\textit{cur}$ 开始，对应于整个字符串 $s+c$。我们创建一个新的节点的原因很清楚。与此同时我们也创建了一个新的字符和一个新的等价类。</li>
+<li>在创建一个新的状态之后，我们会从对应整个字符串 $s$ 的状态通过后缀链接进行遍历。对于每一个状态，我们尝试添加一个通过字符 $c$ 到新状态 $\textit{cur}$ 的转移。然而我们只能添加与原有转移不冲突的转移。因此我们只要找到已存在的 $c$ 的转移，我们就必须停止。</li>
+<li>最简单的情况是我们到达了虚拟状态 $-1$，这意味着我们为所有 $s$ 的后缀添加了 $c$ 的转移。这也意味着，字符 $c$ 从未在字符串 $s$ 中出现过。因此 $\textit{cur}$ 的后缀链接为状态 $0$。</li>
+<li>第二种情况下，我们找到了现有的转移 $(p,q)$。这意味着我们尝试向自动机内添加一个 <strong>已经存在的</strong> 字符串 $x+c$（其中 $x$ 为 $s$ 的一个后缀，且字符串 $x+c$ 已经作为 $s$ 的一个子串出现过了）。因为我们假设字符串 $s$ 的自动机的构造是正确的，我们不应该在这里添加一个新的转移。然而，难点在于，从状态 $\textit{cur}$ 出发的后缀链接应该连接到哪个状态呢？我们要把后缀链接连到一个状态上，且其中最长的一个字符串恰好是 $x+c$，即这个状态的 $\operatorname{len}$ 应该是 $\operatorname{len}(p)+1$。然而还不存在这样的状态，即 $\operatorname{len}(q)&gt;\operatorname{len}(p)+1$。这种情况下，我们必须通过拆开状态 $q$ 来创建一个这样的状态。</li>
+<li>如果转移 $(p,,q)$ 是连续的，那么 $\operatorname{len}(q)=\operatorname{len}(p)+1$。在这种情况下一切都很简单。我们只需要将 $\textit{cur}$ 的后缀链接指向状态 $q$。</li>
+<li>否则转移是不连续的，即 $\operatorname{len}(q)&gt;\operatorname{len}(p)+1$，这意味着状态 $q$ 不只对应于长度为 $\operatorname{len}(p)+1$ 的后缀 $s+c$，还对应于 $s$ 的更长的子串。除了将状态 $q$ 拆成两个子状态以外我们别无他法，所以第一个子状态的长度就是 $\operatorname{len}(p)+1$ 了。<br>
+我们如何拆开一个状态呢？我们 <strong>复制</strong> 状态 $q$，产生一个状态 $\textit{clone}$，我们将 $\operatorname{len}(\textit{clone})$ 赋值为 $\operatorname{len}(p)+1$。由于我们不想改变遍历到 $q$ 的路径，我们将 $q$ 的所有转移复制到 $\textit{clone}$。我们也将从 $\textit{clone}$ 出发的后缀链接设置为 $q$ 的后缀链接的目标，并设置 $q$ 的后缀链接为 $\textit{clone}$。<br>
+在拆开状态后，我们将从 $\textit{cur}$ 出发的后缀链接设置为 $\textit{clone}$。<br>
+最后一步我们将一些到 $q$ 转移重定向到 $\textit{clone}$。我们需要修改哪些转移呢？只重定向相当于所有字符串 $w+c$（其中 $w$ 是 $p$ 的最长字符串）的后缀就够了。即，我们需要继续沿着后缀链接遍历，从结点 $p$ 直到虚拟状态 $-1$ 或者是转移到不是状态 $q$ 的一个转移。</li>
+</ul>
+<h3 id="对操作次数为线性的证明">对操作次数为线性的证明</h3>
+<p>首先我们假设字符集大小为 <strong>常数</strong>。如果字符集大小不是常数，SAM 的时间复杂度就不是线性的。从一个结点出发的转移存储在支持快速查询和插入的平衡树中。因此如果我们记 $\Sigma$ 为字符集，$\left|\Sigma\right|$ 为字符集大小，则算法的渐进时间复杂度为 $O(n\log\left|\Sigma\right|)$，空间复杂度为 $O(n)$。然而如果字符集足够小，可以不写平衡树，以空间换时间将每个结点的转移存储为长度为 $\left|\Sigma\right|$ 的数组（用于快速查询）和链表（用于快速遍历所有可用关键字）。这样算法的时间复杂度为 $O(n)$，空间复杂度为 $O(n\left|\Sigma\right|)$。</p>
+<p>所以我们将认为字符集的大小为常数，即每次对一个字符搜索转移、添加转移、查找下一个转移。这些操作的时间复杂度都为 $O(1)$。</p>
+<p>如果我们考虑算法的各个部分，算法中有三处时间复杂度不明显是线性的：</p>
+<ul>
+<li>第一处是遍历所有状态 $\textit{last}$ 的后缀链接，添加字符 $c$ 的转移。</li>
+<li>第二处是当状态 $q$ 被复制到一个新的状态 $\textit{clone}$ 时复制转移的过程。</li>
+<li>第三处是修改指向 $q$ 的转移，将它们重定向到 $\textit{clone}$ 的过程。</li>
+</ul>
+<p>我们使用 SAM 的大小（状态数和转移数）为 <strong>线性的</strong> 的事实（对状态数是线性的的证明就是算法本身，对转移数为线性的的证明将在稍后实现算法后给出）。</p>
+<p>因此上述 <strong>第一处和第二处</strong> 的总复杂度显然为线性的，因为单次操作均摊只为自动机添加了一个新转移。</p>
+<p>还需为 <strong>第三处</strong> 估计总复杂度，我们将最初指向 $q$ 的转移重定向到 $\textit{clone}$。我们记 $v=\operatorname{longest}(p)$，这是一个字符串 $s$ 的后缀，每次迭代长度都递减——因为字符串 $s$ 的位置每次迭代都单调上升。这种情况下，如果在循环的第一次迭代之前，相对应的字符串 $v$ 在距离 $\textit{last}$ 的深度为 $k$ $(k\ge 2)$ 的位置上（深度记为后缀链接的数量），那么在最后一次迭代后，字符串 $v+c$ 将会成为路径上第二个从 $\textit{cur}$ 出发的后缀链接（它将会成为新的 $\textit{last}$ 的值）。</p>
+<p>因此，循环中的每次迭代都会使作为当前字符串的后缀的字符串 $\operatorname{longest}(\operatorname{link}(\operatorname{link}(\textit{last}))$ 的位置单调递增。因此这个循环最多不会执行超过 $n$ 次迭代，这正是我们需要证明的。</p>
+<h2 id="更多性质">更多性质</h2>
+<h3 id="状态数">状态数</h3>
+<p>对于一个长度为 $n$ 的字符串 $s$，它的 SAM 中的状态数 <strong>不会超过</strong>  $2n-1$（假设 $n\ge 2$）。</p>
+<p>算法本身即可证明该结论。一开始，自动机含有一个状态，第一次和第二次迭代中只会创建一个节点，剩余的 $n-2$ 步中每步会创建至多 $2$ 个状态。</p>
+<p>然而我们也能在 <strong>不借助这个算法</strong> 的情况下 <strong>证明</strong> 这个估计值。我们回忆一下状态数等于不同的 $\operatorname{endpos}$ 集合个数。这些 $\operatorname{endpos}$ 集合形成了一棵树（祖先节点的集合包含了它所有孩子节点的集合）。考虑将这棵树稍微变形一下：只要它有一个只有一个孩子的内部结点（这意味着该子节点的集合至少遗漏了它的父集合中的一个位置），我们创建一个含有这个遗漏位置的集合。最后我们可以获得一棵每一个内部结点的度数大于 1 的树，且叶子节点的个数不超过 $n$。因此这样的树里有不超过 $2n-1$ 个节点。</p>
+<p>字符串 $\texttt{abbb} \cdots \texttt{bbb}$ 的状态数达到了该上界：从第三次迭代后的每次迭代，算法都会拆开一个状态，最终产生恰好 $2n-1$ 个状态。</p>
+<h3 id="转移数">转移数</h3>
+<p>对于一个长度为 $n$ 的字符串 $s$，它的 SAM 中的转移数 <strong>不会超过</strong>  $3n-4$（假设 $n\ge 3$）。</p>
+<p>证明如下：</p>
+<p>我们首先估计连续的转移的数量。考虑自动机中从状态 $t_0$ 开始的所有最长路径的生成树。生成树只包含连续的边，因此数量少于状态数，即边数不会超过 $2n-2$。</p>
+<p>现在我们来估计不连续的转移的数量。令当前不连续转移为 $(p,,q)$，其字符为 $c$。我们取它的对应字符串 $u+c+w$，其中字符串 $u$ 对应于初始状态到 $p$ 的最长路径，$w$ 对应于从 $q$ 到任意终止状态的最长路径。一方面，每个不完整的字符串所对应的形如 $u+c+w$ 的字符串是不同的（因为字符串 $u$ 和 $w$ 仅由完整的转移组成）。另一方面，由终止状态的定义，每个形如 $u+c+w$ 的字符串都是整个字符串 $s$ 的后缀。因为 $s$ 只有 $n$ 个非空后缀，且形如 $u+c+w$ 的字符串都不包含 $s$（因为整个字符串只包含完整的转移），所以非完整的转移的总数不会超过 $n-1$。</p>
+<p>将以上两个估计值相加，我们可以得到上界 $3n-3$。然而，最大的状态数只能在类似于 $\texttt{abbb} \cdots \texttt{bbb}$ 的情况中产生，而此时转移数量显然少于 $3n-3$。</p>
+<p>因此我们可以获得更为紧确的 SAM 的转移数的上界：$3n-4$。字符串 $\texttt{abbb} \cdots \texttt{bbbc}$ 就达到了这个上界。</p>
+<h3 id="额外信息">额外信息</h3>
+<p>观察 <a href="#_8">实现</a> 中的结构体的每个变量。实际上，尽管 SAM 本身由 <code>next</code> 组成，但 SAM 构造算法中作为辅助变量的 <code>link</code> 和 <code>len</code> 在应用中常常比 <code>next</code> 重要，甚至可以抛开 <code>next</code> 单独使用。</p>
+<p>设字符串的长度为 $n$，考虑 <code>extend</code> 操作中 <code>cur</code> 变量的值，这个节点对应的状态是<u>执行 <code>extend</code> 操作时的当前字符串</u>，即字符串的一个前缀，每个前缀有一个终点。这样得到的 $n$ 个节点，对应了 $n$ 个不同的 <strong>终点</strong>。设第 $i$ 个节点为 $v_i$，对应的是 $S_{1 \ldots i}$，终点是 $i$。姑且把这些节点称之为“终点节点”。</p>
+<p>考虑给 SAM 赋予树形结构，树的根为 0，且其余节点 $v$ 的父亲为 $\operatorname{link}(v)$。则这棵树与原 SAM 的关系是：</p>
+<ul>
+<li>每个节点的终点集合等于其 <strong>子树</strong> 内所有终点节点对应的终点的集合。</li>
+</ul>
+<p>在此基础上可以给每个节点赋予一个最长字符串，是其终点集合中 <strong>任意</strong> 一个终点开始 <strong>往前</strong> 取 <code>len</code> 个字符得到的字符串。每个这样的字符串都一样，且 <code>len</code> 恰好是满足这个条件的最大值。</p>
+<p>这些字符串满足的性质是：</p>
+<ul>
+<li>如果节点 A 是 B 的祖先，则节点 A 对应的字符串是节点 B 对应的字符串的 <strong>后缀</strong>。</li>
+</ul>
+<p>这条性质把字符串所有前缀组成了一棵树，且有许多符合直觉的树的性质。例如，$S_{1 \ldots p}$ 和 $S_{1 \ldots q}$ 的最长公共后缀对应的字符串就是 $v_p$ 和 $v_q$ 对应的 LCA 的字符串。实际上，这棵树与将字符串 $S$ 翻转后得到字符串的压缩后缀树结构相同。</p>
+<p>每个状态 $i$ 对应的子串数量是 $\operatorname{len}(i)-\operatorname{len}(\operatorname{link}(i))$（节点 $0$ 例外）。注意到 $\operatorname{link}(i)$ 对应的字符串是 $i$ 对应的字符串的一个后缀，这些子串就是 $i$ 对应字符串的所有后缀，去掉被父亲“抢掉”的那部分，即 $\operatorname{link}(i)$ 对应字符串的所有后缀。</p>
+<h3 id="实现">实现</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">struct</span> <span class="nc">node</span> <span class="p">{</span><span class="kt">int</span> <span class="n">len</span><span class="p">,</span><span class="n">nxt</span><span class="p">,</span><span class="n">son</span><span class="p">[</span><span class="mi">26</span><span class="p">];}</span><span class="n">a</span><span class="p">[</span><span class="n">N</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">lst</span><span class="p">,</span><span class="n">tn</span><span class="p">;</span>
+<span class="kr">inline</span> <span class="kt">void</span> <span class="nf">init_SAM</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">len</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">nxt</span><span class="o">=-</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">tn</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">lst</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">extend_SAM</span><span class="p">(</span><span class="kt">int</span> <span class="n">c</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">cur</span><span class="o">=++</span><span class="n">tn</span><span class="p">,</span><span class="n">p</span><span class="o">=</span><span class="n">lst</span><span class="p">;</span>
+	<span class="n">a</span><span class="p">[</span><span class="n">cur</span><span class="p">].</span><span class="n">len</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">len</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(;</span><span class="n">p</span><span class="o">!=-</span><span class="mi">1</span><span class="o">&amp;&amp;!</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">son</span><span class="p">[</span><span class="n">c</span><span class="p">];</span><span class="n">p</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">nxt</span><span class="p">)</span> <span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">son</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">=</span><span class="n">cur</span><span class="p">;</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">p</span><span class="o">==-</span><span class="mi">1</span><span class="p">)</span> <span class="n">a</span><span class="p">[</span><span class="n">cur</span><span class="p">].</span><span class="n">nxt</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+	<span class="k">else</span>
+	<span class="p">{</span>
+		<span class="kt">int</span> <span class="n">v</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">son</span><span class="p">[</span><span class="n">c</span><span class="p">];</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">v</span><span class="p">].</span><span class="n">len</span><span class="o">==</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">len</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="n">a</span><span class="p">[</span><span class="n">cur</span><span class="p">].</span><span class="n">nxt</span><span class="o">=</span><span class="n">v</span><span class="p">;</span>
+		<span class="k">else</span>
+		<span class="p">{</span>
+			<span class="kt">int</span> <span class="n">x</span><span class="o">=++</span><span class="n">tn</span><span class="p">;</span><span class="n">a</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">v</span><span class="p">];</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">x</span><span class="p">].</span><span class="n">len</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">len</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+			<span class="k">for</span><span class="p">(;</span><span class="n">p</span><span class="o">!=-</span><span class="mi">1</span><span class="o">&amp;&amp;</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">son</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">==</span><span class="n">v</span><span class="p">;</span><span class="n">p</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">nxt</span><span class="p">)</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">son</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">=</span><span class="n">x</span><span class="p">;</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">cur</span><span class="p">].</span><span class="n">nxt</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">v</span><span class="p">].</span><span class="n">nxt</span><span class="o">=</span><span class="n">x</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="n">lst</span><span class="o">=</span><span class="n">cur</span><span class="p">;</span>
+<span class="p">}</span>	
+</code></pre></td></tr></table>
+</div>
+</div><p>oi-wiki：</p>
+<p>首先，我们实现一种存储一个转移的全部信息的数据结构。如果需要的话，你可以在这里加入一个终止标记，也可以是一些其它信息。我们将用一个 <code>map</code> 存储转移的列表，允许我们在总计 $O(n)$ 的空间复杂度和 $O(n\log\left|\Sigma\right|)$ 的时间复杂度内处理整个字符串。（注：在字符集大小为较小的常数，比如 26 时，将 <code>next</code> 定义为 <code>int[26]</code> 更方便）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">struct</span> <span class="nc">state</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">len</span><span class="p">,</span> <span class="n">link</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">next</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>SAM 本身将会存储在一个 <code>state</code> 结构体数组中。我们记录当前自动机的大小 <code>sz</code> 和变量 <code>last</code>，当前整个字符串对应的状态。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">const</span> <span class="kt">int</span> <span class="n">MAXLEN</span> <span class="o">=</span> <span class="mi">100000</span><span class="p">;</span>
+<span class="n">state</span> <span class="n">st</span><span class="p">[</span><span class="n">MAXLEN</span> <span class="o">*</span> <span class="mi">2</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">sz</span><span class="p">,</span> <span class="n">last</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>我们定义一个函数来初始化 SAM（创建一个只有初始状态的 SAM）。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">sam_init</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">st</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">len</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="n">st</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">link</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+  <span class="n">sz</span><span class="o">++</span><span class="p">;</span>
+  <span class="n">last</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>最终我们给出主函数的实现：给当前行末增加一个字符，对应地在之前的基础上建造自动机。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">void</span> <span class="nf">sam_extend</span><span class="p">(</span><span class="kt">char</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">sz</span><span class="o">++</span><span class="p">;</span>
+  <span class="n">st</span><span class="p">[</span><span class="n">cur</span><span class="p">].</span><span class="n">len</span> <span class="o">=</span> <span class="n">st</span><span class="p">[</span><span class="n">last</span><span class="p">].</span><span class="n">len</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">p</span> <span class="o">=</span> <span class="n">last</span><span class="p">;</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">p</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">st</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">next</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="n">c</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">st</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">next</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">cur</span><span class="p">;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">st</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">link</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">p</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">st</span><span class="p">[</span><span class="n">cur</span><span class="p">].</span><span class="n">link</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">q</span> <span class="o">=</span> <span class="n">st</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">next</span><span class="p">[</span><span class="n">c</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">st</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">len</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="n">st</span><span class="p">[</span><span class="n">q</span><span class="p">].</span><span class="n">len</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">st</span><span class="p">[</span><span class="n">cur</span><span class="p">].</span><span class="n">link</span> <span class="o">=</span> <span class="n">q</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="kt">int</span> <span class="n">clone</span> <span class="o">=</span> <span class="n">sz</span><span class="o">++</span><span class="p">;</span>
+      <span class="n">st</span><span class="p">[</span><span class="n">clone</span><span class="p">].</span><span class="n">len</span> <span class="o">=</span> <span class="n">st</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">len</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+      <span class="n">st</span><span class="p">[</span><span class="n">clone</span><span class="p">].</span><span class="n">next</span> <span class="o">=</span> <span class="n">st</span><span class="p">[</span><span class="n">q</span><span class="p">].</span><span class="n">next</span><span class="p">;</span>
+      <span class="n">st</span><span class="p">[</span><span class="n">clone</span><span class="p">].</span><span class="n">link</span> <span class="o">=</span> <span class="n">st</span><span class="p">[</span><span class="n">q</span><span class="p">].</span><span class="n">link</span><span class="p">;</span>
+      <span class="k">while</span> <span class="p">(</span><span class="n">p</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">st</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">next</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">==</span> <span class="n">q</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">st</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">next</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">clone</span><span class="p">;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">st</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">link</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="n">st</span><span class="p">[</span><span class="n">q</span><span class="p">].</span><span class="n">link</span> <span class="o">=</span> <span class="n">st</span><span class="p">[</span><span class="n">cur</span><span class="p">].</span><span class="n">link</span> <span class="o">=</span> <span class="n">clone</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">last</span> <span class="o">=</span> <span class="n">cur</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>正如之前提到的一样，如果你用内存换时间（空间复杂度为 $O(n\left|\Sigma\right|)$，其中 $\left|\Sigma\right|$ 为字符集大小），你可以在 $O(n)$ 的时间内构造字符集大小任意的 SAM。但是这样你需要为每一个状态储存一个大小为 $\left|\Sigma\right|$ 的数组（用于快速跳转到转移的字符），和另外一个所有转移的链表（用于快速在转移中迭代）。</p>
+<h2 id="应用">应用</h2>
+<p>下面我们来看一些可以用 SAM 解决的问题。简单起见，假设字符集的大小 $k$ 为常数。这允许我们认为增加一个字符和遍历的复杂度为常数。</p>
+<h3 id="检查字符串是否出现">检查字符串是否出现</h3>
+<blockquote>
+<p>给一个文本串 $T$ 和多个模式串 $P$，我们要检查字符串 $P$ 是否作为 $T$ 的一个子串出现。</p>
+</blockquote>
+<p>我们在 $O(\left|T\right|)$ 的时间内对文本串 $T$ 构造后缀自动机。为了检查模式串 $P$ 是否在 $T$ 中出现，我们沿转移（边）从 $t_0$ 开始根据 $P$ 的字符进行转移。如果在某个点无法转移下去，则模式串 $P$ 不是 $T$ 的一个子串。如果我们能够这样处理完整个字符串 $P$，那么模式串在 $T$ 中出现过。</p>
+<p>对于每个字符串 $P$，算法的时间复杂度为 $O(\left|P\right|)$。此外，这个算法还找到了模式串 $P$ 在文本串中出现的最大前缀长度。</p>
+<h3 id="不同子串个数">不同子串个数</h3>
+<blockquote>
+<p>给一个字符串 $S$，计算不同子串的个数。</p>
+</blockquote>
+<p>对字符串 $S$ 构造后缀自动机。</p>
+<p>每个 $S$ 的子串都相当于自动机中的一些路径。因此不同子串的个数等于自动机中以 $t_0$ 为起点的不同路径的条数。</p>
+<p>考虑到 SAM 为有向无环图，不同路径的条数可以通过动态规划计算。即令 $d_{v}$ 为从状态 $v$ 开始的路径数量（包括长度为零的路径），则我们有如下递推方程：</p>
+<p>$$
+d_{v}=1+\sum_{w:(v,w,c)\in DAWG}d_{w}
+$$</p>
+<p>即，$d_{v}$ 可以表示为所有 $v$ 的转移的末端的和。</p>
+<p>所以不同子串的个数为 $d_{t_0}-1$（因为要去掉空子串）。</p>
+<p>总时间复杂度为：$O(\left|S\right|)$。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">const</span> <span class="kt">int</span> <span class="n">N</span><span class="o">=</span><span class="mi">222222</span><span class="p">;</span>
+<span class="k">struct</span> <span class="nc">node</span> <span class="p">{</span><span class="kt">int</span> <span class="n">len</span><span class="p">,</span><span class="n">nxt</span><span class="p">,</span><span class="n">son</span><span class="p">[</span><span class="mi">26</span><span class="p">];}</span><span class="n">a</span><span class="p">[</span><span class="n">N</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">lst</span><span class="p">,</span><span class="n">tn</span><span class="p">;</span>
+<span class="kr">inline</span> <span class="kt">void</span> <span class="nf">init_SAM</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">len</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">nxt</span><span class="o">=-</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">tn</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">lst</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">extend_SAM</span><span class="p">(</span><span class="kt">int</span> <span class="n">c</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">cur</span><span class="o">=++</span><span class="n">tn</span><span class="p">,</span><span class="n">p</span><span class="o">=</span><span class="n">lst</span><span class="p">;</span>
+	<span class="n">a</span><span class="p">[</span><span class="n">cur</span><span class="p">].</span><span class="n">len</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">len</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(;</span><span class="n">p</span><span class="o">!=-</span><span class="mi">1</span><span class="o">&amp;&amp;!</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">son</span><span class="p">[</span><span class="n">c</span><span class="p">];</span><span class="n">p</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">nxt</span><span class="p">)</span> <span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">son</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">=</span><span class="n">cur</span><span class="p">;</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">p</span><span class="o">==-</span><span class="mi">1</span><span class="p">)</span> <span class="n">a</span><span class="p">[</span><span class="n">cur</span><span class="p">].</span><span class="n">nxt</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+	<span class="k">else</span>
+	<span class="p">{</span>
+		<span class="kt">int</span> <span class="n">v</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">son</span><span class="p">[</span><span class="n">c</span><span class="p">];</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">v</span><span class="p">].</span><span class="n">len</span><span class="o">==</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">len</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="n">a</span><span class="p">[</span><span class="n">cur</span><span class="p">].</span><span class="n">nxt</span><span class="o">=</span><span class="n">v</span><span class="p">;</span>
+		<span class="k">else</span>
+		<span class="p">{</span>
+			<span class="kt">int</span> <span class="n">x</span><span class="o">=++</span><span class="n">tn</span><span class="p">;</span><span class="n">a</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">v</span><span class="p">];</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">x</span><span class="p">].</span><span class="n">len</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">len</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+			<span class="k">for</span><span class="p">(;</span><span class="n">p</span><span class="o">!=-</span><span class="mi">1</span><span class="o">&amp;&amp;</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">son</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">==</span><span class="n">v</span><span class="p">;</span><span class="n">p</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">nxt</span><span class="p">)</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">son</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">=</span><span class="n">x</span><span class="p">;</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">cur</span><span class="p">].</span><span class="n">nxt</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">v</span><span class="p">].</span><span class="n">nxt</span><span class="o">=</span><span class="n">x</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="n">lst</span><span class="o">=</span><span class="n">cur</span><span class="p">;</span>
+<span class="p">}</span>	
+<span class="kt">int</span> <span class="n">dp</span><span class="p">[</span><span class="n">N</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">];</span>
+<span class="kt">void</span> <span class="nf">dfs1</span><span class="p">(</span><span class="kt">int</span> <span class="n">u</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="c1">//writeln(u);
+</span><span class="c1"></span>	<span class="k">if</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="k">return</span><span class="p">;</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">25</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="kt">int</span> <span class="n">v</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">u</span><span class="p">].</span><span class="n">son</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+		<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">v</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+		<span class="n">dfs1</span><span class="p">(</span><span class="n">v</span><span class="p">);</span><span class="n">dp</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">+=</span><span class="n">dp</span><span class="p">[</span><span class="n">v</span><span class="p">];</span>
+	<span class="p">}</span>
+	<span class="n">dp</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+<span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">s</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">signed</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+	<span class="n">scanf</span><span class="p">(</span><span class="s">&#34;%s&#34;</span><span class="p">,</span><span class="n">str</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+	<span class="n">init_SAM</span><span class="p">();</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="sc">&#39;a&#39;</span><span class="p">;</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="n">extend_SAM</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+	<span class="n">dfs1</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+	<span class="n">writeln</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>另一种方法是利用上述后缀自动机的树形结构。每个节点对应的子串数量是 $\operatorname{len}(i)-\operatorname{len}(\operatorname{link}(i))$，对自动机所有节点求和即可。</p>
+<p>（</p>
+<p>$\texttt{SAM}$每个节点表示的串没有交集,而且一定表示了所有的串。</p>
+<p>那我们把所有节点表示的串的个数(类大小)加起来就好了,</p>
+<p>考虑到$minlen(u)=maxlen(fa)+1,$直接统计$\sum\limits_{u}(u.len-u.fa.len)$即可。</p>
+<p>这种方法需要对$\texttt{SAM}$的基本性质比较熟悉同时比较经典。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">signed</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+	<span class="n">scanf</span><span class="p">(</span><span class="s">&#34;%s&#34;</span><span class="p">,</span><span class="n">str</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+	<span class="n">init_SAM</span><span class="p">();</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="sc">&#39;a&#39;</span><span class="p">;</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="n">extend_SAM</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+	<span class="kt">int</span> <span class="n">ans</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">tn</span><span class="p">)</span> <span class="n">ans</span><span class="o">+=</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">len</span><span class="o">-</span><span class="n">a</span><span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">nxt</span><span class="p">].</span><span class="n">len</span><span class="p">;</span>
+	<span class="n">writeln</span><span class="p">(</span><span class="n">ans</span><span class="p">);</span> 
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>）</p>
+<h3 id="参考资料">参考资料</h3>
+<p><a href="https://www.luogu.com.cn/blog/command-block/hou-zhui-zi-dong-ji-xue-xi-bi-ji">commond_block</a></p>
+<p><a href="https://oi-wiki.org/string/sam/#_5">oi-wiki</a></p>
+<p>之后可能还要补一个孔姥爷的。</p>
+<p>某课件</p>
     </div>
 
     
