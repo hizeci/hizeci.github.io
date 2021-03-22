@@ -6,7 +6,7 @@
     <description>Recent content in 题解 on having little or no sense, use, or purpose.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 18 Mar 2021 19:37:01 +0800</lastBuildDate><atom:link href="https://hizeci.github.io/categories/%E9%A2%98%E8%A7%A3/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 22 Mar 2021 11:04:27 +0800</lastBuildDate><atom:link href="https://hizeci.github.io/categories/%E9%A2%98%E8%A7%A3/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>[HAOI2016]找相同字符</title>
       <link>https://hizeci.github.io/post/%E6%89%BE%E7%9B%B8%E5%90%8C%E5%AD%97%E7%AC%A6/</link>
@@ -26,6 +26,15 @@
       <description>&lt;p&gt;题意：&lt;/p&gt;
 &lt;p&gt;给定一个长度为$n$的字符串$\texttt S$，令$T_i$表示它从第$i$个字符开始的后缀，求&lt;/p&gt;
 &lt;p&gt;$\sum\limits_{1\leq i&amp;lt;j\leq n} len(T_i)+len(T_j)-2\times lcp(T_i,T_j)$&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>CF1149C Tree Generator™</title>
+      <link>https://hizeci.github.io/post/tree-generator/</link>
+      <pubDate>Mon, 22 Mar 2021 11:04:27 +0800</pubDate>
+      
+      <guid>https://hizeci.github.io/post/tree-generator/</guid>
+      <description></description>
     </item>
     
     <item>
