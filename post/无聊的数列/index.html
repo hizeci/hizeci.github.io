@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>P1438无聊的数列 - having little or no sense, use, or purpose.</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="TRAGEDY:ETERNITY" /><meta name="description" content="" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.81.0 with theme even" />
+
+
+<link rel="canonical" href="https://hizeci.github.io/post/%E6%97%A0%E8%81%8A%E7%9A%84%E6%95%B0%E5%88%97/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+
+<link href="/sass/main.min.6a025d60334ccde9f765dedcf6936f4c2eb3ea8d22276e9f389bb2efc2d55e11.css" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+<meta property="og:title" content="P1438无聊的数列" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hizeci.github.io/post/%E6%97%A0%E8%81%8A%E7%9A%84%E6%95%B0%E5%88%97/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-03-22T19:22:27&#43;08:00" />
+<meta property="article:modified_time" content="2021-03-22T19:22:27&#43;08:00" />
+
+<meta itemprop="name" content="P1438无聊的数列">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-03-22T19:22:27&#43;08:00" />
+<meta itemprop="dateModified" content="2021-03-22T19:22:27&#43;08:00" />
+<meta itemprop="wordCount" content="343">
+<meta itemprop="keywords" content="线段树,差分," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="P1438无聊的数列"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">菜</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">P1438无聊的数列</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-03-22 </span>
+        <div class="post-category">
+            <a href="/categories/%E9%A2%98%E8%A7%A3/"> 题解 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>题意：</p>
+<p>区间加等差数列，单点查询。</p>
+<p>根据等差数列定义有$a_n-a_{n-1}=d$，所以说可以通过差分来实现快速加等差数列。</p>
+<p>这里假定使用$S$统计差分。</p>
+<ol>
+<li>对于$l$： $S_l=S_l+k$</li>
+<li>对于区间$(l,r]$：$S_i=S_i+D,l&lt;i\leq r$</li>
+<li>对于$r+1$：$S_r=S_r-(k+(r-l)\times d)$</li>
+</ol>
+<p>对于每次查询$p$的值，就是求$a_p+\sum\limits_{i=1}^p S_i$</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">const</span> <span class="kt">int</span> <span class="n">N</span><span class="o">=</span><span class="mf">2e5</span><span class="o">+</span><span class="mi">10</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">t</span><span class="p">[</span><span class="n">N</span><span class="o">&lt;&lt;</span><span class="mi">2</span><span class="p">],</span><span class="n">la</span><span class="p">[</span><span class="n">N</span><span class="o">&lt;&lt;</span><span class="mi">2</span><span class="p">];</span>
+<span class="kr">inline</span> <span class="kt">void</span> <span class="nf">push_up</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">){</span><span class="n">t</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">x</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">t</span><span class="p">[</span><span class="n">x</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="o">|</span><span class="mi">1</span><span class="p">]);}</span>
+<span class="kr">inline</span> <span class="kt">void</span> <span class="nf">push_down</span><span class="p">(</span><span class="kt">int</span> <span class="n">len</span><span class="p">,</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">la</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="k">return</span><span class="p">;</span>
+	<span class="n">la</span><span class="p">[</span><span class="n">x</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">]</span><span class="o">+=</span><span class="n">la</span><span class="p">[</span><span class="n">x</span><span class="p">],</span><span class="n">la</span><span class="p">[</span><span class="n">x</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="o">|</span><span class="mi">1</span><span class="p">]</span><span class="o">+=</span><span class="n">la</span><span class="p">[</span><span class="n">x</span><span class="p">];</span>
+	<span class="n">t</span><span class="p">[</span><span class="n">x</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">]</span><span class="o">+=</span><span class="p">(</span><span class="n">len</span><span class="o">-</span><span class="p">(</span><span class="n">len</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">la</span><span class="p">[</span><span class="n">x</span><span class="p">],</span><span class="n">t</span><span class="p">[</span><span class="n">x</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="o">|</span><span class="mi">1</span><span class="p">]</span><span class="o">+=</span><span class="p">(</span><span class="n">len</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">la</span><span class="p">[</span><span class="n">x</span><span class="p">];</span>
+	<span class="n">la</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">modify</span><span class="p">(</span><span class="kt">int</span> <span class="n">L</span><span class="p">,</span><span class="kt">int</span> <span class="n">R</span><span class="p">,</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span><span class="kt">int</span> <span class="n">r</span><span class="p">,</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span><span class="kt">int</span> <span class="n">k</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">L</span><span class="o">&lt;=</span><span class="n">l</span><span class="o">&amp;&amp;</span><span class="n">r</span><span class="o">&lt;=</span><span class="n">R</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">la</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">+=</span><span class="n">k</span><span class="p">;</span>
+		<span class="n">t</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">+=</span><span class="p">(</span><span class="n">r</span><span class="o">-</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">k</span><span class="p">;</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">push_down</span><span class="p">(</span><span class="n">r</span><span class="o">-</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">mid</span><span class="o">=</span><span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">L</span><span class="o">&lt;=</span><span class="n">mid</span><span class="p">)</span> <span class="n">modify</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">l</span><span class="p">,</span><span class="n">mid</span><span class="p">,</span><span class="n">x</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">,</span><span class="n">k</span><span class="p">);</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">mid</span><span class="o">&lt;</span><span class="n">R</span><span class="p">)</span> <span class="n">modify</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">mid</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">x</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="o">|</span><span class="mi">1</span><span class="p">,</span><span class="n">k</span><span class="p">);</span>
+	<span class="n">push_up</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">query</span><span class="p">(</span><span class="kt">int</span> <span class="n">L</span><span class="p">,</span><span class="kt">int</span> <span class="n">R</span><span class="p">,</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span><span class="kt">int</span> <span class="n">r</span><span class="p">,</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">L</span><span class="o">&lt;=</span><span class="n">l</span><span class="o">&amp;&amp;</span><span class="n">r</span><span class="o">&lt;=</span><span class="n">R</span><span class="p">)</span> <span class="k">return</span> <span class="n">t</span><span class="p">[</span><span class="n">x</span><span class="p">];</span>
+	<span class="n">push_down</span><span class="p">(</span><span class="n">r</span><span class="o">-</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">mid</span><span class="o">=</span><span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">,</span><span class="n">ret</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">L</span><span class="o">&lt;=</span><span class="n">mid</span><span class="p">)</span> <span class="n">ret</span><span class="o">+=</span><span class="n">query</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">l</span><span class="p">,</span><span class="n">mid</span><span class="p">,</span><span class="n">x</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">);</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">mid</span><span class="o">&lt;</span><span class="n">R</span><span class="p">)</span> <span class="n">ret</span><span class="o">+=</span><span class="n">query</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">mid</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">x</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="o">|</span><span class="mi">1</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">signed</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">m</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+	<span class="kt">int</span> <span class="n">opt</span><span class="p">,</span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">p</span><span class="p">;</span>
+	<span class="k">while</span><span class="p">(</span><span class="n">m</span><span class="o">--</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">opt</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">opt</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span> 
+		<span class="p">{</span>
+			<span class="n">l</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">r</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">k</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">d</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+			<span class="n">modify</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">l</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">k</span><span class="p">);</span>
+			<span class="k">if</span><span class="p">(</span><span class="n">l</span><span class="o">&lt;</span><span class="n">r</span><span class="p">)</span> <span class="n">modify</span><span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">d</span><span class="p">);</span>
+			<span class="k">if</span><span class="p">(</span><span class="n">r</span><span class="o">!=</span><span class="n">n</span><span class="p">)</span> <span class="n">modify</span><span class="p">(</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="p">(</span><span class="n">r</span><span class="o">-</span><span class="n">l</span><span class="p">)</span><span class="o">*</span><span class="n">d</span><span class="p">));</span>
+		<span class="p">}</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">opt</span><span class="o">==</span><span class="mi">2</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="n">p</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+			<span class="n">writeln</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">+</span><span class="n">query</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/">线段树</a>
+          <a href="/tags/%E5%B7%AE%E5%88%86/">差分</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/%E6%AD%A3%E6%95%B4%E6%95%B0%E5%B9%B3%E6%96%B9%E5%8F%8A%E6%9B%B4%E9%AB%98%E5%B9%82%E6%AC%A1%E5%85%AC%E5%BC%8F%E7%AE%80%E5%8D%95%E6%8E%A8%E5%AF%BC/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">正整数平方及更高幂次公式简单推导</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/%E5%9F%8E%E5%B8%82%E8%A7%84%E5%88%92/">
+            <span class="next-text nav-default">[SDOI2013]城市规划</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  <span id="/post/%E6%97%A0%E8%81%8A%E7%9A%84%E6%95%B0%E5%88%97/" class="leancloud_visitors" data-flag-title="P1438无聊的数列">
+		<span class="post-meta-item-text">文章阅读量 </span>
+		<span class="leancloud-visitors-count">0</span>
+		<p></p>
+	  </span>
+  <div id="vcomments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'F8xu4BfgVST0H6107wApro6n-gzGzoHsz',
+        appKey: 'qlgvukJKICXwyoy3NkVygfIu',
+        notify:  false ,
+        verify:  false ,
+        avatar:'mm',
+        placeholder: '说点什么吧...',
+        visitor:  true 
+    });
+  </script>
+
+  
+
+      </div>
+    </main>
+
+    
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        tags: 'ams',
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+    docsearch({
+    apiKey: "97c22106dbe3955818bc05a0be5f3511",
+    indexName: "hizeci's blog",
+    appId: "9HLPOQJVAD",
+    inputSelector: '.docsearch-input',
+    debug: false,
+    });
+</script>
+
+
+</body>
+</html>

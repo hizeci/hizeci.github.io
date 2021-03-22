@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>QwQcOrZ的数据结构题VI - having little or no sense, use, or purpose.</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="TRAGEDY:ETERNITY" /><meta name="description" content="" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.81.0 with theme even" />
+
+
+<link rel="canonical" href="https://hizeci.github.io/post/qwqcorz%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%A2%98vi/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+
+<link href="/sass/main.min.6a025d60334ccde9f765dedcf6936f4c2eb3ea8d22276e9f389bb2efc2d55e11.css" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+<meta property="og:title" content="QwQcOrZ的数据结构题VI" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hizeci.github.io/post/qwqcorz%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%A2%98vi/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-03-22T20:25:27&#43;08:00" />
+<meta property="article:modified_time" content="2021-03-22T20:25:27&#43;08:00" />
+
+<meta itemprop="name" content="QwQcOrZ的数据结构题VI">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-03-22T20:25:27&#43;08:00" />
+<meta itemprop="dateModified" content="2021-03-22T20:25:27&#43;08:00" />
+<meta itemprop="wordCount" content="262">
+<meta itemprop="keywords" content="线段树,数据结构," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="QwQcOrZ的数据结构题VI"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">菜</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">QwQcOrZ的数据结构题VI</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-03-22 </span>
+        <div class="post-category">
+            <a href="/categories/%E9%A2%98%E8%A7%A3/"> 题解 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>题意：</p>
+<p>给出一个序列，支持区间加等差数列，区间查询平方和。</p>
+<p>一操作的话直接差分就好了。</p>
+<p>假设原序列为$T$，在每个位置上进行$1$操作后的序列为$S$</p>
+<p>$a_i^2=(T_i+S_i)^2=T_i^2 +2T_iS_i+S_i^2 $</p>
+<p>每次一操作之后，都需要重新更新$2T_iS_i,S_i^2$。</p>
+<p>这里假设$S_i'$为更新前的$S_i$</p>
+<p>$2T_iS_i=2(T_i(S_i'+s+(i-l)k))$</p>
+<p>$S_i^2=(S_i'+(s+(i-l)k))^2$</p>
+<p>然后不是很会了，看一眼题解QAQ。</p>
+<p>需要计算的是$\sum\limits_{i=l}^r(a_i())$</p>
+<p>发现后一部分为等差数列平方和（这里将$S'$先略去？）</p>
+<p>$\begin{align} \sum\limits_{i=1}^n(s+(i-1)k)^2 &amp; = s^2+(s+k)^2+(s+2k)^2+\cdots+(s+(n-1)k)^2 \ &amp;= s^2+s^2+2sk+k^2+s^2+4sk+4k^2+\cdots+s^2+2(n-1)sk+(n-1)^2k^2 \ &amp; = ns^2+\sum\limits_{i=2}^n(2isk)+\frac{n(n-1)(2n-1)}{6}k^2(k^2\sum_{i=1}^{n-1}i^2 ) \ \end{align}$</p>
+<p>而$\sum\limits_{i=1}^{n-1}(2isk)=n(n-1)sk$</p>
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/">线段树</a>
+          <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/%E6%AD%A3%E6%95%B4%E6%95%B0%E5%B9%B3%E6%96%B9%E5%8F%8A%E6%9B%B4%E9%AB%98%E5%B9%82%E6%AC%A1%E5%85%AC%E5%BC%8F%E7%AE%80%E5%8D%95%E6%8E%A8%E5%AF%BC/">
+            <span class="next-text nav-default">正整数平方及更高幂次公式简单推导</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  <span id="/post/qwqcorz%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%A2%98vi/" class="leancloud_visitors" data-flag-title="QwQcOrZ的数据结构题VI">
+		<span class="post-meta-item-text">文章阅读量 </span>
+		<span class="leancloud-visitors-count">0</span>
+		<p></p>
+	  </span>
+  <div id="vcomments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'F8xu4BfgVST0H6107wApro6n-gzGzoHsz',
+        appKey: 'qlgvukJKICXwyoy3NkVygfIu',
+        notify:  false ,
+        verify:  false ,
+        avatar:'mm',
+        placeholder: '说点什么吧...',
+        visitor:  true 
+    });
+  </script>
+
+  
+
+      </div>
+    </main>
+
+    
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        tags: 'ams',
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+    docsearch({
+    apiKey: "97c22106dbe3955818bc05a0be5f3511",
+    indexName: "hizeci's blog",
+    appId: "9HLPOQJVAD",
+    inputSelector: '.docsearch-input',
+    debug: false,
+    });
+</script>
+
+
+</body>
+</html>
