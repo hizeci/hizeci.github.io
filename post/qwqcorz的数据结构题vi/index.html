@@ -49,7 +49,7 @@
 <meta itemprop="name" content="QwQcOrZ的数据结构题VI">
 <meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-03-22T20:25:27&#43;08:00" />
 <meta itemprop="dateModified" content="2021-03-22T20:25:27&#43;08:00" />
-<meta itemprop="wordCount" content="262">
+<meta itemprop="wordCount" content="930">
 <meta itemprop="keywords" content="线段树,数据结构," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="QwQcOrZ的数据结构题VI"/>
 <meta name="twitter:description" content=""/>
@@ -124,18 +124,33 @@
     <div class="post-content">
       <p>题意：</p>
 <p>给出一个序列，支持区间加等差数列，区间查询平方和。</p>
-<p>一操作的话直接差分就好了。</p>
-<p>假设原序列为$T$，在每个位置上进行$1$操作后的序列为$S$</p>
-<p>$a_i^2=(T_i+S_i)^2=T_i^2 +2T_iS_i+S_i^2 $</p>
-<p>每次一操作之后，都需要重新更新$2T_iS_i,S_i^2$。</p>
-<p>这里假设$S_i'$为更新前的$S_i$</p>
-<p>$2T_iS_i=2(T_i(S_i'+s+(i-l)k))$</p>
-<p>$S_i^2=(S_i'+(s+(i-l)k))^2$</p>
-<p>然后不是很会了，看一眼题解QAQ。</p>
-<p>需要计算的是$\sum\limits_{i=l}^r(a_i())$</p>
-<p>发现后一部分为等差数列平方和（这里将$S'$先略去？）</p>
-<p>$\begin{align} \sum\limits_{i=1}^n(s+(i-1)k)^2 &amp; = s^2+(s+k)^2+(s+2k)^2+\cdots+(s+(n-1)k)^2 \ &amp;= s^2+s^2+2sk+k^2+s^2+4sk+4k^2+\cdots+s^2+2(n-1)sk+(n-1)^2k^2 \ &amp; = ns^2+\sum\limits_{i=2}^n(2isk)+\frac{n(n-1)(2n-1)}{6}k^2(k^2\sum_{i=1}^{n-1}i^2 ) \ \end{align}$</p>
-<p>而$\sum\limits_{i=1}^{n-1}(2isk)=n(n-1)sk$</p>
+<p>原题解：</p>
+<p>需要计算的是$\sum\limits_{i=l}^r(a_i(s+(i-l)k)+(s+(i-l)k)^2)$</p>
+<p>发现后一部分为等差数列平方和</p>
+<p>$\begin{align} \sum\limits_{i=1}^n(s+(i-1)k)^2 &amp; = s^2+(s+k)^2+(s+2k)^2+\cdots+(s+(n-1)k)^2 \&amp;=s^2+s^2+2sk+k^2+s^2+4sk+4k^2+\cdots+s^2+2(n-1)sk+(n-1)^2k^2 \ &amp; = ns^2+\sum\limits_{i=2}^n(2isk)+\frac{n(n-1)(2n-1)}{6}k^2(k^2\sum_{i=1}^{n-1}i^2 ) \ \end{align}$</p>
+<p>其中$\sum\limits_{i=1}^{n-1}(2isk)=n(n-1)sk$（原题解写了$(skn^2)$但菜鸡认为是这个）。</p>
+<p>考虑如何计算$\sum\limits_{i=l}^r(a_i(s+(i-l)k))$</p>
+<p>将式子拆开得到$\sum\limits_{i=l}^r(a_i(s+(i-l)k))=\sum\limits_{i=l}^r a_is+\sum\limits_{i=l}^r(a_i(i-l)k)$(原题解第二个式子为$\sum\limits_{i=1}^r(a_i(i-1)k)$</p>
+<p>而$\sum\limits_{i=l}^r(a_i(i-l)k)=k(\sum\limits_{i=l}^r(a_i i)-l\sum\limits_{i=l}^r a_i)$</p>
+<p>那么可以在线段树上维护</p>
+<p>$\texttt{sum}=\sum_{i=l}^r a_i,\texttt{sum_}=\sum_{i=l}^r(a_i(i-l+1)),\texttt{pow}=\sum_{i=l}^r a_i^2$</p>
+<p>考虑如何修改$\texttt{sum_}$</p>
+<p>$\texttt{sum_=sum_}+\sum_{i=l}^r((s+(i-l)k)(i-l))=\frac{len(len-1)}{2}s+(\frac{len(len-1)(2len-1)}{6}-\frac{len(len-1)}{2})k$。</p>
+<p>以上为神<font color=#000000 size=3>L</font><font color=#FF0000 size=3>imit</font>的题解</p>
+<p>并不是很能看懂QAQ</p>
+<p>按个人的理解是求$\sum_{i=l}^r (a_i+(s+(i-l)k))^2$</p>
+<p>可以拆成$\sum_{i=l}^r a_i^2+2\sum_{i=l}^r(a_i(s+(i-l)k))+\sum_{i=l}^r(s+(i-l)k)^2$</p>
+<p>具体计算方法上面有写。</p>
+<p>然后就是考虑如何搞区间平方和，假设这里为加上一个数$x$。</p>
+<p>$\sum_{i=l}^r=(a_i+x)^2=(a_l^2+a_{l+1}^2+\cdots+a_{r-1}^2+a_r^2+2x(a_l+a_{l+1}+\cdots+a_{r-1}+a_r)+(r-l+1)x^2)$</p>
+<p>所以说区间修改的时候加上$2x\sum_{i=l}^r+(r-l+1)x^2$即可。</p>
+<p>维护的时候只要一个数组维护区间和，一个维护区间加的懒标记，一个维护区间平方和即可。</p>
+<p>那么加上一个等差数列呢？我好像不会……</p>
+<p>稍微推一下：$sum=(a_l+s)^2+(a_{l+1}+(s+k))^2+\cdots+(a_r+(s+(r-l)k))^2$</p>
+<p>拆开得到：$a_l^2+a_{l+1}^2+\cdots +a_r^2+2a_l s+2a_{l+1}(s+k)+\cdots+2a_r(s+(r-l)k)+s^2+(s+k)^2+\cdots+(s+(r-l)k)^2$</p>
+<p>仍然是拆成三部分搞$\sum_{i=l}^r a_i^2,2(s\sum_{i=l}^r a_i+k\sum_{i=l}^ra_i (i-l)),ns^2+(r-l+1)(r-l)sk+\frac{(r-l)(r-l+1)(2r-2l+1)}{6}k^2$</p>
+<p>这些显然都是已经维护了的东西。</p>
+<p>代码：不会。</p>
     </div>
 
     
