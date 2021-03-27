@@ -50,7 +50,7 @@
 <meta itemprop="name" content="后缀数组SA">
 <meta itemprop="description" content="本文章仅为菜鸡给自己参考，文章特别乱"><meta itemprop="datePublished" content="2021-03-12T20:38:43&#43;08:00" />
 <meta itemprop="dateModified" content="2021-03-12T20:38:43&#43;08:00" />
-<meta itemprop="wordCount" content="14065">
+<meta itemprop="wordCount" content="14232">
 <meta itemprop="keywords" content="SA,字符串,模板," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="后缀数组SA"/>
 <meta name="twitter:description" content="本文章仅为菜鸡给自己参考，文章特别乱"/>
@@ -155,6 +155,7 @@
             <li><a href="#结合单调栈">结合单调栈</a></li>
           </ul>
         </li>
+        <li><a href="#习题">习题</a></li>
       </ul>
     </li>
   </ul>
@@ -1906,6 +1907,7 @@ cacacaa#          | cacaa#
 <p>$\max (height[i])$</p>
 <h3 id="不可重叠最长重复子串">不可重叠最长重复子串</h3>
 <p>二分答案。找到所有满足$\min(height[i])\ge mid (l\leq i\leq r)$的区间（区间尽可能大），若$\max(sa[i])-\min(sa[i])\ge mid$则答案可行。（二分目标串的长度$|S|$，将$h$数组划分成若干个$LCP\ge|S|$的段，利用$RMQ$对每个段求其中出现的数最大和最小的下标，若这两个下标的距离满足条件，则一定有长度为$|S|$的字符串不重叠地出现了两次。）</p>
+<p><a href="https://www.luogu.com.cn/problem/AT5213">[ABC141E] Who Says a Pun?</a></p>
 <h3 id="最长回文子串">最长回文子串</h3>
 <p>枚举一下回文中心$p$，求出翻转过来之前的前缀$p$与后缀$p$的$LCP$更新答案。把串翻转过来接在后面使用$ST$表维护</p>
 <h3 id="最小表示法">最小表示法</h3>
@@ -2055,7 +2057,43 @@ cacacaa#          | cacaa#
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>之后写了其他题目再更新</p>
+</div><h2 id="习题">习题</h2>
+<ul>
+<li><a href="http://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=24&amp;page=show_problem&amp;problem=701">Uva 760 - DNA Sequencing</a></li>
+<li><a href="http://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=24&amp;page=show_problem&amp;problem=3664">Uva 1223 - Editor</a></li>
+<li><a href="https://www.codechef.com/problems/TANDEM">Codechef - Tandem</a></li>
+<li><a href="https://www.codechef.com/problems/ANUSAR">Codechef - Substrings and Repetitions</a></li>
+<li><a href="https://www.codechef.com/problems/TANGLED">Codechef - Entangled Strings</a></li>
+<li><a href="http://codeforces.com/problemset/problem/149/E">Codeforces - Martian Strings</a></li>
+<li><a href="http://codeforces.com/problemset/problem/204/E">Codeforces - Little Elephant and Strings</a></li>
+<li><a href="http://www.spoj.com/problems/ADAPHOTO/">SPOJ - Ada and Terramorphing</a></li>
+<li><a href="http://www.spoj.com/problems/ADASTRNG/">SPOJ - Ada and Substring</a></li>
+<li><a href="https://uva.onlinejudge.org/index.php?option=onlinejudge&amp;page=show_problem&amp;problem=3668">UVA - 1227 - The longest constant gene</a></li>
+<li><a href="http://www.spoj.com/problems/LCS/en/">SPOJ - Longest Common Substring</a></li>
+<li><a href="https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;page=show_problem&amp;problem=2507">UVA 11512 - GATTACA</a></li>
+<li><a href="https://icpcarchive.ecs.baylor.edu/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=720&amp;page=show_problem&amp;problem=5524">LA 7502 - Suffixes and Palindromes</a></li>
+<li><a href="http://codeforces.com/gym/100923/problem/D">GYM - Por Costel and the Censorship Committee</a></li>
+<li><a href="https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;page=show_problem&amp;problem=3695">UVA 1254 - Top 10</a></li>
+<li><a href="https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;page=show_problem&amp;problem=3343">UVA 12191 - File Recover</a></li>
+<li><a href="https://uva.onlinejudge.org/index.php?option=onlinejudge&amp;page=show_problem&amp;problem=3358">UVA 12206 - Stammering Aliens</a></li>
+<li><a href="https://www.codechef.com/problems/INSQ16F">Codechef - Jarvis and LCP</a></li>
+<li><a href="https://icpcarchive.ecs.baylor.edu/index.php?option=onlinejudge&amp;Itemid=8&amp;page=show_problem&amp;problem=1944">LA 3943 - Liking&rsquo;s Letter</a></li>
+<li><a href="https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;page=show_problem&amp;problem=2048">UVA 11107 - Life Forms</a></li>
+<li><a href="https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=862&amp;page=show_problem&amp;problem=4853">UVA 12974 - Exquisite Strings</a></li>
+<li><a href="https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;page=show_problem&amp;problem=1467">UVA 10526 - Intellectual Property</a></li>
+<li><a href="https://uva.onlinejudge.org/index.php?option=onlinejudge&amp;page=show_problem&amp;problem=3760">UVA 12338 - Anti-Rhyme Pairs</a></li>
+<li><a href="https://devskill.com/CodingProblems/ViewProblem/328">DevSkills Reconstructing Blue Print of Life</a></li>
+<li><a href="https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;page=show_problem&amp;problem=3343">UVA 12191 - File Recover</a></li>
+<li><a href="http://www.spoj.com/problems/SARRAY/">SPOJ - Suffix Array</a></li>
+<li><a href="https://icpcarchive.ecs.baylor.edu/index.php?option=com_onlinejudge&amp;Itemid=8&amp;page=show_problem&amp;problem=2514">LA 4513 - Stammering Aliens</a></li>
+<li><a href="http://www.spoj.com/problems/LCS2/">SPOJ - LCS2</a></li>
+<li><a href="http://codeforces.com/contest/802/problem/I">Codeforces - Fake News (hard)</a></li>
+<li><a href="http://www.spoj.com/problems/LONGCS/">SPOJ - Longest Commong Substring</a></li>
+<li><a href="http://www.spoj.com/problems/SUBLEX/">SPOJ - Lexicographical Substring Search</a></li>
+<li><a href="http://codeforces.com/contest/873/problem/F">Codeforces - Forbidden Indices</a></li>
+<li><a href="http://codeforces.com/contest/30/problem/E">Codeforces - Tricky and Clever Password</a></li>
+<li><a href="https://icpcarchive.ecs.baylor.edu/index.php?option=onlinejudge&amp;page=show_problem&amp;problem=4868">LA 6856 - Circle of digits</a></li>
+</ul>
     </div>
 
     

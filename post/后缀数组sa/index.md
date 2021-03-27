@@ -1160,6 +1160,8 @@ $\max (height[i])$
 
 二分答案。找到所有满足$\min(height[i])\ge mid (l\leq i\leq r)$的区间（区间尽可能大），若$\max(sa[i])-\min(sa[i])\ge mid$则答案可行。（二分目标串的长度$|S|$，将$h$数组划分成若干个$LCP\ge|S|$的段，利用$RMQ$对每个段求其中出现的数最大和最小的下标，若这两个下标的距离满足条件，则一定有长度为$|S|$的字符串不重叠地出现了两次。）
 
+[[ABC141E] Who Says a Pun?](https://www.luogu.com.cn/problem/AT5213)
+
 ### 最长回文子串
 
 枚举一下回文中心$p$，求出翻转过来之前的前缀$p$与后缀$p$的$LCP$更新答案。把串翻转过来接在后面使用$ST$表维护
@@ -1301,7 +1303,42 @@ signed main()
 }
 ```
 
-之后写了其他题目再更新
+## 习题
+
+- [Uva 760 - DNA Sequencing](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=24&page=show_problem&problem=701)
+- [Uva 1223 - Editor](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=24&page=show_problem&problem=3664)
+- [Codechef - Tandem](https://www.codechef.com/problems/TANDEM)
+- [Codechef - Substrings and Repetitions](https://www.codechef.com/problems/ANUSAR)
+- [Codechef - Entangled Strings](https://www.codechef.com/problems/TANGLED)
+- [Codeforces - Martian Strings](http://codeforces.com/problemset/problem/149/E)
+- [Codeforces - Little Elephant and Strings](http://codeforces.com/problemset/problem/204/E)
+- [SPOJ - Ada and Terramorphing](http://www.spoj.com/problems/ADAPHOTO/)
+- [SPOJ - Ada and Substring](http://www.spoj.com/problems/ADASTRNG/)
+- [UVA - 1227 - The longest constant gene](https://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=3668)
+- [SPOJ - Longest Common Substring](http://www.spoj.com/problems/LCS/en/)
+- [UVA 11512 - GATTACA](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2507)
+- [LA 7502 - Suffixes and Palindromes](https://icpcarchive.ecs.baylor.edu/index.php?option=com_onlinejudge&Itemid=8&category=720&page=show_problem&problem=5524)
+- [GYM - Por Costel and the Censorship Committee](http://codeforces.com/gym/100923/problem/D)
+- [UVA 1254 - Top 10](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=3695)
+- [UVA 12191 - File Recover](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=3343)
+- [UVA 12206 - Stammering Aliens](https://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=3358)
+- [Codechef - Jarvis and LCP](https://www.codechef.com/problems/INSQ16F)
+- [LA 3943 - Liking's Letter](https://icpcarchive.ecs.baylor.edu/index.php?option=onlinejudge&Itemid=8&page=show_problem&problem=1944)
+- [UVA 11107 - Life Forms](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2048)
+- [UVA 12974 - Exquisite Strings](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=862&page=show_problem&problem=4853)
+- [UVA 10526 - Intellectual Property](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1467)
+- [UVA 12338 - Anti-Rhyme Pairs](https://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=3760)
+- [DevSkills Reconstructing Blue Print of Life](https://devskill.com/CodingProblems/ViewProblem/328)
+- [UVA 12191 - File Recover](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=3343)
+- [SPOJ - Suffix Array](http://www.spoj.com/problems/SARRAY/)
+- [LA 4513 - Stammering Aliens](https://icpcarchive.ecs.baylor.edu/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2514)
+- [SPOJ - LCS2](http://www.spoj.com/problems/LCS2/)
+- [Codeforces - Fake News (hard)](http://codeforces.com/contest/802/problem/I)
+- [SPOJ - Longest Commong Substring](http://www.spoj.com/problems/LONGCS/)
+- [SPOJ - Lexicographical Substring Search](http://www.spoj.com/problems/SUBLEX/)
+- [Codeforces - Forbidden Indices](http://codeforces.com/contest/873/problem/F)
+- [Codeforces - Tricky and Clever Password](http://codeforces.com/contest/30/problem/E)
+- [LA 6856 - Circle of digits](https://icpcarchive.ecs.baylor.edu/index.php?option=onlinejudge&page=show_problem&problem=4868)
 
 
 

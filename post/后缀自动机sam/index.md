@@ -368,7 +368,7 @@ $f(u,v)=w$，$w$一定是$s$的一个后缀，因为走到接受态（接受态�
 
 ### 对操作次数为线性的证明
 
-首先我们假设字符集大小为 **常数**。如果字符集大小不是常数，SAM 的时间复杂度就不是线性的。从一个结点出发的转移存储在支持快速查询和插入的平衡树中。因此如果我们记 $\Sigma$ 为字符集，$\left|\Sigma\right|$ 为字符集大小，则算法的渐进时间复杂度为 $O(n\log\left|\Sigma\right|)$，空间复杂度为 $O(n)$。然而如果字符集足够小，可以不写平衡树，以空间换时间将每个结点的转移存储为长度为 $\left|\Sigma\right|$ 的数组（用于快速查询）和链表（用于快速遍历所有可用关键字）。这样算法的时间复杂度为 $O(n)$，空间复杂度为 $O(n\left|\Sigma\right|)$。
+首先我们假设字符集大小为 **常数**。如果字符集大小不是常数，SAM 的时间复杂度就不是线性的。从一个结点出发的转移存储在支持快速查询和插入的平衡树中。因此如果我们记 $\Sigma$ 为字符集，$\left|\Sigma\right|$ 为字符集大小，则算法的渐进时间复杂度为 $O(n\log\left|\Sigma\right|)$，空间复杂度为 $O(n)$。然而如果字符集足够小，可以不写平衡树，以空间换时间将每个结点的转移存储为长度为 $\left|\Sigma\right|$ 的数组（用于快速查询）和链表（用于快速遍历所有可用关键字）。这样算法的时间复杂度为 $O(n)$，空间复杂度为 $O(n\left|\Sigma\right|)$。（其实可以哈希表把空间也搞到均摊$O(n)$）
 
 所以我们将认为字符集的大小为常数，即每次对一个字符搜索转移、添加转移、查找下一个转移。这些操作的时间复杂度都为 $O(1)$。
 
@@ -650,15 +650,337 @@ signed main()
 }
 ```
 
-
-
 ）
+
+例题：[【模板】后缀自动机](https://www.luogu.com.cn/problem/P3804)，[SDOI2016 生成魔咒](https://loj.ac/problem/2033)
+
+【模板】后缀自动机题解：
+
+第一种写法比较简单就是串长度乘上$end$集合大小（之后称这个为`siz`）。
+
+具体做法就是把每个前缀所属的点的`siz` 设为$1$，可以证明这些点是前缀对应的$end$出现的$\texttt{parent}$树上最深的点，因为无法在这些前缀前面加东西。
+
+这种方法需要把树建出来，常数较大。
+
+另外一种常数更小的方法是:先按照`len`排序,然后`len`大的先贡献。
+
+由于$fa.len>u.len$正确性显然。
+
+这个排序如果用 `std::sort` 的话复杂度反而会带 $log$ ,那就得不偿失了。
+
+观察到所有的$len\leq n$ ,不妨使用基数排序。
+
+但是这种方法有一定的局限性,比如说广义 $\texttt{SAM}$用不了,某些时候操作麻烦等等……
+
+我们也维护了某个点的最长串`len`，统计$\max\limits_u[u.siz<1](u.siz\times u.len)$即可。
+
+代码，为第一种方法：
+
+```c++
+vector<int>e[N<<1];
+int n;
+ll ans;
+char str[N];
+int s[N];
+void dfs1(int u)
+{
+	for(int v:e[u])
+	{
+		dfs1(v);
+		a[u].siz+=a[v].siz;
+	}
+	if(a[u].siz>1) ckmax(ans,1ll*a[u].siz*a[u].len);
+}
+signed main()
+{
+	scanf("%s",str+1);
+	n=strlen(str+1);
+	init_SAM();
+	R(i,1,n) s[i]=str[i]-'a';
+	R(i,1,n) extend_SAM(s[i]);
+	int p=0;
+	R(i,1,n)
+	{
+		p=a[p].son[s[i]];
+		a[p].siz=1;
+	}
+	R(i,1,tn) e[a[i].nxt].pb(i);
+	dfs1(0);
+	writeln(ans);
+}
+
+```
+
+### 所有不同子串的总长度
+
+> 给定一个字符串 $S$，计算所有不同子串的总长度。
+
+本题做法与上一题类似，只是现在我们需要考虑分两部分进行动态规划：不同子串的数量 $d_{v}$ 和它们的总长度 $ans_{v}$。
+
+我们已经在上一题中介绍了如何计算 $d_{v}$。$ans_{v}$ 的值可以通过以下递推式计算：
+
+$$
+ans_{v}=\sum_{w:(v,w,c)\in DAWG}d_{w}+ans_{w}
+$$
+
+我们取每个邻接结点 $w$ 的答案，并加上 $d_{w}$（因为从状态 $v$ 出发的子串都增加了一个字符）。
+
+算法的时间复杂度仍然是 $O(\left|S\right|)$。
+
+同样可以利用上述后缀自动机的树形结构。每个节点对应的所有后缀长度是 $\frac{\operatorname{len}(i)\times (\operatorname{len}(i)+1)}{2}$，减去其 $\operatorname{link}$ 节点的对应值就是该节点的净贡献，对自动机所有节点求和即可。
+
+### 字典序第 k 大子串
+
+> 给定一个字符串 $S$。多组询问，每组询问给定一个数 $K_i$，查询 $S$ 的所有子串中字典序第 $K_i$ 大的子串。
+
+解决这个问题的思路可以从解决前两个问题的思路发展而来。字典序第 $k$ 大的子串对应于 SAM 中字典序第 $k$ 大的路径，因此在计算每个状态的路径数后，我们可以很容易地从 SAM 的根开始找到第 $k$ 大的路径。
+
+预处理的时间复杂度为 $O(\left|S\right|)$，单次查询的复杂度为 $O(\left|ans\right|\cdot\left|\Sigma\right|)$（其中 $ans$ 是查询的答案，$\left|\Sigma\right|$ 为字符集的大小）。
+
+> 虽然该题是后缀自动机的经典题，但实际上这题由于涉及字典序，用后缀数组做最方便。
+
+例题：[SPOJ - SUBLEX](https://www.spoj.com/problems/SUBLEX/)，[TJOI2015 弦论](https://loj.ac/problem/2102)
+
+弦论简要题解：
+
+考虑使用线段树上二分的思路在$\texttt{SAM}$上跳。
+
+假设当前到达了某个点，暴力枚举出边，选定后剩余的$k$要减去比当前构造串小的串的个数。
+
+- 本质相同子串只算一次
+
+$f[u]=$从该点出发的路径的总条数，可以直接`dp`出来（类似不同子串个数方法$1$）
+
+- 本质相同子串算多次
+
+一个子串出现次数$s$为$end$集合大小
+
+那么我们就是需要统计`DAG`上$u$的一颗子`DAG`内，$\sum\limits_{u\to v} v.siz$
+
+也就是每一串的贡献就是$end$集合大小。
+
+在本质不同子串中空串的贡献为$1$，现在改成`siz`
+
+以及这道题不计算空串，要把$f[0]$的贡献去掉。
+
+然后$f[0]<k$即无解。
+
+注意其他点空串的贡献是不能去掉的,因为空串表示停止在该点。
+
+> 给定一个字符串 $S$。找出字典序最小的循环移位。
+
+容易发现字符串 $S+S$ 包含字符串 $S$ 的所有循环移位作为子串。
+
+所以问题简化为在 $S+S$ 对应的后缀自动机上寻找最小的长度为 $\left|S\right|$ 的路径，这可以通过平凡的方法做到：我们从初始状态开始，贪心地访问最小的字符即可。
+
+总的时间复杂度为 $O(\left|S\right|)$。
+
+### 出现次数
+
+> 对于一个给定的文本串 $T$，有多组询问，每组询问给一个模式串 $P$，回答模式串 $P$ 在字符串 $T$ 中作为子串出现了多少次。
+
+利用后缀自动机的树形结构，进行 dfs 即可预处理每个节点的终点集合大小。在自动机上查找模式串 $P$ 对应的节点，如果存在，则答案就是该节点的终点集合大小；如果不存在，则答案为 $0$.
+
+以下为原方法：
+
+> 对文本串 $T$ 构造后缀自动机。
+>
+> 接下来做预处理：对于自动机中的每个状态 $v$，预处理 $cnt_{v}$，使之等于 $\operatorname{endpos}(v)$ 集合的大小。事实上，对应同一状态 $v$ 的所有子串在文本串 $T$ 中的出现次数相同，这相当于集合 $\operatorname{endpos}$ 中的位置数。
+>
+> 然而我们不能明确的构造集合 $\operatorname{endpos}$，因此我们只考虑它们的大小 $cnt$。
+>
+> 为了计算这些值，我们进行以下操作。对于每个状态，如果它不是通过复制创建的（且它不是初始状态 $t_0$），我们将它的 $cnt$ 初始化为 1。然后我们按它们的长度 $\operatorname{len}$ 降序遍历所有状态，并将当前的 $cnt_{v}$ 的值加到后缀链接指向的状态上，即：
+>
+> $$
+> cnt_{\operatorname{link}(v)}+=cnt_{v}
+> $$
+>
+> 这样做每个状态的答案都是正确的。
+>
+> 为什么这是正确的？不是通过复制获得的状态，恰好有 $\left|T\right|$ 个，并且它们中的前 $i$ 个在我们插入前 $i$ 个字符时产生。因此对于每个这样的状态，我们在它被处理时计算它们所对应的位置的数量。因此我们初始将这些状态的 $cnt$ 的值赋为 $1$，其它状态的 $cnt$ 值赋为 $0$。
+>
+> 接下来我们对每一个 $v$ 执行以下操作：$cnt_{\operatorname{link}(v)}+=cnt_{v}$。其背后的含义是，如果有一个字符串 $v$ 出现了 $cnt_{v}$ 次，那么它的所有后缀也在完全相同的地方结束，即也出现了 $cnt_{v}$ 次。
+>
+> 为什么我们在这个过程中不会重复计数（即把某些位置数了两次）呢？因为我们只将一个状态的位置添加到 **一个** 其它的状态上，所以一个状态不可能以两种不同的方式将其位置重复地指向另一个状态。
+>
+> 因此，我们可以在 $O(\left|T\right|)$ 的时间内计算出所有状态的 $cnt$ 的值。
+>
+> 最后回答询问只需要查找值 $cnt_{t}$，其中 $t$ 为模式串对应的状态，如果该模式串不存在答案就为 $0$。单次查询的时间复杂度为 $O(\left|P\right|)$。
+
+### 第一次出现的位置
+
+> 给定一个文本串 $T$，多组查询。每次查询字符串 $P$ 在字符串 $T$ 中第一次出现的位置（$P$ 的开头位置）。
+
+我们构造一个后缀自动机。我们对 SAM 中的所有状态预处理位置 $\operatorname{firstpos}$。即，对每个状态 $v$ 我们想要找到第一次出现这个状态的末端的位置 $\operatorname{firstpos}[v]$。换句话说，我们希望先找到每个集合 $\operatorname{endpos}$ 中的最小的元素（显然我们不能显式地维护所有 $\operatorname{endpos}$ 集合）。
+
+为了维护 $\operatorname{firstpos}$ 这些位置，我们将原函数扩展为 `sam_extend()`。当我们创建新状态 $\textit{cur}$ 时，我们令：
+
+$$
+\operatorname{firstpos}(\textit{cur})=\operatorname{len}(\textit{cur})-1
+$$
+
+；当我们将结点 $q$ 复制到 $\textit{clone}$ 时，我们令：
+
+$$
+\operatorname{firstpos}(\textit{clone})=\operatorname{firstpos}(q)
+$$
+
+（因为值的唯一的其它选项 $\operatorname{firstpos}(\textit{cur})$ 显然太大了）。
+
+那么查询的答案就是 $\operatorname{firstpos}(t)-\left|P\right|+1$，其中 $t$ 为对应字符串 $P$ 的状态。单次查询只需要 $O(\left|P\right|)$ 的时间。
+
+### 所有出现的位置
+
+> 问题同上，这一次需要查询文本串 $T$ 中模式串出现的所有位置。
+
+利用后缀自动机的树形结构，遍历子树，一旦发现终点节点就输出。
+
+以下为原解法：
+
+> 我们还是对文本串 $T$ 构造后缀自动机。与上一个问题相似，我们为所有状态计算位置 $\operatorname{firstpos}$。
+>
+> 如果 $t$ 为对应于模式串 $T$ 的状态，显然 $\operatorname{firstpos}(t)$ 为答案的一部分。需要查找的其它位置怎么办？我们使用了含有字符串 $P$ 的自动机，我们还需要将哪些状态纳入自动机呢？所有对应于以 $P$ 为后缀的字符串的状态。换句话说我们要找到所有可以通过后缀链接到达状态 $t$ 的状态。
+>
+> 因此为了解决这个问题，我们需要为每一个状态保存一个指向它的后缀引用列表。查询的答案就包含了对于每个我们能从状态 $t$ 只使用后缀引用进行 DFS 或 BFS 的所有状态的 $\operatorname{firstpos}$ 值。
+>
+> 这种变通方案的时间复杂度为 $O(\textit{answer}(P))$，因为我们不会重复访问一个状态（因为对于仅有一个后缀链接指向一个状态，所以不存在两条不同的路径指向同一状态）。
+>
+> 我们只需要考虑两个可能有相同 $\operatorname{endpos}$ 值的不同状态。如果一个状态是由另一个复制而来的，则这种情况会发生。然而，这并不会对复杂度分析造成影响，因为每个状态至多被复制一次。
+>
+> 此外，如果我们不从被复制的节点输出位置，我们也可以去除重复的位置。事实上对于一个状态，如果经过被复制状态可以到达，则经过原状态也可以到达。因此，如果我们给每个状态记录标记 `is_clone` 来代表这个状态是不是被复制出来的，我们就可以简单地忽略掉被复制的状态，只输出其它所有状态的 $firstpos$ 的值。
+>
+> 以下是大致的实现：
+>
+> ```cpp
+> struct state {
+> bool is_clone;
+> int first_pos;
+> std::vector<int> inv_link;
+> // some other variables
+> };
+> 
+> // 在构造 SAM 后
+> for (int v = 1; v < sz; v++) st[st[v].link].inv_link.push_back(v);
+> 
+> // 输出所有出现位置
+> void output_all_occurrences(int v, int P_length) {
+> if (!st[v].is_clone) cout << st[v].first_pos - P_length + 1 << endl;
+> for (int u : st[v].inv_link) output_all_occurrences(u, P_length);
+> }
+> ```
+
+### 最短的没有出现的字符串
+
+> 给定一个字符串 $S$ 和一个特定的字符集，我们要找一个长度最短的没有在 $S$ 中出现过的字符串。
+
+我们在字符串 $S$ 的后缀自动机上做动态规划。
+
+令 $d_{v}$ 为节点 $v$ 的答案，即，我们已经处理完了子串的一部分，当前在状态 $v$，想找到不连续的转移需要添加的最小字符数量。计算 $d_{v}$ 非常简单。如果不存在使用字符集中至少一个字符的转移，则 $d_{v}=1$。否则添加一个字符是不够的，我们需要求出所有转移中的最小值：
+
+$$
+d_{v}=1+\min_{w:(v,w,c)\in SAM}d_{w}
+$$
+
+问题的答案就是 $d_{t_0}$，字符串可以通过计算过的数组 $d$ 逆推回去。
+
+### 两个字符串的最长公共子串
+
+> 给定两个字符串 $S$ 和 $T$，求出最长公共子串，公共子串定义为在 $S$ 和 $T$ 中都作为子串出现过的字符串 $X$。
+
+我们对字符串 $S$ 构造后缀自动机。
+
+我们现在处理字符串 $T$，对于每一个前缀，都在 $S$ 中寻找这个前缀的最长后缀。换句话说，对于每个字符串 $T$ 中的位置，我们想要找到这个位置结束的 $S$ 和 $T$ 的最长公共子串的长度。显然问题的答案就是所有 $l$ 的最大值。
+
+为了达到这一目的，我们使用两个变量，**当前状态**  $v$ 和 **当前长度**  $l$。这两个变量描述当前匹配的部分：它的长度和它们对应的状态。
+
+一开始 $v=t_0$ 且 $l=0$，即，匹配为空串。
+
+现在我们来描述如何添加一个字符 $T_{i}$ 并为其重新计算答案：
+
+- 如果存在一个从 $v$ 到字符 $T_{i}$ 的转移，我们只需要转移并让 $l$ 自增一。
+- 如果不存在这样的转移，我们需要缩短当前匹配的部分，这意味着我们需要按照后缀链接进行转移：
+
+$$
+v=\operatorname{link}(v)
+$$
+
+与此同时，需要缩短当前长度。显然我们需要将 $l$ 赋值为 $\operatorname{len}(v)$，因为经过这个后缀链接后我们到达的状态所对应的最长字符串是一个子串。
+
+- 如果仍然没有使用这一字符的转移，我们继续重复经过后缀链接并减小 $l$，直到我们找到一个转移或到达虚拟状态 $-1$（这意味着字符 $T_{i}$ 根本没有在 $S$ 中出现过，所以我们设置 $v=l=0$）。
+
+这一部分的时间复杂度为 $O(\left|T\right|)$，因为每次移动我们要么可以使 $l$ 增加一，要么可以在后缀链接间移动几次，每次都减小 $l$ 的值。
+
+代码实现：
+
+```cpp
+string lcs(const string &S, const string &T) {
+  sam_init();
+  for (int i = 0; i < S.size(); i++) sam_extend(S[i]);
+
+  int v = 0, l = 0, best = 0, bestpos = 0;
+  for (int i = 0; i < T.size(); i++) {
+    while (v && !st[v].next.count(T[i])) {
+      v = st[v].link;
+      l = st[v].length;
+    }
+    if (st[v].next.count(T[i])) {
+      v = st[v].next[T[i]];
+      l++;
+    }
+    if (l > best) {
+      best = l;
+      bestpos = i;
+    }
+  }
+  return t.substr(bestpos - best + 1, best);
+}
+```
+
+例题：[SPOJ Longest Common Substring](https://www.spoj.com/problems/LCS/en/)
+
+### 多个字符串间的最长公共子串
+
+> 给定 $k$ 个字符串 $S_i$。我们需要找到它们的最长公共子串，即作为子串出现在每个字符串中的字符串 $X$。
+
+我们将所有的子串连接成一个较长的字符串 $T$，以特殊字符 $D_i$ 分开每个字符串（一个字符对应一个字符串）：
+
+$$
+T=S_1+D_1+S_2+D_2+\cdots+S_k+D_k.
+$$
+
+然后对字符串 $T$ 构造后缀自动机。
+
+现在我们需要在自动机中找到存在于所有字符串 $S_i$ 中的一个字符串，这可以通过使用添加的特殊字符完成。注意如果 $S_j$ 包含了一个子串，则 SAM 中存在一条从包含字符 $D_j$ 的子串而不包含以其它字符 $D_1,\,\ldots,\,D_{j-1},\,D_{j+1},\,\ldots,\,D_k$ 开始的路径。
+
+因此我们需要计算可达性，即对于自动机中的每个状态和每个字符 $D_i$，是否存在这样的一条路径。这可以容易地通过 DFS 或 BFS 及动态规划计算。之后，问题的答案就是状态 $v$ 的字符串 $\operatorname{longest}(v)$ 中存在所有特殊字符的路径。
+
+例题：[SPOJ Longest Common Substring II](https://www.spoj.com/problems/LCS2/)
+
+## 例题
+
+- [HihoCoder #1441 : 后缀自动机一·基本概念](http://hihocoder.com/problemset/problem/1441)
+- [【模板】后缀自动机](https://www.luogu.com.cn/problem/P3804)
+- [SDOI2016 生成魔咒](https://loj.ac/problem/2033)
+- [SPOJ - SUBLEX](https://www.spoj.com/problems/SUBLEX/)
+- [TJOI2015 弦论](https://loj.ac/problem/2102)
+- [SPOJ Longest Common Substring](https://www.spoj.com/problems/LCS/en/)
+- [SPOJ Longest Common Substring II](https://www.spoj.com/problems/LCS2/)
+- [Codeforces 1037H Security](https://codeforces.com/problemset/problem/1037/H)
+- [Codeforces 666E Forensic Examination](https://codeforces.com/problemset/problem/666/E)
+- [HDu4416 Good Article Good sentence](http://acm.hdu.edu.cn/showproblem.php?pid=4416)
+- [HDu4436 str2int](http://acm.hdu.edu.cn/showproblem.php?pid=4436)
+- [HDu6583 Typewriter](http://acm.hdu.edu.cn/showproblem.php?pid=6583)
+- [Codeforces 235C Cyclical Quest](https://codeforces.com/problemset/problem/235/C)
+- [CTSC2012 熟悉的文章](https://www.luogu.com.cn/problem/P4022)
+- [NOI2018 你的名字](https://uoj.ac/problem/395)
 
 ### 参考资料
 
 [commond_block](https://www.luogu.com.cn/blog/command-block/hou-zhui-zi-dong-ji-xue-xi-bi-ji)
 
 [oi-wiki](https://oi-wiki.org/string/sam/#_5)
+
+[wallace](https://www.cnblogs.com/-Wallace-/p/sam.html)
 
 之后可能还要补一个孔姥爷的。
 
