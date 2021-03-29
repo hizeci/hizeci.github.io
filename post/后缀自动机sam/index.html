@@ -49,7 +49,7 @@
 <meta itemprop="name" content="后缀自动机SAM">
 <meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-03-19T07:56:56&#43;08:00" />
 <meta itemprop="dateModified" content="2021-03-19T07:56:56&#43;08:00" />
-<meta itemprop="wordCount" content="19948">
+<meta itemprop="wordCount" content="20266">
 <meta itemprop="keywords" content="SAM," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="后缀自动机SAM"/>
 <meta name="twitter:description" content=""/>
@@ -158,6 +158,7 @@
             <li><a href="#第一次出现的位置">第一次出现的位置</a></li>
             <li><a href="#所有出现的位置">所有出现的位置</a></li>
             <li><a href="#最短的没有出现的字符串">最短的没有出现的字符串</a></li>
+            <li><a href="#textttsam与textttac自动机的相似性">$\texttt{SAM}$与$\texttt{AC}$自动机的相似性</a></li>
             <li><a href="#两个字符串的最长公共子串">两个字符串的最长公共子串</a></li>
             <li><a href="#多个字符串间的最长公共子串">多个字符串间的最长公共子串</a></li>
           </ul>
@@ -916,6 +917,7 @@ $$</p>
 <p>因此，我们可以在 $O(\left|T\right|)$ 的时间内计算出所有状态的 $cnt$ 的值。</p>
 <p>最后回答询问只需要查找值 $cnt_{t}$，其中 $t$ 为模式串对应的状态，如果该模式串不存在答案就为 $0$。单次查询的时间复杂度为 $O(\left|P\right|)$。</p>
 </blockquote>
+<p>（$\texttt{SAM}$本质上是将一个trie压缩后得到的结果，所以可以直接跳转移边得到，最后结果就是状态数。状态数可以dfs预处理出来，时间复杂度$O(|S|+|T|)$。）</p>
 <h3 id="第一次出现的位置">第一次出现的位置</h3>
 <blockquote>
 <p>给定一个文本串 $T$，多组查询。每次查询字符串 $P$ 在字符串 $T$ 中第一次出现的位置（$P$ 的开头位置）。</p>
@@ -992,6 +994,11 @@ $$</p>
 d_{v}=1+\min_{w:(v,w,c)\in SAM}d_{w}
 $$</p>
 <p>问题的答案就是 $d_{t_0}$，字符串可以通过计算过的数组 $d$ 逆推回去。</p>
+<h3 id="textttsam与textttac自动机的相似性">$\texttt{SAM}$与$\texttt{AC}$自动机的相似性</h3>
+<p>回忆：自动机某个点表示的串，是指根到该点的路径构成的所有串。</p>
+<p>众所周知，AC自动机的<code>fail</code>指针指向的地方，是该节点表示的串的最长后缀，也就是把前面去掉（尽可能少的）一点。</p>
+<p>我们注意到$\texttt{SAM}$的<code>fa</code>指针有同样的性质：儿子是由父亲在前面加字符产生的，那么父亲就可以视作在儿子前面去掉字符。</p>
+<p>我们完全可以将$\texttt{SAM}$理解为把某个串的所有子串建立AC自动机。</p>
 <h3 id="两个字符串的最长公共子串">两个字符串的最长公共子串</h3>
 <blockquote>
 <p>给定两个字符串 $S$ 和 $T$，求出最长公共子串，公共子串定义为在 $S$ 和 $T$ 中都作为子串出现过的字符串 $X$。</p>
