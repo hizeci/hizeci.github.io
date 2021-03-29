@@ -122,7 +122,8 @@
   </div>
 </div>
     <div class="post-content">
-      <p>先考虑只有一组查询的情况。</p>
+      <p><img src="https://i.loli.net/2021/03/29/jOkZgWiGL9upbFy.png" alt="QQ图片20210329104045.png"></p>
+<p>先考虑只有一组查询的情况。</p>
 <p>考虑分治，分别求出$[l,mid],[mid,r]$两个区间满足条件的区间个数，这显然可以<code>two pointer</code>扫。</p>
 <p>然后考虑两个区间合并，即跨过中点的合法区间个数。</p>
 <p>可以第一次枚举前者的后缀来移动后者，第二次枚举后者的前缀来枚举前者。</p>

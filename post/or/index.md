@@ -1,6 +1,14 @@
 
 <!--more-->
 
+![QQ图片20210329104045.png](https://i.loli.net/2021/03/29/jOkZgWiGL9upbFy.png)
+
+
+
+
+
+
+
 先考虑只有一组查询的情况。
 
 考虑分治，分别求出$[l,mid],[mid,r]$两个区间满足条件的区间个数，这显然可以`two pointer`扫。
