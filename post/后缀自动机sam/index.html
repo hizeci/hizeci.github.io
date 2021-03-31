@@ -49,7 +49,7 @@
 <meta itemprop="name" content="后缀自动机SAM">
 <meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-03-19T07:56:56&#43;08:00" />
 <meta itemprop="dateModified" content="2021-03-19T07:56:56&#43;08:00" />
-<meta itemprop="wordCount" content="20266">
+<meta itemprop="wordCount" content="20923">
 <meta itemprop="keywords" content="SAM," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="后缀自动机SAM"/>
 <meta name="twitter:description" content=""/>
@@ -999,6 +999,33 @@ $$</p>
 <p>众所周知，AC自动机的<code>fail</code>指针指向的地方，是该节点表示的串的最长后缀，也就是把前面去掉（尽可能少的）一点。</p>
 <p>我们注意到$\texttt{SAM}$的<code>fa</code>指针有同样的性质：儿子是由父亲在前面加字符产生的，那么父亲就可以视作在儿子前面去掉字符。</p>
 <p>我们完全可以将$\texttt{SAM}$理解为把某个串的所有子串建立AC自动机。</p>
+<h4 id="sp1811-lcs---最长公共子串httpswwwluoguorgproblemsp1811"><a href="https://www.luogu.org/problem/SP1811"><strong>SP1811 LCS - 最长公共子串</strong></a></h4>
+<p>将两个串称为$S_1,S_2$，</p>
+<p>对于$S_2$设一个数组为$slen[1\cdots|S_2|]$。</p>
+<p>$slen[i]$表示$S_1$中$S_1[i-slen[i]+1,i]$在$S_2$中出现过，即以$i$<strong>结尾</strong>的位置的<strong>最长匹配长度</strong>。</p>
+<p>即&quot;每个前缀匹配出的最长后缀&quot;，不难发现，$slen$数组的$\max$就是答案。</p>
+<p>具体做法：</p>
+<p>对$S_1$建立SAM，然后当做AC自动机来用。</p>
+<p>把$S_2$拿到上面跑匹配，如果当前节点有出边则匹配长度++</p>
+<p>否则，跳<code>fail</code>直到有出边位置，匹配长度变为该点的<code>len+1</code>。</p>
+<p>如果回到根还是不能匹配，匹配长度是$0$。</p>
+<p>代码：咕咕咕</p>
+<h4 id="sp1812-lcs2---多串最长公共子串httpswwwluoguorgproblemsp1812"><a href="https://www.luogu.org/problem/SP1812">SP1812 LCS2 - 多串最长公共子串</a></h4>
+<p>类似地，把第一个串当做匹配串，其他的串建立SAM</p>
+<p>把第一个串在每个SAM跑匹配，$slen$对当前匹配长度取$\min$。</p>
+<p>最终答案为整个$slen$的$\max$。</p>
+<p>代码：咕咕咕</p>
+<h4 id="cf235c-cyclical-questhttpswwwluoguorgproblemcf235c"><a href="https://www.luogu.org/problem/CF235C">CF235C Cyclical Quest</a></h4>
+<p>先不考虑本质不同这件事。</p>
+<p>循环就是把询问串的第一个字符拿去放在最后面。</p>
+<p>可以视为，先把目前匹配到的串的第一个字符删掉，然后再加上一个。</p>
+<p>如果目前这个串根本没有在文本中完整出现，那么这个删除操作可以忽略。</p>
+<p>否则,<code>len--</code>，如果删了前面之后$len$<strong>不在当前节点区间</strong>($(u.fa.len,u.len]$)里面了就跳<code>f</code>。</p>
+<p>（在前面删掉字符就是在parent树上跳的性质）</p>
+<p>加字符操作同上。</p>
+<p>最后将匹配到的所有节点$siz$加在一起就好了。</p>
+<p>还要考虑去重问题：如果同一个询问串多次匹配到同一个节点，贡献只算一次，具体可以打标记实现。</p>
+<p>代码：咕咕咕.</p>
 <h3 id="两个字符串的最长公共子串">两个字符串的最长公共子串</h3>
 <blockquote>
 <p>给定两个字符串 $S$ 和 $T$，求出最长公共子串，公共子串定义为在 $S$ 和 $T$ 中都作为子串出现过的字符串 $X$。</p>
