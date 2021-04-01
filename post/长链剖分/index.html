@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>长链剖分 - having little or no sense, use, or purpose.</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="TRAGEDY:ETERNITY" /><meta name="description" content="" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.81.0 with theme even" />
+
+
+<link rel="canonical" href="https://hizeci.github.io/post/%E9%95%BF%E9%93%BE%E5%89%96%E5%88%86/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+
+<link href="/sass/main.min.6a025d60334ccde9f765dedcf6936f4c2eb3ea8d22276e9f389bb2efc2d55e11.css" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+<meta property="og:title" content="长链剖分" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hizeci.github.io/post/%E9%95%BF%E9%93%BE%E5%89%96%E5%88%86/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-03-31T19:48:23&#43;08:00" />
+<meta property="article:modified_time" content="2021-03-31T19:48:23&#43;08:00" />
+
+<meta itemprop="name" content="长链剖分">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-03-31T19:48:23&#43;08:00" />
+<meta itemprop="dateModified" content="2021-03-31T19:48:23&#43;08:00" />
+<meta itemprop="wordCount" content="2122">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="长链剖分"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">菜</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">长链剖分</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-03-31 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p><a href="https://www.cnblogs.com/zzqsblog/p/6700133.html">fjzzq2002</a></p>
+<p><a href="https://www.cnblogs.com/zhoushuyu/p/9468669.html">租酥雨</a></p>
+<p><a href="https://oi-wiki.org/graph/hld/#_14">oi-wiki</a></p>
+<p>长链剖分是和重链剖分，dsu on tree一类的trick，不过它的适用范围与dsu on tree不同，它适用与涉及到深度的查询。</p>
+<p>先来定义一下长链剖分是什么。它与重链剖分十分类似，但是原来的重儿子是子树大小最大的儿子，现在的&quot;重&quot;儿子(因为不是重儿子了，大概是preffered child)是往下延伸到叶子节点那条链最长的儿子。</p>
+<p>整个长链剖分的过程与轻重链剖分的过程类似，只要一遍dfs即可。</p>
+<p>具体实现方式&amp;复杂度证明：</p>
+<p>对每个点寻找深度最大的儿子作为重儿子，其余作为轻儿子。由此得到了若干条互不相交的长链。
+在维护信息的过程中，先$O(1)$继承重儿子的信息，再暴力合并其余轻儿子的信息。
+因为每个点仅属于一条长链，且一条长链只会在链顶位置作为轻儿子暴力合并一次，所以时间复杂度线性。
+在$O(1)$继承重儿子信息这点上有不同的实现方式，一个巧妙的方法是利用指针实现，具体可以参见代码。</p>
+<h4 id="长链剖分优化-dp">长链剖分优化 DP</h4>
+<p>一般情况下可以使用长链剖分来优化的 DP 会有一维状态为深度维。</p>
+<p>我们可以考虑使用长链剖分优化树上 DP。</p>
+<p>具体的，我们每个节点的状态直接继承其重儿子的节点状态，同时将轻儿子的 DP 状态暴力合并。</p>
+<p>例题：<a href="http://codeforces.com/problemset/problem/1009/F">codeforces1009F</a> 这好像也是一道dsu on tree板子题（</p>
+<p>题意：给定一棵以1为根，$n$个节点的树。设$d(u,x)$为$u$子树中到$u$距离为$x$的节点数。</p>
+<p>对于每个点，求一个最小的$k$，使得$d(u,k)$最大。</p>
+<p>设$f_{i,k}$表示在子树$i$内，和$i$距离$j$的点数。</p>
+<p>暴力转移时间复杂度为$O(n^2)$</p>
+<p>我们考虑每次转移我们直接继承重儿子的DP数组和答案，并且考虑在此基础上进行更新。</p>
+<p>首先我们需要将重儿子的DP数组前面插入一个元素1，这代表着当前节点。</p>
+<p>然后我们将所有亲儿子的DP数组暴力和当前节点的DP数组合并。</p>
+<p>注意到因为轻儿子的DP数组长度为轻儿子所在重链长度，而所有重链长度和为$n$。</p>
+<p>也就是说，我们直接暴力合并轻儿子的总时间复杂是$O(n)$。</p>
+<p>注意，一般情况下DP数组的内存分配为一条重链整体分配内存，链上不同的节点有不同的首位置指针。</p>
+<p>DP数组的长度我们可以根据子树最深节点算出。</p>
+<p>代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">const</span> <span class="kt">int</span> <span class="n">N</span><span class="o">=</span><span class="mi">2111111</span><span class="p">;</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="n">e</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="n">fa</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">d</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">pson</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">dfn</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">tim</span><span class="p">;</span>
+<span class="kt">int</span> <span class="o">*</span><span class="n">f</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">g</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">ans</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">void</span> <span class="nf">dfs1</span><span class="p">(</span><span class="kt">int</span> <span class="n">u</span><span class="p">)</span>
+<span class="p">{</span>	
+	<span class="n">d</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="nl">v</span><span class="p">:</span><span class="n">e</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="k">if</span><span class="p">(</span><span class="n">v</span><span class="o">^</span><span class="n">fa</span><span class="p">[</span><span class="n">u</span><span class="p">])</span>
+	<span class="p">{</span>
+		<span class="n">fa</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">=</span><span class="n">u</span><span class="p">;</span>
+		<span class="n">dfs1</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+		<span class="n">ckmax</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">u</span><span class="p">],</span><span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+		<span class="n">pson</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">&gt;</span><span class="n">d</span><span class="p">[</span><span class="n">pson</span><span class="p">[</span><span class="n">u</span><span class="p">]])</span><span class="o">?</span><span class="nl">v</span><span class="p">:</span><span class="n">pson</span><span class="p">[</span><span class="n">u</span><span class="p">];</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">dfs2</span><span class="p">(</span><span class="kt">int</span> <span class="n">u</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">dfn</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">=++</span><span class="n">tim</span><span class="p">;</span>
+	<span class="n">f</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">=</span><span class="n">g</span><span class="o">+</span><span class="n">dfn</span><span class="p">[</span><span class="n">u</span><span class="p">];</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">pson</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="n">dfs2</span><span class="p">(</span><span class="n">pson</span><span class="p">[</span><span class="n">u</span><span class="p">]);</span>
+	<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="nl">v</span><span class="p">:</span><span class="n">e</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="k">if</span><span class="p">(</span><span class="n">v</span><span class="o">^</span><span class="n">fa</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">&amp;&amp;</span><span class="n">v</span><span class="o">^</span><span class="n">pson</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="n">dfs2</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">dfs3</span><span class="p">(</span><span class="kt">int</span> <span class="n">u</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">pson</span><span class="p">[</span><span class="n">u</span><span class="p">])</span>
+	<span class="p">{</span>
+		<span class="n">dfs3</span><span class="p">(</span><span class="n">pson</span><span class="p">[</span><span class="n">u</span><span class="p">]);</span>
+		<span class="n">ans</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">=</span><span class="n">ans</span><span class="p">[</span><span class="n">pson</span><span class="p">[</span><span class="n">u</span><span class="p">]]</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">f</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">ans</span><span class="p">[</span><span class="n">u</span><span class="p">]]</span><span class="o">&lt;=</span><span class="mi">1</span><span class="p">)</span> <span class="n">ans</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="nl">v</span><span class="p">:</span><span class="n">e</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="k">if</span><span class="p">(</span><span class="n">v</span><span class="o">^</span><span class="n">fa</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">&amp;&amp;</span><span class="n">v</span><span class="o">^</span><span class="n">pson</span><span class="p">[</span><span class="n">u</span><span class="p">])</span>
+	<span class="p">{</span>
+		<span class="n">dfs3</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+		<span class="n">R</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> 
+		<span class="p">{</span>
+			<span class="n">f</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">+=</span><span class="n">f</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+			<span class="k">if</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;</span><span class="n">f</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">ans</span><span class="p">[</span><span class="n">u</span><span class="p">]])</span> <span class="n">ans</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">=</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+			<span class="k">if</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="n">f</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">ans</span><span class="p">[</span><span class="n">u</span><span class="p">]]</span><span class="o">&amp;&amp;</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="o">&lt;</span><span class="n">ans</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="n">ans</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">=</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span> 
+<span class="p">}</span>
+<span class="kt">signed</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+	<span class="kt">int</span> <span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">;</span><span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="n">u</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">v</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">e</span><span class="p">[</span><span class="n">u</span><span class="p">].</span><span class="n">pb</span><span class="p">(</span><span class="n">v</span><span class="p">),</span><span class="n">e</span><span class="p">[</span><span class="n">v</span><span class="p">].</span><span class="n">pb</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
+	<span class="n">dfs1</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="n">dfs2</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="n">dfs3</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="n">writeln</span><span class="p">(</span><span class="n">ans</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>例题:<a href="https://www.luogu.com.cn/problem/P5904">lgP5904[POI2014]Hot-Hotels</a></p>
+<p>题意：给你一棵树，从中选3个点，两两距离相等，求方案数。</p>
+<p>考虑暴力dp。令$f_{i,j}$表示$i$**子树**内与$i$距离为$j$的点的个数。但是这样直接对每个节点深度进行统计会重复。所以再令$g_{i,j}$表示$i$的子树内，有多少二元组$(a,b)$满足满足$\text{dis(LCA(a,b),a)=dis(LCA(a,b),b)=dis(LCA(a,b),i)+j}$。</p>
+<p>可以推出节点$u$对答案的贡献为
+$$
+g_{u,0}+\sum_j \sum_{x,y\in	son(u)} f_{x,j-1}\times g_{y,j+1}
+$$
+考虑$f$的转移为
+$$
+f_{u,j}=\sum_{x\in son(u)} f_{u,j-1}
+$$
+接下来考虑$g$的转移，$g$可以有两种从儿子转移的方式：</p>
+<p><img src="https://lcuter.gitee.io/picture/Picture/clpf3.png" alt="img"></p>
+<p>对于第一种情况，就是$j$少了一个。对于第二种情况，发现$\text{LCA(a,b)=u}$,那么$\text{dis(LCA(a,b),a)=dis(LCA(a,b),b)=j}$，又因为$u$到自身距离为0，于是有：
+$$
+g_{u_j}=\sum _{x,y\in son(u),x\ne y} f_{x,j-1}\times f_{y,j-1}+\sum_{x\in son(u) g_{x,j+1}}
+$$
+然后可以长剖将时间复杂度优化为$O(n)$</p>
+<p>简易版：</p>
+<p>设$f_{i,j}$表示$i$子树内与$i$距离为$j$的点的个数，$g_{i,j}$表示$i$子树内，满足第三个点和$i$距离为$j$的点对数目。</p>
+<p>这样每次可以拿$f_{u,j}\times g_{v,j+1}$和$g_{u,j+1}\times f_{v,j}$更新答案，拿$f_{u,j}\times f_{v,j-1}$更新$g_{u,j}$，$f_{v,j}$更新$f_{u,j+1}$，$g_{v,j}$更新$g_{u,j-1}$。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">const</span> <span class="kt">int</span> <span class="n">N</span><span class="o">=</span><span class="mi">444444</span><span class="p">;</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="n">e</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">d</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">pson</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">fa</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">dfn</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">tim</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">tmp</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="o">*</span><span class="n">id</span><span class="o">=</span><span class="n">tmp</span><span class="p">;</span>
+<span class="kt">int</span> <span class="o">*</span><span class="n">f</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="o">*</span><span class="n">g</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">q</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">ans</span><span class="p">;</span>
+<span class="kt">void</span> <span class="nf">dfs1</span><span class="p">(</span><span class="kt">int</span> <span class="n">u</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="nl">v</span><span class="p">:</span><span class="n">e</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="k">if</span><span class="p">(</span><span class="n">v</span><span class="o">^</span><span class="n">fa</span><span class="p">[</span><span class="n">u</span><span class="p">])</span>
+	<span class="p">{</span>
+		<span class="n">fa</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">=</span><span class="n">u</span><span class="p">;</span>
+		<span class="n">dfs1</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+		<span class="n">pson</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">&gt;</span><span class="n">d</span><span class="p">[</span><span class="n">pson</span><span class="p">[</span><span class="n">u</span><span class="p">]])</span><span class="o">?</span><span class="nl">v</span><span class="p">:</span><span class="n">pson</span><span class="p">[</span><span class="n">u</span><span class="p">];</span>
+	<span class="p">}</span>
+	<span class="n">d</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="n">pson</span><span class="p">[</span><span class="n">u</span><span class="p">]]</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">dfs3</span><span class="p">(</span><span class="kt">int</span> <span class="n">u</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">pson</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="n">f</span><span class="p">[</span><span class="n">pson</span><span class="p">[</span><span class="n">u</span><span class="p">]]</span><span class="o">=</span><span class="n">f</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">g</span><span class="p">[</span><span class="n">pson</span><span class="p">[</span><span class="n">u</span><span class="p">]]</span><span class="o">=</span><span class="n">g</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">dfs3</span><span class="p">(</span><span class="n">pson</span><span class="p">[</span><span class="n">u</span><span class="p">]);</span>
+	<span class="n">f</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">ans</span><span class="o">+=</span><span class="n">g</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
+	<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="nl">v</span><span class="p">:</span><span class="n">e</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="k">if</span><span class="p">(</span><span class="n">v</span><span class="o">^</span><span class="n">fa</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">&amp;&amp;</span><span class="n">v</span><span class="o">^</span><span class="n">pson</span><span class="p">[</span><span class="n">u</span><span class="p">])</span>
+	<span class="p">{</span>
+		<span class="n">f</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">=</span><span class="n">id</span><span class="p">;</span><span class="n">id</span><span class="o">+=</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">);</span><span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">=</span><span class="n">id</span><span class="p">;</span><span class="n">id</span><span class="o">+=</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">);</span>
+		<span class="n">dfs3</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+		<span class="n">R</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="k">if</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="n">ans</span><span class="o">+=</span><span class="n">f</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+			<span class="n">ans</span><span class="o">+=</span><span class="n">g</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">f</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+		<span class="p">}</span>
+		<span class="n">R</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="n">g</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">+=</span><span class="n">f</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">f</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+			<span class="k">if</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="n">g</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+=</span><span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+			<span class="n">f</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">+=</span><span class="n">f</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+<span class="kt">signed</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+	<span class="kt">int</span> <span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">;</span><span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="n">u</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">v</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">e</span><span class="p">[</span><span class="n">u</span><span class="p">].</span><span class="n">pb</span><span class="p">(</span><span class="n">v</span><span class="p">),</span><span class="n">e</span><span class="p">[</span><span class="n">v</span><span class="p">].</span><span class="n">pb</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
+	<span class="n">dfs1</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">id</span><span class="p">;</span><span class="n">id</span><span class="o">+=</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">);</span><span class="n">g</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">id</span><span class="p">;</span><span class="n">id</span><span class="o">+=</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">);</span>
+	<span class="n">dfs3</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="n">writeln</span><span class="p">(</span><span class="n">ans</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>例题：k-th ancestor query</p>
+<p><a href="https://zhuanlan.zhihu.com/p/25984772">https://zhuanlan.zhihu.com/p/25984772</a></p>
+<p>性质：任意一个点的k级祖先所在链的链长一定$\ge k$。这个证明十分简单，因为它到祖先长度就为k了，如果它到祖先不是重链，链长肯定不会更短。</p>
+<p>求出长链剖分之后我们对于每条重链的链头，设这条重链长度为len，记录一下这条重链每个深度的点，然后记录链头往上len个点是哪些（显然不会影响复杂度，顶多*2）。</p>
+<p>我们同样预处理倍增跳的数组，但是我们还要记录一下1~n每个数的high-bit（最高位的1在哪）。</p>
+<p>我们现在考虑向上跳k，那么我们先跳k的最高位r，然后还要跳k-r这么高。考虑这个点往上r的祖先，那么它所在重链链长&gt;=r，注意到k-r&lt;r，那么我们只要在链头向上向下跳就可以了。</p>
+    </div>
+
+    
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/%E5%B8%A6%E6%8D%A2%E6%A0%B9%E7%9A%84%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86/">
+            <span class="next-text nav-default">带换根的树链剖分</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  <span id="/post/%E9%95%BF%E9%93%BE%E5%89%96%E5%88%86/" class="leancloud_visitors" data-flag-title="长链剖分">
+		<span class="post-meta-item-text">文章阅读量 </span>
+		<span class="leancloud-visitors-count">0</span>
+		<p></p>
+	  </span>
+  <div id="vcomments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'F8xu4BfgVST0H6107wApro6n-gzGzoHsz',
+        appKey: 'qlgvukJKICXwyoy3NkVygfIu',
+        notify:  false ,
+        verify:  false ,
+        avatar:'mm',
+        placeholder: '说点什么吧...',
+        visitor:  true 
+    });
+  </script>
+
+  
+
+      </div>
+    </main>
+
+    
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        tags: 'ams',
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+    docsearch({
+    apiKey: "97c22106dbe3955818bc05a0be5f3511",
+    indexName: "hizeci's blog",
+    appId: "9HLPOQJVAD",
+    inputSelector: '.docsearch-input',
+    debug: false,
+    });
+</script>
+
+
+</body>
+</html>
