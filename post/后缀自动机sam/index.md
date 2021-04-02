@@ -917,7 +917,66 @@ $slen[i]$表示$S_1$中$S_1[i-slen[i]+1,i]$在$S_2$中出现过，即以$i$**结
 
 如果回到根还是不能匹配，匹配长度是$0$。
 
-代码：咕咕咕
+代码：
+
+```c++
+const int N=555555;
+struct node {int len,nxt,son[26];}a[N];
+int lst,tn;
+char str[N];
+int len1,len2;
+int s1[N],s2[N];
+int slen[N];
+inline void init_SAM(){tn=lst=1;}
+void extend_SAM(int c)
+{
+	int cur=++tn,p=lst;
+	a[cur].len=a[p].len+1;
+	for(;p&&!a[p].son[c];p=a[p].nxt) a[p].son[c]=cur;
+	if(!p) a[cur].nxt=1;
+	else
+	{
+		int v=a[p].son[c];
+		if(a[v].len==a[p].len+1) a[cur].nxt=v;
+		else
+		{
+			int x=++tn;a[x]=a[v];
+			a[x].len=a[p].len+1;
+			for(;p&&a[p].son[c]==v;p=a[p].nxt)a[p].son[c]=x;
+			a[cur].nxt=a[v].nxt=x;
+		}
+	}
+	lst=cur;
+}	
+
+signed main()
+{
+	scanf("%s",str+1);
+	len1=strlen(str+1);
+	init_SAM();
+	R(i,1,len1) s1[i]=str[i]-'a';
+	R(i,1,len1) extend_SAM(s1[i]);
+	scanf("%s",str+1);
+	len2=strlen(str+1);
+	R(i,1,len2) s2[i]=str[i]-'a';
+	int p=1,plen=0;
+	R(i,1,len2)
+	{
+		if(!a[p].son[s2[i]]) 
+		{
+			for(;p!=1&&!a[p].son[s2[i]];p=a[p].nxt);
+			plen=a[p].len;
+		}
+		if(a[p].son[s2[i]]) p=a[p].son[s2[i]],plen++;
+		slen[i]=plen;
+	}	
+	int ans=0;
+	R(i,1,len2) ckmax(ans,slen[i]);
+	writeln(ans);
+}	
+```
+
+
 
 #### [SP1812 LCS2 - 多串最长公共子串](https://www.luogu.org/problem/SP1812)
 
@@ -927,7 +986,70 @@ $slen[i]$表示$S_1$中$S_1[i-slen[i]+1,i]$在$S_2$中出现过，即以$i$**结
 
 最终答案为整个$slen$的$\max$。
 
-代码：咕咕咕
+代码：
+
+```c++
+const int N=2e5+10;
+struct node {int len,nxt,son[26];}a[N];
+int lst,tn;
+char str[N];
+int len1,len2;
+int slen[N];
+int s1[N],s2[N];
+
+inline void init_SAM(int n){tn=lst=1;R(i,0,2*(n+1)){a[i].len=a[i].nxt=0;R(j,0,25)a[i].son[j]=0;} }
+void extend_SAM(int c)
+{
+	int cur=++tn,p=lst;
+	a[cur].len=a[p].len+1;
+	for(;p&&!a[p].son[c];p=a[p].nxt)a[p].son[c]=cur;
+	if(!p)a[cur].nxt=1;
+	else
+	{
+		int v=a[p].son[c];
+		if(a[v].len==a[p].len+1)a[cur].nxt=v;
+		else
+		{
+			int x=++tn;a[x]=a[v];
+			a[x].len=a[p].len+1;
+			for(;p&&a[p].son[c]==v;p=a[p].nxt)a[p].son[c]=x;
+			a[cur].nxt=a[v].nxt=x;
+		}
+	}
+	lst=cur;
+}
+
+signed main()
+{
+	memset(slen,-1,sizeof(slen));
+	scanf("%s",str+1);
+	len1=strlen(str+1);
+	R(i,1,len1) s1[i]=str[i]-'a';
+	while(~scanf("%s",str+1))
+	{
+		len2=strlen(str+1);
+		init_SAM(len2);
+		R(i,1,len2) s2[i]=str[i]-'a';
+		R(i,1,len2) extend_SAM(s2[i]);
+		int p=1,plen=0;
+		R(i,1,len1) 
+		{
+			if(!a[p].son[s1[i]]) 
+			{
+				for(;p!=1&&!a[p].son[s1[i]];p=a[p].nxt);
+				plen=a[p].len;
+			}
+			if(a[p].son[s1[i]])p=a[p].son[s1[i]],plen++;
+			~slen[i]?ckmin(slen[i],plen):slen[i]=plen;
+		}
+	}
+	int ans=0;
+	R(i,1,len1) ckmax(ans,slen[i]); 
+	writeln(ans);
+}
+```
+
+
 
 #### [CF235C Cyclical Quest](https://www.luogu.org/problem/CF235C)
 
@@ -949,7 +1071,188 @@ $slen[i]$表示$S_1$中$S_1[i-slen[i]+1,i]$在$S_2$中出现过，即以$i$**结
 
 还要考虑去重问题：如果同一个询问串多次匹配到同一个节点，贡献只算一次，具体可以打标记实现。
 
-代码：咕咕咕.
+代码：
+
+```c++
+const int N=1e6+10;
+
+int tn,lst;
+char str[N];
+int n;
+vector<int>e[N<<1];
+int s1[N],s2[N];
+int vis[N<<1];
+int _;
+
+struct node {int len,nxt,son[26],siz;}a[N<<1];
+inline void init_SAM(){tn=lst=1;}
+void extend_SAM(int c)
+{
+	int cur=++tn,p=lst;
+	a[cur].len=a[p].len+1;
+	for(;p&&!a[p].son[c];p=a[p].nxt)a[p].son[c]=cur;
+	if(!p) a[cur].nxt=1;
+	else
+	{
+		int v=a[p].son[c];
+		if(a[v].len==a[p].len+1) a[cur].nxt=v;
+		else 
+		{
+			int x=++tn;a[x]=a[v];
+			a[x].len=a[p].len+1;
+			for(;p&&a[p].son[c]==v;p=a[p].nxt)a[p].son[c]=x;
+			a[cur].nxt=a[v].nxt=x;
+		}
+	}
+	lst=cur;
+}
+void dfs1(int u)
+{
+	for(int v:e[u]) dfs1(v),a[u].siz+=a[v].siz;
+}
+void solve()
+{
+	scanf("%s",str+1);n=strlen(str+1);
+	R(i,1,n) s2[i]=str[i]-'a';
+	int p=1,plen=0;
+	R(i,1,n) 
+	{
+		if(!a[p].son[s2[i]])
+		{
+			for(;p!=1&&!a[p].son[s2[i]];p=a[p].nxt);
+			plen=a[p].len;
+		}
+		if(a[p].son[s2[i]]) p=a[p].son[s2[i]],plen++;
+	}
+	int ans=0;
+	R(i,1,n)
+	{
+		if(plen==n) 
+		{
+			if(vis[p]!=_) ans+=a[p].siz;
+			vis[p]=_;
+			if(--plen==a[a[p].nxt].len) p=a[p].nxt;
+		}
+		if(!a[p].son[s2[i]])
+		{
+			for(;p!=1&&!a[p].son[s2[i]];p=a[p].nxt);
+			plen=a[p].len;
+		}
+		if(a[p].son[s2[i]]) p=a[p].son[s2[i]],plen++;
+	}
+	writeln(ans);
+}
+signed main()
+{
+	scanf("%s",str+1);
+	n=strlen(str+1);
+	init_SAM();
+	R(i,1,n) s1[i]=str[i]-'a';
+	R(i,1,n) extend_SAM(s1[i]);
+	R(i,2,tn) e[a[i].nxt].pb(i);
+	int p=1;R(i,1,n) p=a[p].son[s1[i]],a[p].siz=1;
+	dfs1(1);
+	_=read()+1;while(--_) solve();
+}
+```
+
+
+
+#### [lgP6640[BJOI2020]封印](https://www.luogu.com.cn/problem/P6640)
+
+先建立$S$的SAM，然后让$T$在上面跑匹配，求出$T$的每个前缀$i$能能够匹配的后缀长度$slen[i]$。
+
+对于区间$[l,r]$答案为$\max\limits_{i=l}^r(\min(slen[i],i-l+1))$。
+
+考虑二分答案$mid$满足$i-l+1\ge mid$即$i\ge mid+l-1$。
+
+若满足这个要求，则$i-l+1$的约束就不用考虑。变成一个RMQ问题，使用ST表做到$O(1)$。
+
+复杂度为$O(n\log n)$。
+
+```c++
+const int N=444444;
+char strs[N],strt[N];
+int s[N],t[N];
+int l1,l2;
+struct node {int len,nxt,son[26];}a[N];
+int lst,tn;
+int slen[N];
+int _;
+
+inline void init_SAM(){tn=lst=1;}
+void extend_SAM(int c)
+{
+	int cur=++tn,p=lst;
+	a[cur].len=a[p].len+1;
+	for(;p&&!a[p].son[c];p=a[p].nxt)a[p].son[c]=cur;
+	if(!p) a[cur].nxt=1;
+	else
+	{
+		int v=a[p].son[c];
+		if(a[v].len==a[p].len+1)a[cur].nxt=v;
+		else
+		{
+			int x=++tn;a[x]=a[v];
+			a[x].len=a[p].len+1;
+			for(;p&&a[p].son[c]==v;p=a[p].nxt)a[p].son[c]=x;
+			a[cur].nxt=a[v].nxt=x;
+		}
+	}
+	lst=cur;
+}
+int mx[22][N],Lg[N];
+void init_ST()
+{
+	R(i,2,l1) Lg[i]=Lg[i>>1]+1;
+	R(i,1,l1) mx[0][i]=slen[i];
+	R(j,1,20) for(int i=1;i+(1<<j)-1<=l1;i++) mx[j][i]=max(mx[j-1][i],mx[j-1][i+(1<<(j-1))]); 
+}
+inline int query(int l,int r)
+{
+	if(l>r) return 0;
+	int i=Lg[r-l+1];
+	return max(mx[i][l],mx[i][r-(1<<i)+1]);
+}
+
+signed main()
+{
+	scanf("%s%s",strs+1,strt+1);
+	l1=strlen(strs+1),l2=strlen(strt+1);
+	R(i,1,l1) s[i]=strs[i]-'a';
+	R(i,1,l2) t[i]=strt[i]-'a';
+	init_SAM();
+	R(i,1,l2) extend_SAM(t[i]);
+	int p=1,plen=0;
+	R(i,1,l1) 
+	{
+		if(!a[p].son[s[i]]) 
+		{
+			for(;p!=1&&!a[p].son[s[i]];p=a[p].nxt);
+			plen=a[p].len;
+		}
+		if(a[p].son[s[i]]) p=a[p].son[s[i]],plen++;
+		slen[i]=plen;
+	}
+	init_ST();
+	int l,r,pos,L,R;
+
+	for(_=read();_;_--)
+	{
+		L=l=read(),R=r=read();
+		pos=r+1;
+		while(l<=r)
+		{
+			int mid=(l+r)>>1;
+			if(mid-slen[mid]+1>=L) pos=mid,r=mid-1;
+			else l=mid+1;
+		}
+		writeln(max(query(pos,R),pos-L));
+	}
+}
+```
+
+
 
 ### 两个字符串的最长公共子串
 
@@ -1024,6 +1327,258 @@ $$
 
 例题：[SPOJ Longest Common Substring II](https://www.spoj.com/problems/LCS2/)
 
+### 用SAM构建后缀树
+
+一个NB的结论：**反串的SAM的parent树就是后缀树**
+
+感性理解：
+
+parent树有一个性质，父亲是孩子的最长后缀（$end$集合不同）
+
+而把串翻转过来之后，反串的parent树就满足：父亲是孩子的最长前缀($beginpos$不同)
+
+观察压缩后缀树的定义，$bgp$相同的两个串才能被压缩，所以SAM和后缀树其实是有异曲同工之妙的。
+
+另一个构造后缀树的方法将会在后缀树中讲。
+
+这里先讲一些性质。
+
+- 设$lcs(i,j)$为前缀$i,j$的最长公共后缀长度，其等于parent树上`LCA`的值。
+
+例题：[LgP4248 [AHOI2013]差异](https://www.luogu.org/problem/P4248)
+
+可以转化为求两两后缀的$lcp$和。
+
+众所周知这就相当于求后缀树上两两叶节点的$lca$深度总和。
+
+建立后缀树之后，写一个树形dp就可以解决了：
+
+```c++
+const int N=555555;
+struct node {int len,nxt,son[26],siz;}a[N<<1];
+int lst,tn;
+char str[N];
+int s[N];
+
+int ans;
+int n;
+vector<int>e[N<<1];
+
+inline void init_SAM(){tn=lst=1;}
+void extend_SAM(int c)
+{
+	int cur=++tn,p=lst;
+	a[cur].len=a[p].len+1;
+	for(;p&&!a[p].son[c];p=a[p].nxt)a[p].son[c]=cur;
+	if(!p) a[cur].nxt=1;
+	else
+	{
+		int v=a[p].son[c];
+		if(a[v].len==a[p].len+1) a[cur].nxt=v;
+		else
+		{
+			int x=++tn;a[x]=a[v];
+			a[x].len=a[p].len+1;
+			for(;p&&a[p].son[c]==v;p=a[p].nxt)a[p].son[c]=x;
+			a[cur].nxt=a[v].nxt=x;
+		}
+	}
+	lst=cur;
+}
+void dfs(int u)
+{
+	int tmp=a[u].siz;
+	for(int v:e[u]) dfs(v),a[u].siz+=a[v].siz;
+	for(int v:e[u]) ans+=1ll*(a[v].siz)*(a[u].siz-a[v].siz)*a[u].len;
+	ans+=tmp*(a[u].siz-tmp)*a[u].len;
+}
+signed main()
+{
+	init_SAM();
+	scanf("%s",str+1);
+	n=strlen(str+1);
+	R(i,1,n)s[i]=str[i]-'a';
+	L(i,1,n)extend_SAM(s[i]);
+	int p=1;
+	L(i,1,n) p=a[p].son[s[i]],a[p].siz=1;
+	R(i,2,tn) e[a[i].nxt].pb(i);
+	dfs(1);
+	writeln(1ll*n*(n-1)*(n+1)/2-ans);
+}
+```
+
+题：[[十二省联考2019]字符串问题](https://www.luogu.com.cn/problem/P5284)
+
+不会，先鸽了。
+
+### 线段树合并维护end集合
+
+我们发现parent树上，父节点的end集合恰好是子节点的集合求并（其实这主要是省空间）。
+
+考虑使用线段树合并来维护end集合，来干一些神奇的事。
+
+例题：[CF1037H Security](https://www.luogu.org/problemnew/show/CF1037H)
+
+题意：给出一个文本串$S$，给出若干文本串$T$。
+
+截取$S$的一个子串$S2=S[l\dots r]$，求$S2$的子串中，严格大于$T$的字典序最小的串，如果没有则输出$-1$。
+
+- 先考虑$S2=S$的情况
+
+有一个显然的贪心：
+
+先建立S的SAM，然后让T在S上面跑匹配，假设在$T_p$匹配不上了，那么只要找一个大于当前$T_p$那个字符的最小字符放在串尾即可。如果当前都小于$T_p$那就让上一位找有没有位置大于$T_{p-1}$的，若到源点都没有方案，即无解。
+
+具体时间复杂度为$O(|S|+26\sum|T|)$，其中$26$并不能跑满。
+
+- 再考虑截取限制即$S2=S[l\dots r]$。
+
+如果我们知道$S[l\dots r]$的SAM，,我们就可以套用上述贪心了,但是每次重构复杂度显然不对。
+
+还是要先建立$S$的SAM，我们称包含任意一个$S[l\dots r]$子串的点为"好点"。
+
+那么我们发现，将所有的"不好点"以及相关的边删掉，那么我们就得到了$S[l\dots r]$的SAM。
+
+这玩意虽然不保证点数边数为$O(|s[l\cdots r]|)$，但是能恰好匹配所有的子串（一个合法的自动机）
+
+考虑设计一个函数，能够判定某个点是否为好点，那样的话就可以实现上述贪心操作了。
+
+如何判断呢？我们采用线段树合并来维护每个点的end集合，具体做法就是在perent树上由下而上合并线段树，空间受得住。注意合并的时候不能销毁儿子的树。
+
+（当然用普通平衡树启发式合并也是可以的，不过代码长，复杂度还多个$\log$）
+
+我们只要在线段树上区间查询一下end集合有没有值就好了，区间是$[l+len-1,r]$。这里的$len$是目前字符串的长度。那么复杂度就是$O(|S|\log n+26\sum|T|\log n)$。
+
+```c++
+#include<bits/stdc++.h>
+#define ld long double
+#define tset puts("qwq");
+#define test puts("QAQ");
+#define pb(a) push_back(a)
+#define pii pair<int,int> 
+#define mkp make_pair
+#define fi first
+#define se second
+#define ll long long
+#define ull unsigned long long
+#define int long long
+#define R(i,a,b) for(int i=(a),i##E=(b);i<=i##E;i++)
+#define L(i,a,b) for(int i=(b),i##E=(a);i>=i##E;i--)
+#define clr(f,n) memset(f,0,sizeof(int)*(n))
+#define cpy(f,g,n) memcpy(f,g,sizeof(int)*(n))
+#define Swap(x,y) (x^=y^=x^=y)
+template <typename T> bool ckmax(T &x, T y) { return x<y?x=y,true:false;}
+template <typename T> bool ckmin(T &x, T y) { return x>y?x=y,true:false;}
+using namespace std;
+//const ll inf=0x7f7f7f7f7f7f7f3f;
+const ll inf=(1ll<<60);
+//const int inf=0x7f7f7f7f;
+//const int mod=1e9+7;
+const double Pi=acos(-1);
+const int mod=998244353;
+const double eps=1e-6;
+inline int fpow(int a,int b=mod-2,int p=mod){int res=1;while(b){if(b&1)res=res*a%p;a=a*a%p;b>>=1;}return res;}
+/*
+const int qwq=2000010;
+int F[qwq],inv[qwq],Finv[qwq];
+void init_C()
+{
+    F[0]=Finv[0]=inv[1]=1;
+    R(i,2,qwq-10) inv[i]=(mod-mod/i)*inv[mod%i]%mod;
+    R(i,1,qwq-10) F[i]=1ll*(F[i-1]*i)%mod,Finv[i]=1ll*(Finv[i-1]*inv[i])%mod;
+}
+
+inline int C(int n,int m){ if(m<0||m>n||n<0) return 0;return 1ll*F[n]%mod*1ll*Finv[m]*1ll%mod*1ll*Finv[n-m]%mod;}
+*/
+
+//#define getchar()(p1==p2&&(p2=(p1=buf)+fread(buf,1,1<<21,stdin),p1==p2)?EOF:*p1++)
+//char buf[1<<21],*p1=buf,*p2=buf;
+inline ll read()
+{
+    char c=getchar();ll x=0;bool f=0;
+    for(;!isdigit(c);c=getchar())f^=!(c^45);
+    for(;isdigit(c);c=getchar())x=(x<<1)+(x<<3)+(c^48);
+    if(f)x=-x;
+    return x;
+}
+inline void write(ll x){if (x<0){putchar('-');write(-x);return;}if (x>=10) write(x/10);putchar(x%10+'0');}
+inline void writesp(ll x){write(x),putchar(' ');}
+inline void writeln(ll x){write(x);putchar('\n');}
+/*
+unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+mt19937 rand_num(seed);  
+uniform_int_distribution<long long> dist(0, 10000000);  // ¸ø¶¨·¶Î§
+printf("%lld ",dist(rand_num));
+*/
+const int N=2e5+10;
+struct node {int len,nxt,son[25];}a[N<<1];
+int lst,tn;
+int edp[N<<1];
+
+int n,q;
+char strs[N],strt[N];
+int s[N];
+int Rt[N<<1];
+int Ls[N<<6],Rs[N<<6];
+int tot_seg;
+
+vector<int>e[N<<1];
+
+inline void init_SAM(){tn=lst=1;}
+void extend_SAM(int c)
+{
+	int cur=++tn,p=lst;
+	a[cur].len=a[p].len+1;
+	for(;p&&!a[p].son[c];p=a[p].nxt)a[p].son[c]=cur;
+	if(!p) a[cur].nxt=1;
+	else
+	{
+		int v=a[p].son[c];
+		if(a[v].len==a[p].len+1) a[cur].nxt=v;
+		else
+		{
+			int x=++tn;a[x]=a[v];
+			a[x].len=a[p].len+1;
+			for(;p&&a[p].son[c]==v;p=a[p].nxt)a[p].son[c]=x;
+			a[cur].nxt=a[v].nxt=x;
+		}
+	}
+	lst=cur;
+}
+inline void mer_ge(int &x,int y)
+{
+	if(!x||!y) {x^=y;return;}
+	int pos=++tot_seg;
+	mer_ge(Ls[x],Ls[y]);
+	mer_ge(Rs[x],Rs[y]);
+}
+void modify(int pos,int l,int r,int &x)
+{
+	if(!x) x=++tot_seg;
+	if(l==r) return;
+	int mid=(l+r)>>1;
+	if(pos<=mid) modify(pos,l,mid,Ls[x]);
+	else modify(pos,mid+1,r,Rs[x]);
+}
+void dfs(int u)
+{
+	if(edp[u]) modify(edp[u],1,n,Rt[u]);
+	for(int v:e[u]) dfs(v),mer_ge(Rt[u],Rt[v]);
+}
+
+signed main()
+{
+	scanf("%s",strs+1);q=read();
+	n=strlen(strs+1);R(i,1,n) s[i]=strs[i]-'a';
+	init_SAM();
+	R(i,1,n) extend_SAM(s[i]);
+	int p=1;R(i,1,n)p=a[p].son[s[i]],edp[p]=i;
+	R(i,2,tn) e[a[i].nxt].pb(i);
+	dfs(1);
+
+}
+```
+
 
 
 ## 例题
@@ -1052,6 +1607,6 @@ $$
 
 [wallace](https://www.cnblogs.com/-Wallace-/p/sam.html)
 
-之后可能还要补一个孔姥爷的。
+[ouuan](https://ouuan.github.io/post/%E5%90%8E%E7%BC%80%E8%87%AA%E5%8A%A8%E6%9C%BAsam%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/)
 
 某课件
