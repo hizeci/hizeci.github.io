@@ -1450,77 +1450,19 @@ signed main()
 我们只要在线段树上区间查询一下end集合有没有值就好了，区间是$[l+len-1,r]$。这里的$len$是目前字符串的长度。那么复杂度就是$O(|S|\log n+26\sum|T|\log n)$。
 
 ```c++
-#include<bits/stdc++.h>
-#define ld long double
-#define tset puts("qwq");
-#define test puts("QAQ");
-#define pb(a) push_back(a)
-#define pii pair<int,int> 
-#define mkp make_pair
-#define fi first
-#define se second
-#define ll long long
-#define ull unsigned long long
-#define int long long
-#define R(i,a,b) for(int i=(a),i##E=(b);i<=i##E;i++)
-#define L(i,a,b) for(int i=(b),i##E=(a);i>=i##E;i--)
-#define clr(f,n) memset(f,0,sizeof(int)*(n))
-#define cpy(f,g,n) memcpy(f,g,sizeof(int)*(n))
-#define Swap(x,y) (x^=y^=x^=y)
-template <typename T> bool ckmax(T &x, T y) { return x<y?x=y,true:false;}
-template <typename T> bool ckmin(T &x, T y) { return x>y?x=y,true:false;}
-using namespace std;
-//const ll inf=0x7f7f7f7f7f7f7f3f;
-const ll inf=(1ll<<60);
-//const int inf=0x7f7f7f7f;
-//const int mod=1e9+7;
-const double Pi=acos(-1);
-const int mod=998244353;
-const double eps=1e-6;
-inline int fpow(int a,int b=mod-2,int p=mod){int res=1;while(b){if(b&1)res=res*a%p;a=a*a%p;b>>=1;}return res;}
-/*
-const int qwq=2000010;
-int F[qwq],inv[qwq],Finv[qwq];
-void init_C()
-{
-    F[0]=Finv[0]=inv[1]=1;
-    R(i,2,qwq-10) inv[i]=(mod-mod/i)*inv[mod%i]%mod;
-    R(i,1,qwq-10) F[i]=1ll*(F[i-1]*i)%mod,Finv[i]=1ll*(Finv[i-1]*inv[i])%mod;
-}
-
-inline int C(int n,int m){ if(m<0||m>n||n<0) return 0;return 1ll*F[n]%mod*1ll*Finv[m]*1ll%mod*1ll*Finv[n-m]%mod;}
-*/
-
-//#define getchar()(p1==p2&&(p2=(p1=buf)+fread(buf,1,1<<21,stdin),p1==p2)?EOF:*p1++)
-//char buf[1<<21],*p1=buf,*p2=buf;
-inline ll read()
-{
-    char c=getchar();ll x=0;bool f=0;
-    for(;!isdigit(c);c=getchar())f^=!(c^45);
-    for(;isdigit(c);c=getchar())x=(x<<1)+(x<<3)+(c^48);
-    if(f)x=-x;
-    return x;
-}
-inline void write(ll x){if (x<0){putchar('-');write(-x);return;}if (x>=10) write(x/10);putchar(x%10+'0');}
-inline void writesp(ll x){write(x),putchar(' ');}
-inline void writeln(ll x){write(x);putchar('\n');}
-/*
-unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-mt19937 rand_num(seed);  
-uniform_int_distribution<long long> dist(0, 10000000);  // ¸ø¶¨·¶Î§
-printf("%lld ",dist(rand_num));
-*/
-const int N=2e5+10;
-struct node {int len,nxt,son[25];}a[N<<1];
+const int N=4e5+10;
+struct node {int len,nxt,son[26];}a[N<<1];
 int lst,tn;
 int edp[N<<1];
 
 int n,q;
 char strs[N],strt[N];
-int s[N];
+int s[N],t[N];
 int Rt[N<<1];
 int Ls[N<<6],Rs[N<<6];
 int tot_seg;
+int ql,qr,qlen;
+int val[N<<6];
 
 vector<int>e[N<<1];
 
@@ -1534,7 +1476,7 @@ void extend_SAM(int c)
 	else
 	{
 		int v=a[p].son[c];
-		if(a[v].len==a[p].len+1) a[cur].nxt=v;
+		if(a[v].len==a[p].len+1)a[cur].nxt=v;
 		else
 		{
 			int x=++tn;a[x]=a[v];
@@ -1545,12 +1487,13 @@ void extend_SAM(int c)
 	}
 	lst=cur;
 }
-inline void mer_ge(int &x,int y)
+int mer_ge(int x,int y)
 {
-	if(!x||!y) {x^=y;return;}
+	if(!x||!y) return x^y;
 	int pos=++tot_seg;
-	mer_ge(Ls[x],Ls[y]);
-	mer_ge(Rs[x],Rs[y]);
+	Ls[pos]=mer_ge(Ls[x],Ls[y]);
+	Rs[pos]=mer_ge(Rs[x],Rs[y]);
+	return pos;
 }
 void modify(int pos,int l,int r,int &x)
 {
@@ -1559,12 +1502,25 @@ void modify(int pos,int l,int r,int &x)
 	int mid=(l+r)>>1;
 	if(pos<=mid) modify(pos,l,mid,Ls[x]);
 	else modify(pos,mid+1,r,Rs[x]);
+	//printf("x:%lld ls:%lld rs:%lld\n",x,Ls[x],Rs[x]);
 }
+int query(int L,int R,int l,int r,int x)
+{
+	if(!x) return 0;
+	if(L<=l&&r<=R) return 1;
+	int mid=(l+r)>>1,ret=0;	
+	//printf("L:%lld R:%lld l:%lld r:%lld x:%lld\n",L,R,l,r,x);
+	if(L<=mid) ret|=query(L,R,l,mid,Ls[x]);
+	if(mid<R) ret|=query(L,R,mid+1,r,Rs[x]);
+	return ret;
+}
+
 void dfs(int u)
 {
 	if(edp[u]) modify(edp[u],1,n,Rt[u]);
-	for(int v:e[u]) dfs(v),mer_ge(Rt[u],Rt[v]);
+	for(int v:e[u]) dfs(v),Rt[u]=mer_ge(Rt[u],Rt[v]);
 }
+int sp[N];
 
 signed main()
 {
@@ -1572,12 +1528,183 @@ signed main()
 	n=strlen(strs+1);R(i,1,n) s[i]=strs[i]-'a';
 	init_SAM();
 	R(i,1,n) extend_SAM(s[i]);
-	int p=1;R(i,1,n)p=a[p].son[s[i]],edp[p]=i;
+	int p=1;R(i,1,n)p=a[p].son[s[i]],edp[p]=i/*,printf("p:%lld edp:%lld\n",p,edp[p])*/;
 	R(i,2,tn) e[a[i].nxt].pb(i);
 	dfs(1);
+	//R(i,1,10) printf("rt:%lld\n",Rt[i]);
+	int qlen;
+	sp[0]=1;
+	while(q--)
+	{
+		ql=read(),qr=read();scanf("%s",strt+1);
+		qlen=strlen(strt+1);
+		p=1;R(i,1,qlen) t[i]=strt[i]-'a';
+		int v,lim=qlen;
+		R(i,1,qlen)
+		{
+			v=a[p].son[t[i]];
+			if(v&&query(ql+i-1,qr,1,n,Rt[v])) p=a[p].son[t[i]],sp[i]=p;
+			else {lim=i-1;break;}
+		}
+		//printf("lim:%d\n",lim);
+		//printf("st:");for(int i=0;i<=qlen;i++) printf("%d ",sp[i]);
+		//puts(""); 
+		int ok=0;
+		L(i,0,lim)
+		{
+			if(ok) break;
+			R(j,(i<qlen)?t[i+1]+1:0,25) 
+			{
+				v=a[sp[i]].son[j];
+				if(query(ql+i,qr,1,n,Rt[v])) 
+				{
+					//printf("%lld\n",i);
+					R(k,1,i) putchar(strt[k]);
+					putchar(j+'a'),puts("");
+					ok=1;break;
+				}
+			}
+		}
+		if(!ok) puts("-1");
+	}
+}
+/*
+aabbababababasbbbbabababababababbababaababbabababababababbabbbbbbbbaaaaaaaaabbbabababababbbbabbababbababa
+10
+1 82 abbbababababababa
 
+*/
+```
+
+- [P4094 [HEOI2016/TJOI2016]字符串](https://www.luogu.com.cn/problem/P4094)
+
+先把原串倒过来，现在问题变成了$[a,b]$的子串在$[c,d]$中匹配的最长后缀。
+
+考虑二分一个$len$，就变成了$O(\log n)$个$[d-len+1,d]$在$[a+len-1,b]$中的存在性问题。
+
+令$c'=d+len-1,a'=a+len-1$。
+
+建出SAM，跑一个线段树合并求出每一个点的edp。
+
+然后定位包含子串$[c',d']$的点具体方法是先找出前缀$d$的对应结束点，然后看`len`在parent树上倍增。
+
+定位到之后看一看有没有edp在给出的$[a',b]$内，线段树上一个区间查询即可。
+
+时间复杂度$O(n\log^2 n)$
+
+```c++
+const int N=2e5+10;
+
+int n,m;
+struct node {int len,nxt,son[26];}a[N<<1];
+int lst,tn,edp[N<<1];
+
+inline void init_SAM(){tn=lst=1;}
+void extend_SAM(int c)
+{
+    int cur=++tn,p=lst;
+    a[cur].len=a[p].len+1;
+    for(;p&&!a[p].son[c];p=a[p].nxt)a[p].son[c]=cur;
+    if(!p) a[cur].nxt=1;
+    else
+    {
+        int v=a[p].son[c];
+        if(a[v].len==a[p].len+1)a[cur].nxt=v;
+        else
+        {
+            int x=++tn;a[x]=a[v];
+            a[x].len=a[p].len+1;
+            for(;p&&a[p].son[c]==v;p=a[p].nxt)a[p].son[c]=x;
+            a[cur].nxt=a[v].nxt=x;
+        }
+    }
+    lst=cur;
+}
+int Rt[N<<1],Ls[N<<6],Rs[N<<6];
+int tot_seg;
+char strs[N],strt[N];
+int s[N],t[N];
+vector<int>e[N<<1];
+int sp[N];
+int st[N<<1][23];
+
+int mer(int x,int y)
+{
+    if(!x||!y) return x^y;
+    int pos=++tot_seg;
+    Ls[pos]=mer(Ls[x],Ls[y]);
+    Rs[pos]=mer(Rs[x],Rs[y]);
+    return pos;
+}
+void modify(int pos,int l,int r,int &x)
+{
+    if(!x) x=++tot_seg;
+    if(l==r) return;
+    int mid=(l+r)>>1;
+    if(pos<=mid) modify(pos,l,mid,Ls[x]);
+    else modify(pos,mid+1,r,Rs[x]);
+}
+int query(int L,int R,int l,int r,int x)
+{
+    if(!x) return 0;
+    if(L<=l&&r<=R) return 1;
+    int mid=(l+r)>>1,ret=0;
+    if(L<=mid) ret|=query(L,R,l,mid,Ls[x]);
+    if(mid<R) ret|=query(L,R,mid+1,r,Rs[x]);
+    return ret;
+}
+void dfs(int u)
+{
+    if(edp[u]) modify(edp[u],1,n,Rt[u]);
+    for(int v:e[u]) dfs(v),Rt[u]=mer(Rt[u],Rt[v]);
+}
+inline int check(int lim,int l,int r,int x)
+{
+    L(i,0,20) if(a[st[x][i]].len>=lim&&st[x][i]) x=st[x][i];return query(l+lim-1,r,1,n,Rt[x]);
+}
+signed main()
+{
+    n=read(),m=read();
+    scanf("%s",strs+1);
+    reverse(strs+1,strs+n+1);
+    R(i,1,n) s[i]=strs[i]-'a';
+    init_SAM();R(i,1,n) extend_SAM(s[i]),sp[i]=lst;
+    int p=1;R(i,1,n)p=a[p].son[s[i]],edp[p]=i;
+    R(i,2,tn) e[a[i].nxt].pb(i);
+    dfs(1);
+    R(i,1,tn) st[i][0]=a[i].nxt;
+    R(j,1,20) R(i,1,tn) st[i][j]=st[st[i][j-1]][j-1];
+    int qa,qb,qc,qd,l,r,mid,best;
+    while(m--)
+    {
+        qa=n-read()+1,qb=n-read()+1,qc=n-read()+1,qd=n-read()+1;
+        l=0,r=min(qa-qb+1,qc-qd+1);best=0;
+        while(l<=r)
+        {
+            mid=(l+r)>>1;
+            if(check(mid,qb,qa,sp[qc]))l=mid+1,best=mid;
+            else r=mid-1;
+        }
+        writeln(best);
+    }
 }
 ```
+
+- [SP687 REPEATS - Repeats](https://www.luogu.com.cn/problem/SP687)
+
+不会，先鸽掉了。
+
+### SAM上树分治
+
+当你要统计前缀**对子**之间的贡献时,你会发现往往与**lcs**最长公共后缀) 有关。
+
+而这又能转化成关于parent树上`LCA`的一些信息，那么我们就可以使用有根树分治来统计。
+
+某些时候也可以直接树剖。
+
+- [[DS记录\]Loj#6198. 谢特](https://www.luogu.com.cn/blog/command-block/ds-ji-lu-6198-xie-te) (启发式合并01Trie)
+- [[DS记录\]P5161 WD与数列](https://www.luogu.com.cn/blog/command-block/ds-ji-lu-p5161-wd-yu-shuo-lie) (启发式合并线段树)
+- [[DS记录\]P4482 [BJWC2018]Border 的四种求法](https://www.luogu.com.cn/blog/command-block/ds-ji-lu-p4482-bjwc2018border-di-si-zhong-qiu-fa) (重链剖分)
 
 
 
@@ -1610,3 +1737,4 @@ signed main()
 [ouuan](https://ouuan.github.io/post/%E5%90%8E%E7%BC%80%E8%87%AA%E5%8A%A8%E6%9C%BAsam%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/)
 
 某课件
+

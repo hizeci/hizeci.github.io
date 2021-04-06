@@ -13,7 +13,7 @@
 
 发现后一部分为等差数列平方和
 
-$\begin{align} \sum\limits_{i=1}^n(s+(i-1)k)^2 & = s^2+(s+k)^2+(s+2k)^2+\cdots+(s+(n-1)k)^2 \\&=s^2+s^2+2sk+k^2+s^2+4sk+4k^2+\cdots+s^2+2(n-1)sk+(n-1)^2k^2 \\ & = ns^2+\sum\limits_{i=2}^n(2isk)+\frac{n(n-1)(2n-1)}{6}k^2(k^2\sum_{i=1}^{n-1}i^2 ) \\ \end{align}$
+$\begin{align} \sum\limits_{i=1}^n(s+(i-1)k)^2 & = s^2+(s+k)^2+(s+2k)^2+\cdots+(s+(n-1)k)^2 \\ & = s^2+s^2+2sk+k^2+s^2+4sk+4k^2+\cdots+s^2+2(n-1)sk+(n-1)^2k^2 \\ & = ns^2+\sum\limits_{i=2}^n(2isk)+\frac{n(n-1)(2n-1)}{6}k^2(k^2\sum_{i=1}^{n-1}i^2 ) \\ \end{align}$
 
 其中$\sum\limits_{i=1}^{n-1}(2isk)=n(n-1)sk$（原题解写了$(skn^2)$但菜鸡认为是这个）。
 

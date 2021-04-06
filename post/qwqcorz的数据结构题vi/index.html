@@ -49,7 +49,7 @@
 <meta itemprop="name" content="QwQcOrZ的数据结构题VI">
 <meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-03-22T20:25:27&#43;08:00" />
 <meta itemprop="dateModified" content="2021-03-22T20:25:27&#43;08:00" />
-<meta itemprop="wordCount" content="930">
+<meta itemprop="wordCount" content="933">
 <meta itemprop="keywords" content="线段树,数据结构," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="QwQcOrZ的数据结构题VI"/>
 <meta name="twitter:description" content=""/>
@@ -127,7 +127,7 @@
 <p>原题解：</p>
 <p>需要计算的是$\sum\limits_{i=l}^r(a_i(s+(i-l)k)+(s+(i-l)k)^2)$</p>
 <p>发现后一部分为等差数列平方和</p>
-<p>$\begin{align} \sum\limits_{i=1}^n(s+(i-1)k)^2 &amp; = s^2+(s+k)^2+(s+2k)^2+\cdots+(s+(n-1)k)^2 \&amp;=s^2+s^2+2sk+k^2+s^2+4sk+4k^2+\cdots+s^2+2(n-1)sk+(n-1)^2k^2 \ &amp; = ns^2+\sum\limits_{i=2}^n(2isk)+\frac{n(n-1)(2n-1)}{6}k^2(k^2\sum_{i=1}^{n-1}i^2 ) \ \end{align}$</p>
+<p>$\begin{align} \sum\limits_{i=1}^n(s+(i-1)k)^2 &amp; = s^2+(s+k)^2+(s+2k)^2+\cdots+(s+(n-1)k)^2 \ &amp; = s^2+s^2+2sk+k^2+s^2+4sk+4k^2+\cdots+s^2+2(n-1)sk+(n-1)^2k^2 \ &amp; = ns^2+\sum\limits_{i=2}^n(2isk)+\frac{n(n-1)(2n-1)}{6}k^2(k^2\sum_{i=1}^{n-1}i^2 ) \ \end{align}$</p>
 <p>其中$\sum\limits_{i=1}^{n-1}(2isk)=n(n-1)sk$（原题解写了$(skn^2)$但菜鸡认为是这个）。</p>
 <p>考虑如何计算$\sum\limits_{i=l}^r(a_i(s+(i-l)k))$</p>
 <p>将式子拆开得到$\sum\limits_{i=l}^r(a_i(s+(i-l)k))=\sum\limits_{i=l}^r a_is+\sum\limits_{i=l}^r(a_i(i-l)k)$(原题解第二个式子为$\sum\limits_{i=1}^r(a_i(i-1)k)$</p>
