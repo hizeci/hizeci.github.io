@@ -49,7 +49,7 @@
 <meta itemprop="name" content="关于维护动态的树的直径">
 <meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-04-06T21:06:24&#43;08:00" />
 <meta itemprop="dateModified" content="2021-04-06T21:06:24&#43;08:00" />
-<meta itemprop="wordCount" content="2712">
+<meta itemprop="wordCount" content="2729">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="关于维护动态的树的直径"/>
 <meta name="twitter:description" content=""/>
@@ -154,11 +154,20 @@ $$</p>
 <p>$$
 lmx[l,r]=A[i]-2\times \min\limits_{j\leq i}{A[j]}
 $$</p>
+<p><img src="https://i.loli.net/2021/04/07/IC97fDu8vZQGj4l.png" alt="QQ图片20210407205414.png"></p>
+<p>如果latex崩了就看图片吧(</p>
 <p>令$m$为$(l,r)$中点，考虑$l,k,r$和$m$的关系，有
 $$
-\begin{equation}  <br>
-Diameter[L,R]=\max \left{\begin{array}{lr} Diameter[m+1,R] &amp; , &amp; (m&lt;l\leq k\leq r) \ mx[L,m]+rmx[m+1,R] &amp; , &amp; (l\leq m&lt;k\leq r) \ lmx[L,m]+mx[m+1,R] &amp; , &amp;(l\leq k\leq m&lt; r) \ Diameter[L,m] &amp; , &amp;(l\leq k\leq r\leq m)  \end{array} \right.
-\end{equation}
+\begin{equation}</p>
+<p>Diameter[L,R]=
+\max</p>
+<p>\left{\begin{array}{lr} Diameter[m+1,R] &amp; , &amp; (m&lt;l\leq k\leq r) \</p>
+<p>mx[L,m]+rmx[m+1,R] &amp; , &amp; (l\leq m&lt;k\leq r) \ 
+lmx[L,m]+mx[m+1,R] &amp; , &amp;(l\leq k\leq m&lt; r) \ 
+Diameter[L,m] &amp; , &amp;(l\leq k\leq r\leq m) \</p>
+<p>\end{array}</p>
+<p>\right.</p>
+<p>\end{equation}
 $$
 同时$rmx$和$lmx$也可以使用这种思路求出
 $$
@@ -888,8 +897,8 @@ $$
       
       <nav class="post-nav">
         
-        <a class="next" href="/post/%E9%95%BF%E9%93%BE%E5%89%96%E5%88%86/">
-            <span class="next-text nav-default">长链剖分</span>
+        <a class="next" href="/post/%E5%B9%BF%E4%B9%89sam/">
+            <span class="next-text nav-default">广义SAM</span>
             <span class="next-text nav-mobile">下一篇</span>
             <i class="iconfont icon-right"></i>
           </a>

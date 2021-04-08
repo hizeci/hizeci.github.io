@@ -44,10 +44,27 @@ $$
 lmx[l,r]=A[i]-2\times \min\limits_{j\leq i}\{A[j]\}
 $$
 
+![QQ图片20210407205414.png](https://i.loli.net/2021/04/07/IC97fDu8vZQGj4l.png)
+
+如果latex崩了就看图片吧(
+
 令$m$为$(l,r)$中点，考虑$l,k,r$和$m$的关系，有
 $$
-\begin{equation}     
-Diameter[L,R]=\max \left\{\begin{array}{lr} Diameter[m+1,R] & , & (m<l\leq k\leq r) \\ mx[L,m]+rmx[m+1,R] & , & (l\leq m<k\leq r) \\ lmx[L,m]+mx[m+1,R] & , &(l\leq k\leq m< r) \\ Diameter[L,m] & , &(l\leq k\leq r\leq m)  \end{array} \right.
+\begin{equation} 
+
+Diameter[L,R]=
+\max 
+
+\left\{\begin{array}{lr} Diameter[m+1,R] & , & (m<l\leq k\leq r) \\ 
+
+mx[L,m]+rmx[m+1,R] & , & (l\leq m<k\leq r) \\ 
+lmx[L,m]+mx[m+1,R] & , &(l\leq k\leq m< r) \\ 
+Diameter[L,m] & , &(l\leq k\leq r\leq m) \\
+
+\end{array}
+
+\right.
+
 \end{equation}
 $$
 同时$rmx$和$lmx$也可以使用这种思路求出
