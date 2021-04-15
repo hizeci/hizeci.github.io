@@ -60,8 +60,6 @@ $\gcd(f(x),\varphi(n))=1$
 
 稍微举个例子，仍然是$\mathbb{Z}_{12}^*=\{1,5,7,11\}$
 
-因为$12=3*4,\varphi(3)=2,\varphi(4)=2$，所以这是一个
-
 $1=(0,0)$
 
 $5=(0,1)$
@@ -381,3 +379,319 @@ $(a^p)^v=b^p$
 $a^{qu}=b\cdot a^{-v}$
 
 $(a^q)^u=b\cdot a^{-v}$
+
+```c++
+#define lll __int128
+
+ll gcd(ll x,ll y)
+{
+     if(!x) return y;
+    if(!y) return x;
+    ll t=__builtin_ctzll(x|y);
+    x>>=__builtin_ctzll(x);
+    do
+    {
+        y>>=__builtin_ctzll(y);
+        if(x>y) swap(x,y);
+        y-=x;
+    }while(y);
+    return x<<t;
+}
+
+inline ll ftimes(ull a,ull b,ull p)
+{
+    a%=p,b%=p;
+    ll c=a*b-(ull)((ld)a/p*b)*p;c%=p;
+    return c<0?c+p:c;
+}
+ll quick_pow(ll a,ll b,ll p) {ll ans=1;while(b){if(b&1)ans=(lll)ans*a%p;a=(lll)a*a%p;b>>=1;}return ans;}
+int exgcd(int a,int b,int &x,int &y) {if(!b){x=1,y=0;return a;}int ret=exgcd(b,a%b,y,x);y-=x*(a/b);return ret;}
+inline int get_inv(int a,int p){if(!a)return 1;int x,y;exgcd(a,p,x,y);return (x+p)%p;}
+namespace por
+{
+    ll pr[]={2,3,5,7,11,13,17,19,37};
+    int Miller_Rabin(ll p)
+    {
+        if(p<3) return p==2;
+        if(p==3) return 1;
+        if(!(p&1)) return 0;
+        ll a=p-1,b=0;
+        while(!(a&1)) a>>=1,++b;
+        for(int i=0,j;i<=8;i++)
+        {
+            if(p==pr[i]) return 1;
+            if(!(p%pr[i])) return 0;
+            ll v=quick_pow(pr[i],a,p);
+            if(v==1||v==p-1) continue;
+            for(j=1;j<b;j++) {v=(lll)v*v%p;if(v==p-1)break;}
+            if(v!=(p-1)) return 0;
+        }
+        return 1;
+    }
+    inline ll calc(ll x,ll c,ll p) {return ((lll)x*x+c)%p;}
+    inline ll Pollard_Rho1(ll p)
+    {
+        ll s=0,t=0;
+        ll c=(ll)rand()%(p-1)+1;
+        ll val=1;
+        for(int lim=1;;lim<<=1,s=t,val=1)
+        {
+            R(cnt,1,lim)
+            {
+                t=calc(t,c,p);
+                val=ftimes(val,abs(t-s),p);
+                if(!(cnt%127)) {ll g=gcd(val,p);if(g>1)return g;}
+            }
+            ll g=gcd(val,p);if(g>1)return g; 
+        }
+    }
+    inline ll Pollard_Rho2(ll p)
+    {
+        ll c=rand()%(p-3)+3;
+        ll t=calc(0,c,p),r=calc(calc(0,c,p),c,p);
+        while(t!=r)
+        {
+            ll g=gcd(abs(t-r),p);
+            if(g>1) return g;
+            t=calc(t,c,p);
+            r=calc(calc(r,c,p),c,p);
+        }
+        return p;
+    }
+    int ans;
+    void solve(int n)
+    {
+        if(n<=ans||n<2) return;
+        if(Miller_Rabin(n)){ckmax(ans,n);return;}
+        int p=n;
+        while(p>=n)p=Pollard_Rho1(n);
+        while((n%p)==0) n/=p;
+        solve(n),solve(p);
+    }
+    int mian(int n)
+    {         
+        srand(time(0));
+        ans=0;
+        solve(n);
+        return ans;
+    }
+}
+namespace DLP
+{
+    const int N=1e6+10;
+    //const int hst_mod=3173219;
+    inline int qpow(int a,int b) {int ret=1;while(b){if(b&1)ret=ret*a;a=a*a;b>>=1;}return ret;}
+    inline int qpow(int a,int b,int p) {a%=p;int ret=1;while(b){if(b&1)ret=(lll)ret*a%p;a=(lll)a*a%p;b>>=1;}return ret;}
+    /*
+    struct hash_map_t
+    {
+        int head[hst_mod+10],cnt;
+        struct edge {int nxt,key,val;}e[N<<1];
+        inline int ser(int key)
+        {
+            int u=key%hst_mod;
+            for(int i=head[u];i;i=e[i].nxt) if(key==e[i].key) return e[i].val;
+            return -1;
+        } 
+        inline int ins(int key,int val)
+        {
+            if(ser(key)!=-1) return -1;
+            int u=key%hst_mod;e[++cnt]=(edge){head[u],key,val};head[u]=cnt;
+            return val;
+        }
+        inline int modify(int key,int val)
+        {
+            if(ser(key)==-1) return ins(key,val);
+            int u=key%hst_mod;
+            for(int i=head[u];i;i=e[i].nxt) if(e[i].key==key) return e[i].val=val;
+        }
+        inline void clear() {R(i,1,cnt) head[e[i].key%hst_mod]=e[i].nxt=0;cnt=0;}
+    }mp;
+    */
+    map<int,int>mp;
+    int tot_pri,pri[N/10];
+    bool isnpr[N];
+    inline void euler_pri(int lim=1000000)
+    {
+        int k;
+        R(i,2,lim) 
+        {
+            if(!isnpr[i]) pri[++tot_pri]=i;
+            R(j,1,tot_pri) 
+            {
+                k=i*pri[j];
+                if(k>lim) break;
+                isnpr[k]=1;
+                if(i%pri[j]==0) break;
+            }
+        }
+    }
+    void div_num(vector<pii>&dv,int num)
+    {
+        int tot=0;
+        while(num>=1000000) 
+        {
+            int mxfc=por::mian(num);
+            tot=0;
+            while(num%mxfc==0) tot++,num/=mxfc;
+            dv.pb(mkp(mxfc,tot));
+        }
+        if(!tot_pri) euler_pri();
+        R(i,1,tot_pri) 
+        {
+            if(pri[i]>num) break;
+            if(num%pri[i]==0) 
+            {
+                tot=0;
+                while(num%pri[i]==0) tot++,num/=pri[i];
+                dv.pb(mkp(pri[i],tot));
+            }
+        }
+        if(num^1) dv.pb(mkp(num,1));
+        sort(dv.begin(),dv.end());
+    }
+    int get_ord(int p,int phi,vector<pii>&dv)
+    {
+        for(int k=2;;k++)
+        {
+            int ok=1;
+            R(i,0,(int)dv.size()-1) if(qpow(k,phi/dv[i].fi,p)==1) {ok=0;break;}
+            if(ok) return k;
+        }
+    }
+    int BSGS(int a,int b,int p2,int p)
+    {
+        a%=p,b%=p;
+        if(b==1) return 0;
+        if(!a) {if(!b) return 1;return -1;}
+        mp.clear();
+        int sq,mu=1,ff=get_inv(a,p);
+        for(sq=1;sq*sq<=p2;sq++);
+        R(i,0,sq-1) mp[mu*b%p]=i,mu=mu*ff%p; //mp.ins(mu*b%p,i),mu=mu*ff%p;
+        ff=get_inv(mu,p);mu=1;
+        R(i,0,sq-1)
+        { 
+            /*
+            int pos=mp.ser(mu);
+            if(pos!=-1) return i*sq+pos;
+            */
+            if(mp.count(mu)) return i*sq+mp[mu];
+            mu=mu*ff%p;
+        }
+        return -1;
+    }
+    int solve_exbsgs(int a,int b,int p2,int p)
+    {
+        if(a==b) return 1;
+        int d=gcd(a,p);
+        if(d==1) return BSGS(a,b,p2,p);
+        if(b%d) return -1;
+        p/=d;
+        return solve_exbsgs(a%p,(b/d)*get_inv(a/d,p)%p,p2,p)+1;
+    }
+    int exBSGS(int a,int b,int p2,int p)
+    {
+        a%=p,b%=p;
+        if(b==1) return 0;
+        if(!a) return !b?1:-1;
+        return solve_exbsgs(a,b,p2,p);
+    }
+    int getv(int a,int b,int p2,int tot,int p)
+    {
+        vector<int>pi;
+        int pwp=1;
+        R(i,0,tot) pi.pb(pwp),pwp*=p2;
+        int buf=qpow(a,pi[tot-1],p),inv=0,tx;pwp=1;
+       // printf("acc%lld\n",buf);
+        L(i,0,tot-1)
+        {       
+            tx=pwp*BSGS(buf,qpow((lll)b*qpow(a,pi[tot]-inv,p)%p,pi[i],p),p2,p);
+            //printf("tx:%lld\n",tx);
+            inv+=tx;pwp*=p2; 
+        }
+        return inv;
+    }
+    int CRT(vector<int>&a,vector<pii>&dv)
+    {
+        int szd=dv.size();
+        vector<int>b;
+        int M=1,ans=0,Mi;
+        R(i,0,szd-1) b.pb(qpow(dv[i].fi,dv[i].se)),M*=b[i];
+        R(i,0,szd-1) Mi=M/b[i],ans=((lll)ans+(lll)Mi*get_inv(Mi,b[i])*a[i])%M;
+        if(ans<0) ans+=M;
+        return ans;
+    } 
+    int EXCRT(vector<int>&a,vector<pii>&dv)
+    {
+        int szd=dv.size();
+        vector<int>b;
+        R(i,0,szd-1) b.pb(qpow(dv[i].fi,dv[i].se));
+        int M=b[0],ans=a[0];
+        int x,y;
+        int A,B,C,D,BG;
+        R(i,1,szd-1) 
+        {
+            A=M,B=b[i],C=(a[i]-ans%B+B)%B;
+            D=exgcd(A,B,x,y),BG=B/D;
+            if(C%D) return -1;
+            x=(lll)x*(C/D)%BG;
+            ans+=x*M;
+            M*=BG;
+            ans=(ans%M+M)%M;
+        }
+        return ans;
+    }
+    int getx(int a,int b,int phiP,int p,vector<pii>&dv)
+    {
+        vector<int>v;
+        for(auto qwq:dv) 
+        {
+            int fq=qpow(qwq.fi,qwq.se),pf=phiP/fq;
+            int ta=qpow(a,pf,p),tb=qpow(b,pf,p);
+            int tmp;
+            v.pb(tmp=getv(tb,ta,qwq.fi,qwq.se,p));
+        }
+        return EXCRT(v,dv);
+    }
+    int solve_exgcd(int a,int b,int c)
+    {
+        int d=gcd(a,b),x=0,y=0;
+        if(c%d) return -1;
+        a/=d,b/=d,c/=d;
+        exgcd(a,b,x,y);
+        x=(lll)x*c%b;
+        while(x<0) {x+=b;}
+        return x;
+    }
+    vector<pii>dv;
+    int phiP,yg;
+    void init(int p) 
+    {
+        phiP=p-1;
+        div_num(dv,phiP);
+        yg=get_ord(p,phiP,dv);
+    }
+    int mian(int a,int b,int p)//p为素数的情况 
+    {
+        if(!b) return 0;
+        int x=getx(a,yg,phiP,p,dv);
+        int y=getx(b,yg,phiP,p,dv);
+        if(!x) {if(!y) return 1;if(y==1) return 0;return -1;}
+        return solve_exgcd(x,phiP,y);
+    }
+}
+signed main()
+{
+    //freopen("test.out","w",stdout);
+    int _=read(),p=read(),a,b,ans;
+    DLP::init(p);
+    for(;_;_--)
+    {
+        a=read(),b=read();
+        ans=DLP::mian(a,b,p);
+        printf(ans<0?"-1\n":"%lld\n",ans);
+    }
+    
+}
+```
+

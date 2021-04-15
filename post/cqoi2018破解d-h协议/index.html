@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>[CQOI2018]破解D-H协议 - having little or no sense, use, or purpose.</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="TRAGEDY:ETERNITY" /><meta name="description" content="" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.81.0 with theme even" />
+
+
+<link rel="canonical" href="https://hizeci.github.io/post/cqoi2018%E7%A0%B4%E8%A7%A3d-h%E5%8D%8F%E8%AE%AE/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+
+<link href="/sass/main.min.6a025d60334ccde9f765dedcf6936f4c2eb3ea8d22276e9f389bb2efc2d55e11.css" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+<meta property="og:title" content="[CQOI2018]破解D-H协议" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hizeci.github.io/post/cqoi2018%E7%A0%B4%E8%A7%A3d-h%E5%8D%8F%E8%AE%AE/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-04-15T14:02:47&#43;08:00" />
+<meta property="article:modified_time" content="2021-04-15T14:02:47&#43;08:00" />
+
+<meta itemprop="name" content="[CQOI2018]破解D-H协议">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-04-15T14:02:47&#43;08:00" />
+<meta itemprop="dateModified" content="2021-04-15T14:02:47&#43;08:00" />
+<meta itemprop="wordCount" content="450">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="[CQOI2018]破解D-H协议"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">菜</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">[CQOI2018]破解D-H协议</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-04-15 </span>
+        <div class="post-category">
+            <a href="/categories/%E9%A2%98%E8%A7%A3/"> 题解 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>题意：</p>
+<p>先给定一个固定的质数$P$以及模$P$的一个原根$g$。</p>
+<p>多组测试数据，每次给定给定两个整数$A,B$，其中$A=g^x \pmod P,B=g^y \pmod P$，求出$g^{xy} \pmod P$的值</p>
+<p>大概就是直接暴力解同余方程求出$x,y$然后算$g^{xy}\bmod P$即可。</p>
+<p>然后可以发现$x,y$只要求出一个就可以，比如解出$x$之后算$B^x$。</p>
+<p>然后因为是多次数据，而$P$和$g$已经给定了。</p>
+<p>原来的方程为$g^x\equiv A\pmod P$，设$x=i\times \sqrt{P}-j$
+$$
+\frac{g^{i\sqrt{P}}}{g^j\cdot A}\equiv 1 \pmod P 
+$$</p>
+<p>$$
+0&lt;i \leq \sqrt{P} ,0\leq j&lt; \sqrt P
+$$</p>
+<p>考虑预处理出分子部分，丢到哈希表中。每次查询时枚举$A\cdot g^j$。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kr">inline</span> <span class="kt">void</span> <span class="nf">writeln</span><span class="p">(</span><span class="n">ll</span> <span class="n">x</span><span class="p">){</span><span class="n">write</span><span class="p">(</span><span class="n">x</span><span class="p">);</span><span class="n">putchar</span><span class="p">(</span><span class="sc">&#39;\n&#39;</span><span class="p">);}</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">N</span><span class="o">=</span><span class="mi">1145141</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">hst_mod</span><span class="o">=</span><span class="mi">173219</span><span class="p">;</span>
+<span class="k">struct</span> <span class="nc">hash_map_t</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">head</span><span class="p">[</span><span class="n">hst_mod</span><span class="o">+</span><span class="mi">10</span><span class="p">],</span><span class="n">cnt</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="nc">edge</span> <span class="p">{</span><span class="kt">int</span> <span class="n">nxt</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="n">val</span><span class="p">;}</span><span class="n">e</span><span class="p">[</span><span class="n">N</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">];</span>
+    <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">ser</span><span class="p">(</span><span class="kt">int</span> <span class="n">key</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">u</span><span class="o">=</span><span class="n">key</span><span class="o">%</span><span class="n">hst_mod</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">head</span><span class="p">[</span><span class="n">u</span><span class="p">];</span><span class="n">i</span><span class="p">;</span><span class="n">i</span><span class="o">=</span><span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">nxt</span><span class="p">)</span> <span class="k">if</span><span class="p">(</span><span class="n">key</span><span class="o">==</span><span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">key</span><span class="p">)</span> <span class="k">return</span> <span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">val</span><span class="p">;</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span> 
+    <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">ins</span><span class="p">(</span><span class="kt">int</span> <span class="n">key</span><span class="p">,</span><span class="kt">int</span> <span class="n">val</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">ser</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">!=-</span><span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">u</span><span class="o">=</span><span class="n">key</span><span class="o">%</span><span class="n">hst_mod</span><span class="p">;</span><span class="n">e</span><span class="p">[</span><span class="o">++</span><span class="n">cnt</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">edge</span><span class="p">){</span><span class="n">head</span><span class="p">[</span><span class="n">u</span><span class="p">],</span><span class="n">key</span><span class="p">,</span><span class="n">val</span><span class="p">};</span><span class="n">head</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">=</span><span class="n">cnt</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">val</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">modify</span><span class="p">(</span><span class="kt">int</span> <span class="n">key</span><span class="p">,</span><span class="kt">int</span> <span class="n">val</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">ser</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">==-</span><span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="n">ins</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">val</span><span class="p">);</span>
+        <span class="kt">int</span> <span class="n">u</span><span class="o">=</span><span class="n">key</span><span class="o">%</span><span class="n">hst_mod</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">head</span><span class="p">[</span><span class="n">u</span><span class="p">];</span><span class="n">i</span><span class="p">;</span><span class="n">i</span><span class="o">=</span><span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">nxt</span><span class="p">)</span> <span class="k">if</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">key</span><span class="o">==</span><span class="n">key</span><span class="p">)</span> <span class="k">return</span> <span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">val</span><span class="o">=</span><span class="n">val</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">clear</span><span class="p">()</span> <span class="p">{</span><span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">cnt</span><span class="p">)</span> <span class="n">head</span><span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">key</span><span class="o">%</span><span class="n">hst_mod</span><span class="p">]</span><span class="o">=</span><span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">nxt</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">cnt</span><span class="o">=</span><span class="mi">0</span><span class="p">;}</span>
+<span class="p">}</span><span class="n">mp</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">P</span><span class="p">,</span><span class="n">g</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">;</span>
+<span class="cp">#define lll __int128 
+</span><span class="cp"></span><span class="kr">inline</span> <span class="kt">int</span> <span class="nf">qpow</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span><span class="kt">int</span> <span class="n">b</span><span class="p">,</span><span class="kt">int</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span><span class="kt">int</span> <span class="n">ans</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="k">while</span><span class="p">(</span><span class="n">b</span><span class="p">){</span><span class="k">if</span><span class="p">(</span><span class="n">b</span><span class="o">&amp;</span><span class="mi">1</span><span class="p">)</span><span class="n">ans</span><span class="o">=</span><span class="p">(</span><span class="n">lll</span><span class="p">)</span><span class="n">ans</span><span class="o">*</span><span class="n">a</span><span class="o">%</span><span class="n">p</span><span class="p">;</span><span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="n">lll</span><span class="p">)</span><span class="n">a</span><span class="o">*</span><span class="n">a</span><span class="o">%</span><span class="n">p</span><span class="p">;</span><span class="n">b</span><span class="o">&gt;&gt;=</span><span class="mi">1</span><span class="p">;}</span><span class="k">return</span> <span class="n">ans</span><span class="p">;}</span>
+<span class="kt">signed</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">g</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">P</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+	<span class="kt">int</span> <span class="n">sq</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(;</span><span class="n">sq</span><span class="o">*</span><span class="n">sq</span><span class="o">&lt;=</span><span class="n">P</span><span class="p">;</span><span class="n">sq</span><span class="o">++</span><span class="p">);</span>
+	<span class="c1">//	printf(&#34;sq:%lld\n&#34;,sq);
+</span><span class="c1"></span>	<span class="kt">int</span> <span class="n">ff</span><span class="o">=</span><span class="n">qpow</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">sq</span><span class="p">,</span><span class="n">P</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">mu</span><span class="o">=</span><span class="n">ff</span><span class="p">,</span><span class="n">pos</span><span class="p">;</span>
+ 	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">sq</span><span class="p">)</span> <span class="n">mp</span><span class="p">.</span><span class="n">ins</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span><span class="n">i</span><span class="o">*</span><span class="n">sq</span><span class="p">),</span><span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="o">*</span><span class="n">ff</span><span class="o">%</span><span class="n">P</span><span class="p">;</span>
+ 	<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">_</span><span class="o">=</span><span class="n">read</span><span class="p">();</span><span class="n">_</span><span class="p">;</span><span class="n">_</span><span class="o">--</span><span class="p">)</span>
+ 	<span class="p">{</span>
+ 		<span class="n">A</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">B</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+ 		<span class="n">mu</span><span class="o">=</span><span class="n">A</span><span class="p">;</span>
+ 		<span class="n">R</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">sq</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> 
+ 		<span class="p">{</span>
+ 			<span class="n">pos</span><span class="o">=</span><span class="n">mp</span><span class="p">.</span><span class="n">ser</span><span class="p">(</span><span class="n">mu</span><span class="p">);</span>
+ 			<span class="k">if</span><span class="p">(</span><span class="n">pos</span><span class="o">!=-</span><span class="mi">1</span><span class="p">)</span> 
+ 			<span class="p">{</span> 			
+ 				<span class="c1">//printf(&#34;j:%lld pos:%lld\n&#34;,j,pos);
+</span><span class="c1"></span> 				<span class="n">writeln</span><span class="p">(</span><span class="n">qpow</span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="n">pos</span><span class="o">-</span><span class="n">j</span><span class="p">,</span><span class="n">P</span><span class="p">));</span>
+ 				<span class="k">break</span><span class="p">;</span>
+ 			<span class="p">}</span>
+ 			<span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="o">*</span><span class="n">g</span><span class="o">%</span><span class="n">P</span><span class="p">;</span>
+ 		<span class="p">}</span>
+ 	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/%E7%BC%BA%E7%9C%81%E6%BA%90%E5%92%8C%E6%A8%A1%E6%9D%BF/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">缺省源和模板</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/%E5%8E%9F%E6%A0%B9%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0%E7%9B%B8%E5%85%B3/">
+            <span class="next-text nav-default">原根&amp;离散对数相关</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  <span id="/post/cqoi2018%E7%A0%B4%E8%A7%A3d-h%E5%8D%8F%E8%AE%AE/" class="leancloud_visitors" data-flag-title="[CQOI2018]破解D-H协议">
+		<span class="post-meta-item-text">文章阅读量 </span>
+		<span class="leancloud-visitors-count">0</span>
+		<p></p>
+	  </span>
+  <div id="vcomments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'F8xu4BfgVST0H6107wApro6n-gzGzoHsz',
+        appKey: 'qlgvukJKICXwyoy3NkVygfIu',
+        notify:  false ,
+        verify:  false ,
+        avatar:'mm',
+        placeholder: '说点什么吧...',
+        visitor:  true 
+    });
+  </script>
+
+  
+
+      </div>
+    </main>
+
+    
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        tags: 'ams',
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+    docsearch({
+    apiKey: "97c22106dbe3955818bc05a0be5f3511",
+    indexName: "hizeci's blog",
+    appId: "9HLPOQJVAD",
+    inputSelector: '.docsearch-input',
+    debug: false,
+    });
+</script>
+
+
+</body>
+</html>
