@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>图论和网络流相关 - having little or no sense, use, or purpose.</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="TRAGEDY:ETERNITY" /><meta name="description" content="" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.81.0 with theme even" />
+
+
+<link rel="canonical" href="https://hizeci.github.io/post/%E5%9B%BE%E8%AE%BA%E5%92%8C%E7%BD%91%E7%BB%9C%E6%B5%81%E7%9B%B8%E5%85%B3/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+
+<link href="/sass/main.min.6a025d60334ccde9f765dedcf6936f4c2eb3ea8d22276e9f389bb2efc2d55e11.css" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+<meta property="og:title" content="图论和网络流相关" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hizeci.github.io/post/%E5%9B%BE%E8%AE%BA%E5%92%8C%E7%BD%91%E7%BB%9C%E6%B5%81%E7%9B%B8%E5%85%B3/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-04-17T07:55:54&#43;08:00" />
+<meta property="article:modified_time" content="2021-04-17T07:55:54&#43;08:00" />
+
+<meta itemprop="name" content="图论和网络流相关">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-04-17T07:55:54&#43;08:00" />
+<meta itemprop="dateModified" content="2021-04-17T07:55:54&#43;08:00" />
+<meta itemprop="wordCount" content="709">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="图论和网络流相关"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">菜</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">图论和网络流相关</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-04-17 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#强连通分量scc">强连通分量(scc)</a></li>
+        <li><a href="#强连通缩点">强连通缩点</a>
+          <ul>
+            <li><a href="#kosaraju">Kosaraju</a></li>
+            <li><a href="#例题1">例题1</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="强连通分量scc">强连通分量(scc)</h2>
+<p>在有向图$G$中，若两个顶点$u,v$之间能够互相到达，则称$u,v$是强连通的。若有向图$G$的每两个顶点都强连通，则$G$就是一个强连通图。</p>
+<p>有向图的极大强连通子图，称作强连通分量。</p>
+<h2 id="强连通缩点">强连通缩点</h2>
+<p>将一个图中的每一个强连通分量都缩成一个点的过程，称为强连通缩点。容易发现。缩点后的图一定是个DAG。</p>
+<p>强连通缩点可以由Kosaraju算法或者Tarjan算法（似乎还有一种）</p>
+<p>下面稍微讲一下Kosaraju算法</p>
+<h3 id="kosaraju">Kosaraju</h3>
+<p><img src="https://i.loli.net/2021/04/17/k7Jidwv21g4MqyU.png" alt="Picture1.png"></p>
+<p>先跑一遍，记录它的posorder，也就是它的返回顺序。</p>
+<p>如对于上面这张图从12开始dfs，它的posorder就是$1,2,\ldots ,12$</p>
+<p>以及在DAG中，posorder是拓扑序的反序。</p>
+<p>在记录这个的posorder后，将这个图的边反向。</p>
+<p><img src="https://i.loli.net/2021/04/17/6JetWY47iaAwhkH.png" alt="Picture2.png"></p>
+<p>从最后一个点开始(还是12)在反向图上跑一遍dfs，然后每一次dfs就访问一些点，可以发现这一些点就是一个强连通分量。</p>
+<p>大概是因为posorder是DAG的拓扑序列的逆序，将原图的边反向之后，所以最终第二遍dfs的顺序其实就是缩点之后DAG的拓扑序。</p>
+<p><img src="https://i.loli.net/2021/04/17/bWnXtL2xo3FZAYm.png" alt="Picture3.png"></p>
+<h3 id="例题1">例题1</h3>
+<p><a href="https://codeforces.ml/contest/949/problem/C">https://codeforces.ml/contest/949/problem/C</a></p>
+<p>阅读理解题</p>
+<p>题意</p>
+<p>$n$个点，每个点$i$有一个值$a_i$。$m$个条件，每个条件有2个点$x,y$且$a_x\neq a_y$。选择最少的$k$个点，使其值加$1$后，$m$个条件仍成立。</p>
+<p>solution</p>
+<p>考虑如果有一个人选了两个点$x,y$，且$(a_x+1)\bmod h=a_y$，那么就连一条从$x\to y$的有向边。表示如果选了$x$，就必须选$y$。然后将得到的图强连通缩点，容易发现一定是选最小的且出度为0的块。因为如果选了一个出度不为$0$的点，之后还要将其他出度为0的点选上，由于是DAG一定有出度为0的点</p>
+    </div>
+
+    
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/%E5%81%9A%E9%A2%98%E8%AE%B0%E5%BD%951/">
+            <span class="next-text nav-default">做题记录1</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  <span id="/post/%E5%9B%BE%E8%AE%BA%E5%92%8C%E7%BD%91%E7%BB%9C%E6%B5%81%E7%9B%B8%E5%85%B3/" class="leancloud_visitors" data-flag-title="图论和网络流相关">
+		<span class="post-meta-item-text">文章阅读量 </span>
+		<span class="leancloud-visitors-count">0</span>
+		<p></p>
+	  </span>
+  <div id="vcomments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'F8xu4BfgVST0H6107wApro6n-gzGzoHsz',
+        appKey: 'qlgvukJKICXwyoy3NkVygfIu',
+        notify:  false ,
+        verify:  false ,
+        avatar:'mm',
+        placeholder: '说点什么吧...',
+        visitor:  true 
+    });
+  </script>
+
+  
+
+      </div>
+    </main>
+
+    
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        tags: 'ams',
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+    docsearch({
+    apiKey: "97c22106dbe3955818bc05a0be5f3511",
+    indexName: "hizeci's blog",
+    appId: "9HLPOQJVAD",
+    inputSelector: '.docsearch-input',
+    debug: false,
+    });
+</script>
+
+
+</body>
+</html>
