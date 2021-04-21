@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>AGC020E Encoding Subsets  - having little or no sense, use, or purpose.</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="TRAGEDY:ETERNITY" /><meta name="description" content="" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.81.0 with theme even" />
+
+
+<link rel="canonical" href="https://hizeci.github.io/post/agc020e/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+
+<link href="/sass/main.min.6a025d60334ccde9f765dedcf6936f4c2eb3ea8d22276e9f389bb2efc2d55e11.css" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+<meta property="og:title" content="AGC020E Encoding Subsets " />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hizeci.github.io/post/agc020e/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-04-21T18:24:01&#43;08:00" />
+<meta property="article:modified_time" content="2021-04-21T18:24:01&#43;08:00" />
+
+<meta itemprop="name" content="AGC020E Encoding Subsets ">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-04-21T18:24:01&#43;08:00" />
+<meta itemprop="dateModified" content="2021-04-21T18:24:01&#43;08:00" />
+<meta itemprop="wordCount" content="884">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="AGC020E Encoding Subsets "/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">菜</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">AGC020E Encoding Subsets </h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-04-21 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>由于直接对S的所有子集求和并不是很好弄，所以考虑计算在“解码”时成为S的子集的数量。</p>
+<p>令$f(S)$表示字符串为S时的答案。</p>
+<p>考虑如何去计算$f$。编码字符串的第一个字符有两种选择。</p>
+<ul>
+<li>是数字$0$或者$1$。显然这个字符与字符串其他部分的编码并没有关系，所以有$f(S_{2\ldots |S|})$种方法编码其余部分。如果$S_1=1$，则答案为这个值$\times 2$，因为编码字符串的第一个字符可以是$0$或$1$。同样，如果$S_1=0$，那么答案为$\times 1$，因为编码字符串的第一个字符串只能是$0$。</li>
+<li>是一个左括号（。在此情况下，此编码字符串的开头是$(P\times K)$，其中$P$是某个字符串$A$的编码。遍历正整数$K$和$|A|$满足$K\cdot |A|\leq |S|$，同时需要$AA\ldots A$（$K$个$A$拼起来）是$S_{1\ldots K|A| }$的子集。这等价于$A$同时是$S_{1\ldots|A|},S_{|A|+1\ldots2|A|},\cdots,S_{(K-1)|A|+1\ldots K|A|}$的子串。这等价于$A$是所有这些字符串的$\wedge$。并且还有$f(S_{K|A|+1\ldots|S|})$种方法编码其余部分。</li>
+</ul>
+<p>因此$f(S)$的递推式子不难推出
+$$
+f(S)=(1+S_1)f(S_{2\ldots |S|})+\sum_{|A|=1}^{|S|} \sum_{K=1}^{\lfloor\frac{|S|}{|A|}\rfloor} f(g(S,K,|A|))\times f(S_{K|A|+1\ldots |S|})
+$$
+其中$g(S,K,|A|)$表示$S_{1\ldots |A|} \wedge S_{|A|+1\ldots 2|A}  \wedge \ldots  \wedge S_{(K-1)|A|+1\ldots K|A|}$。</p>
+<p>通过记忆化来计算$f(S)$。$f$将会调用多少个不同的参数？显然上界看上去为$O(2^{|S|})$，但事实上该解决方案十分快速。</p>
+<p>具体证明可以查看官方题解。</p>
+<p>下面附上感性理解：</p>
+<p>如果字符串长度最多为12，那么不同的字符串个数为$2^{13}-2$种。可以证明对于长度$&gt; 12$，最多有$O(n^2)$种方法调用$f$。事实上，状态数最多为$O(N^3+2^{N/8})$其中$N^3$前面有一个小常数。（其他题解有讲大概怎么推的）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#define lll __int128
+</span><span class="cp"></span><span class="n">map</span><span class="o">&lt;</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">lll</span><span class="p">,</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">,</span><span class="kt">int</span><span class="o">&gt;</span><span class="n">f</span><span class="p">;</span>
+<span class="kt">char</span> <span class="n">s</span><span class="p">[</span><span class="mi">111</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">dfs</span><span class="p">(</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">lll</span><span class="p">,</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">now</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">now</span><span class="p">.</span><span class="n">se</span><span class="p">)</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="n">now</span><span class="p">))</span> <span class="k">return</span> <span class="n">f</span><span class="p">[</span><span class="n">now</span><span class="p">];</span>
+	<span class="kt">int</span> <span class="n">ans</span><span class="o">=</span><span class="n">dfs</span><span class="p">(</span><span class="n">mkp</span><span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">fi</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">,</span><span class="n">now</span><span class="p">.</span><span class="n">se</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="p">((</span><span class="n">now</span><span class="p">.</span><span class="n">fi</span><span class="o">&amp;</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">now</span><span class="p">.</span><span class="n">se</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">)</span> 
+	<span class="p">{</span>
+		<span class="n">lll</span> <span class="n">S</span><span class="o">=</span><span class="p">((</span><span class="n">lll</span><span class="p">)</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">A</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">tmp</span><span class="o">=</span><span class="n">now</span><span class="p">.</span><span class="n">fi</span><span class="p">,</span><span class="n">sum</span><span class="o">=</span><span class="n">tmp</span><span class="o">&amp;</span><span class="n">S</span><span class="p">;</span>
+		<span class="n">tmp</span><span class="o">&gt;&gt;=</span><span class="n">A</span><span class="p">;</span><span class="n">sum</span><span class="o">&amp;=</span><span class="n">tmp</span><span class="o">&amp;</span><span class="n">S</span><span class="p">;</span><span class="n">tmp</span><span class="o">&gt;&gt;=</span><span class="n">A</span><span class="p">;</span>
+		<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">K</span><span class="o">=</span><span class="n">now</span><span class="p">.</span><span class="n">se</span><span class="o">-</span><span class="n">A</span><span class="o">-</span><span class="n">A</span><span class="p">;</span><span class="n">K</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">;</span><span class="n">K</span><span class="o">-=</span><span class="n">A</span><span class="p">,</span><span class="n">sum</span><span class="o">&amp;=</span><span class="n">tmp</span><span class="o">&amp;</span><span class="n">S</span><span class="p">,</span><span class="n">tmp</span><span class="o">&gt;&gt;=</span><span class="n">A</span><span class="p">)</span> 
+			<span class="n">ans</span><span class="o">=</span><span class="p">(</span><span class="n">ans</span><span class="o">+</span><span class="mi">1ll</span><span class="o">*</span><span class="n">dfs</span><span class="p">(</span><span class="n">mkp</span><span class="p">(</span><span class="n">sum</span><span class="p">,</span><span class="n">A</span><span class="p">))</span><span class="o">*</span><span class="n">dfs</span><span class="p">(</span><span class="n">mkp</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span><span class="n">K</span><span class="p">)))</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">f</span><span class="p">[</span><span class="n">now</span><span class="p">]</span><span class="o">=</span><span class="n">ans</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">signed</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">scanf</span><span class="p">(</span><span class="s">&#34;%s&#34;</span><span class="p">,</span><span class="n">s</span><span class="p">);</span>
+	<span class="n">n</span><span class="o">=</span><span class="n">strlen</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+	<span class="n">lll</span> <span class="n">S</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="o">|</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="sc">&#39;0&#39;</span><span class="p">);</span>
+	<span class="n">writeln</span><span class="p">(</span><span class="n">dfs</span><span class="p">(</span><span class="n">mkp</span><span class="p">(</span><span class="n">S</span><span class="p">,</span><span class="n">n</span><span class="p">)));</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/village/">
+            <span class="next-text nav-default">#3336. 「BalticOI 2020」村庄</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  <span id="/post/agc020e/" class="leancloud_visitors" data-flag-title="AGC020E Encoding Subsets ">
+		<span class="post-meta-item-text">文章阅读量 </span>
+		<span class="leancloud-visitors-count">0</span>
+		<p></p>
+	  </span>
+  <div id="vcomments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'F8xu4BfgVST0H6107wApro6n-gzGzoHsz',
+        appKey: 'qlgvukJKICXwyoy3NkVygfIu',
+        notify:  false ,
+        verify:  false ,
+        avatar:'mm',
+        placeholder: '说点什么吧...',
+        visitor:  true 
+    });
+  </script>
+
+  
+
+      </div>
+    </main>
+
+    
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        tags: 'ams',
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+    docsearch({
+    apiKey: "97c22106dbe3955818bc05a0be5f3511",
+    indexName: "hizeci's blog",
+    appId: "9HLPOQJVAD",
+    inputSelector: '.docsearch-input',
+    debug: false,
+    });
+</script>
+
+
+</body>
+</html>
