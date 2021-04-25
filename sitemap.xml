@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://hizeci.github.io/post/%E9%B8%BD%E6%8E%89%E7%9A%84%E4%B8%9C%E8%A5%BF/</loc>
+    <lastmod>2021-04-22T21:15:46+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://hizeci.github.io/post/arcaea/</loc>
+    <lastmod>2021-04-22T13:51:04+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://hizeci.github.io/post/agc020e/</loc>
     <lastmod>2021-04-21T18:24:01+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -25,13 +39,6 @@
   <url>
     <loc>https://hizeci.github.io/post/%E5%9B%BE%E8%AE%BA%E5%92%8C%E7%BD%91%E7%BB%9C%E6%B5%81%E7%9B%B8%E5%85%B3/</loc>
     <lastmod>2021-04-17T07:55:54+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://hizeci.github.io/post/%E5%81%9A%E9%A2%98%E8%AE%B0%E5%BD%951/</loc>
-    <lastmod>2021-04-16T19:38:30+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -248,14 +255,28 @@
   
   <url>
     <loc>https://hizeci.github.io/</loc>
-    <lastmod>2021-04-21T18:24:01+08:00</lastmod>
+    <lastmod>2021-04-22T21:15:46+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://hizeci.github.io/post/</loc>
-    <lastmod>2021-04-21T18:24:01+08:00</lastmod>
+    <lastmod>2021-04-22T21:15:46+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://hizeci.github.io/tags/</loc>
+    <lastmod>2021-04-22T21:15:46+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://hizeci.github.io/tags/%E5%92%95%E5%92%95%E5%92%95/</loc>
+    <lastmod>2021-04-22T21:15:46+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -270,13 +291,6 @@
   <url>
     <loc>https://hizeci.github.io/categories/%E9%A2%98%E8%A7%A3/</loc>
     <lastmod>2021-04-19T19:36:19+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://hizeci.github.io/tags/</loc>
-    <lastmod>2021-04-16T08:58:35+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
