@@ -1795,3 +1795,375 @@ solution
 先连一条费用为0的边，再连一条费用为1的边，大概就还是费用流比较常见的连边方式...
 
 比如一条边经过$a$次费用是$a^2$，那么就可以连一条费用为1的边，费用为3的边，费用为5的边...如果费用是个凸函数，就都可以按照这种方式连边。
+
+```c++
+const int dx[]={0,-1,0,1};
+const int dy[]={1,0,-1,0};
+const int N=30010;
+const int INF=0x3f3f3f3f;
+int head[N],dis[N],vis[N],h[N];
+int n,m,s,t,cnt_e=1,MXF,MNC;
+int id[3310][33][5];
+std::vector<string> field;
+struct edge {int nxt,to,cap,cos;}e[150010];
+inline void add_edge(int u,int v,int f,int c)
+{
+	e[++cnt_e]=(edge){head[u],v,f,c};head[u]=cnt_e;
+}
+inline void link(int u,int v,int f,int c)
+{
+	//printf("u:%d v:%d f:%d c:%d\n",u,v,f,c);
+	add_edge(u,v,f,c),add_edge(v,u,0,-c);
+}
+inline void Add(int u,int v,int opt)
+{
+	if((u+v)%2==0)
+	{
+		link(s,id[u][v][0],2,0);
+		if(!opt) 
+		{
+			link(id[u][v][0],id[u][v][1],2,0);
+			link(id[u][v][0],id[u][v][2],2,0);		
+		}
+		else
+		{
+			link(id[u][v][0],id[u][v][1],1,0);
+			link(id[u][v][0],id[u][v][1],1,1);
+			link(id[u][v][0],id[u][v][2],1,0);
+			link(id[u][v][0],id[u][v][2],1,1);
+		}
+	}
+	else
+	{
+		link(id[u][v][0],t,2,0);
+		if(!opt) 
+		{
+			link(id[u][v][1],id[u][v][0],2,0);
+			link(id[u][v][2],id[u][v][0],2,0);			
+		}
+		else
+		{
+			link(id[u][v][1],id[u][v][0],1,0);
+			link(id[u][v][1],id[u][v][0],1,1);
+			link(id[u][v][2],id[u][v][0],1,0);
+			link(id[u][v][2],id[u][v][0],1,1);
+		}
+	}
+	if((u+v)%2==0)
+	{
+		int x,y;
+		R(i,0,3)
+		{	
+			x=u+dx[i],y=v+dy[i];
+			if(x<0||y<0||x>=n||y>=m) continue;
+			if(field[x][y]=='w') continue;
+			//printf("x:%d y:%d\n",x,y);
+			//cout<<"FA"<<field[x][y]<<endl;
+			//printf("i:%d id:%d id:%d\n",i,id[u][v][i%2+1],id[x][y][i%2+1]); 
+			link(id[u][v][i%2+1],id[x][y][i%2+1],1,0);
+		}
+	}
+	
+}
+void spfa()
+{
+	deque<int>q;
+	R(i,0,3020) h[i]=INF,vis[i]=0;
+	//memset(h,0x3f,sizeof(h));
+	h[s]=0;vis[s]=1;
+	q.pb(s);int u,v;
+	while((int)q.size()>0)
+	{
+		u=q.front();q.pop_front();
+		vis[u]=0;
+		for(int i=head[u];i;i=e[i].nxt)
+		{
+			v=e[i].to;
+			if(e[i].cap&&h[v]>h[u]+e[i].cos)
+			{
+				h[v]=h[u]+e[i].cos;
+				if(!vis[v]) vis[v]=1,q.pb(v);
+			}
+		}
+	}
+}
+struct node
+{
+	int val,pos;
+	inline int operator <(const node &A)const {return val>A.val;}
+};
+pii p[50010];	
+
+int dij()
+{
+	priority_queue<node>q;
+
+	R(i,0,3030) dis[i]=INF,vis[i]=0;
+	//memset(dis,0x3f,sizeof(dis));
+	//memset(vis,0,sizeof(vis));
+	dis[s]=0;
+	q.push((node){0,s});
+	int u,v,tc;
+	while((int)q.size()>0)
+	{
+		u=q.top().pos,q.pop();
+		if(vis[u]) continue;vis[u]=1;
+		for(int i=head[u];i;i=e[i].nxt)
+		{
+			v=e[i].to;tc=e[i].cos+h[u]-h[v];
+			if(e[i].cap&&dis[v]>dis[u]+tc)
+			{
+				dis[v]=dis[u]+tc;
+				p[v]=mkp(u,i);
+				if(!vis[v]) q.push((node){dis[v],v});
+			}
+		}
+	}
+	return dis[t]<INF;
+}
+void MCMF()
+{
+	int minF; 
+	spfa();
+	while(dij())
+	{
+		minF=INF;
+		R(i,0,3030) h[i]+=dis[i];
+		for(int i=t;i^s;i=p[i].fi) ckmin(minF,e[p[i].se].cap);
+		for(int i=t;i^s;i=p[i].fi) e[p[i].se].cap-=minF,e[p[i].se^1].cap+=minF;
+		MXF+=minF,MNC+=minF*h[t];
+	}
+}
+struct CurvyonRails
+{
+	inline int getmin(vector<string> field)
+	{
+		n=(int)field.size(),m=(int)field[0].size();
+		::field=field;
+		R(i,0,n-1) R(j,0,m-1)
+		{
+			id[i][j][0]=i*m+j;
+			id[i][j][1]=i*m+n*m+j;
+			id[i][j][2]=i*m+2*n*m+j;
+		}
+		s=n*m*3,t=s+1;
+		int sumf=0;
+		R(i,0,n-1) R(j,0,m-1)
+		{
+			if(field[i][j]=='w') continue;
+			if((i+j)%2==0) sumf+=2;
+			if(field[i][j]=='.') Add(i,j,0);
+			if(field[i][j]=='C') Add(i,j,1);
+		}
+		MCMF();
+		//printf("mf:%d llf:%d\n",MXF,sumf);
+		if(MXF<sumf) return -1;
+		return MNC;
+	}
+};
+/*
+signed main()
+{
+	//freopen("cxytxdy.in","r",stdin);
+	string tmp;
+	vector<string>field;
+	int n;
+	cin>>n;
+	R(i,1,n) cin>>tmp,field.pb(tmp);
+	CurvyonRails mian;
+	writeln(mian.getmin(field));
+}
+*/
+```
+
+### 无源汇上下界可行流
+
+在一个没有源汇的图中，每条边都有一个流量的上界和下界，我们需要求一个可行流，使它的出入是平衡的，而且每条边的流量就在这个界中。
+
+
+
+考虑先将每条边的下界的流量流完，然后将流入大于流出的点和流出大于流入的点分开，新建源点汇点。对于流入大于流出的点，假设流入比流出大$x$,那么加入边$(s,i,x)$表示从$s$到$i$，流量为$x$。对于流出大于流入的点，加入$(i,t,x)$。然后对于原来的边$(x,y,u,d)$，$u$指上界，$d$指下界，加入边$(x,y,u-d)$。判断新图是否满流即可。
+
+```c++
+const int N=222222;
+int n,m,s,t,sumf;
+int dis[N],ind[N],oud[N],now[N],lst[N];
+int head[N],cnt_e=1;
+struct edge {int nxt,to,cap;}e[N<<1];
+int flow[N<<1];
+inline void add_edge(int u,int v,int f)
+{
+	e[++cnt_e]=(edge){head[u],v,f},head[u]=cnt_e,flow[cnt_e]=0;
+}
+inline void link(int u,int v,int f)
+{
+	add_edge(u,v,f),add_edge(v,u,0);return;
+}
+deque<int>q;
+int bfs()
+{
+	memset(dis,0,sizeof(dis));
+	q.clear();
+	q.pb(s);
+	dis[s]=1;
+	int u,v;
+	while((int)q.size()>0)
+	{
+		u=q.front();q.pop_front();
+		for(int i=head[u];i;i=e[i].nxt)
+		{
+			v=e[i].to;
+			if(dis[v]||flow[i]==e[i].cap) continue;
+			dis[v]=dis[u]+1;
+			q.pb(v);
+		}
+	}
+	return dis[t]>0;
+}
+int dfs(int u,int mc)
+{
+	if(u==t) return mc;
+	int res=0,v,k;
+	for(int i=now[u];i&&res<mc;i=e[i].nxt)
+	{
+		v=e[i].to;
+		if(flow[i]==e[i].cap||dis[v]!=dis[u]+1) continue;
+		k=dfs(v,min(mc-res,e[i].cap-flow[i]));
+		flow[i]+=k,flow[i^1]-=k,res+=k;
+	}
+	return res;
+}
+int dinic()
+{
+	int res=0;
+	while(bfs())
+	{
+		R(i,1,t) now[i]=head[i];
+		res+=dfs(s,inf);
+	}
+	return res;
+}
+
+signed main()
+{
+	n=read(),m=read();
+	s=n+1,t=s+1;
+	int x,y,u,d;
+	R(i,1,m)
+	{
+		x=read(),y=read(),d=read(),u=read();
+		ind[y]+=d,oud[x]+=d,lst[i]=d;
+		link(x,y,u-d);
+	}
+	R(i,1,n)
+	{
+		if(ind[i]<oud[i]) link(i,t,oud[i]-ind[i]);
+		if(ind[i]>oud[i]) link(s,i,ind[i]-oud[i]);
+		sumf+=abs(ind[i]-oud[i]);
+	}
+	sumf>>=1;
+	int res=dinic();
+	if(res<sumf) return puts("NO")&0;
+	puts("YES");
+	R(i,1,m) writeln(flow[i<<1]+lst[i]);
+}
+```
+
+### 有源汇上下界最大流
+
+还是先把每条边的下界流量先流完，类似地判断一下合不合法，由于源点和汇点流量不一定需要平衡，直接连一条边$(t,s,inf)$即可。然后将新建的源点和汇点删掉。然后再在残余网络上跑一遍$s\to t$的最大流即可。
+
+```c++
+const int N=30030;
+int n,m,s,t,ns,nt,sumf;
+int dis[N],ind[N],oud[N],now[N];
+int head[N],cnt_e=1,flow[N<<1];
+struct edge {int nxt,to,cap;}e[N<<1];
+inline void add_edge(int u,int v,int f)
+{
+	e[++cnt_e]=(edge){head[u],v,f};head[u]=cnt_e;flow[cnt_e]=0;
+}
+inline void link(int u,int v,int f)
+{
+	add_edge(u,v,f),add_edge(v,u,0);
+}
+deque<int>q;
+int bfs()
+{
+	memset(dis,0,sizeof(dis));
+	q.clear();
+	q.pb(s);
+	dis[s]=1;
+	int u,v;
+	while((int)q.size()>0)
+	{
+		u=q.front();q.pop_front();
+		for(int i=head[u];i;i=e[i].nxt)
+		{
+			v=e[i].to;
+			if(dis[v]||flow[i]==e[i].cap) continue;
+			dis[v]=dis[u]+1;
+			q.pb(v);
+		}
+	}
+	return (dis[t]>0);
+}
+int dfs(int u,int mc)
+{
+	if(u==t) return mc;
+	int res=0,v,k;
+	for(int i=now[u];i&&res<mc;i=e[i].nxt)
+	{
+		v=e[i].to;
+		if(flow[i]==e[i].cap||dis[v]!=dis[u]+1) continue;
+		k=dfs(v,min(mc-res,e[i].cap-flow[i]));
+		flow[i]+=k,flow[i^1]-=k,res+=k;
+	}
+	return res;
+}
+int dinic()
+{
+	int res=0;
+	while(bfs())
+	{
+		//test
+		cpy(now,head,t+5);
+		//R(i,1,t) now[i]=head[i];
+		res+=dfs(s,inf);
+	}
+	return res;
+}
+signed main()
+{
+	n=read(),m=read(),ns=read(),nt=read(),s=n+1,t=s+1;
+	int x,y,u,d;
+	R(i,1,m)
+	{ 
+		x=read(),y=read(),d=read(),u=read();
+		ind[y]+=d,oud[x]+=d;link(x,y,u-d);
+	}
+	link(nt,ns,inf);
+	int tmp=cnt_e-1;
+	R(i,1,n) 
+	{
+		if(ind[i]<oud[i]) link(i,t,oud[i]-ind[i]);
+		if(ind[i]>oud[i]) link(s,i,ind[i]-oud[i]);
+		sumf+=abs(ind[i]-oud[i]);
+	}
+	sumf>>=1;
+	int res=dinic();
+	if(res<sumf) return puts("please go home to sleep")&0;
+	else
+	{
+		res=flow[tmp];
+		e[tmp].cap=flow[tmp]=flow[tmp^1]=0;
+		s=ns,t=nt;
+		res+=dinic();
+		writeln(res);
+	}
+}
+```
+
+### 有源汇上下界最小流
+
+求出一组可行流后求从$t$到$s$的最大流。然后把可行流的流量减去它即可。
