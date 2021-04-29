@@ -347,35 +347,63 @@ $$
 ### 练习
 
 求下列级数的普通生成函数：
+
+$\{4,4,4,4,\ldots \}$
+
 $$
-\{4,4,4,4,\ldots \}
+4\cdot \sum_{k=0}^\infty x^k
 $$
 
 $$
-\{2,4,6,8,\ldots \}
+\frac{4}{1-x}
+$$
+
+$\{2,4,6,8,\ldots \}$
+$$
+2\cdot \sum_{k=0}^\infty (k+1) \cdot x^k =2\cdot \sum_{k=0}^\infty k\cdot x^{k-1}=2\cdot \sum_{k=0}^\infty (x^k)'=2\cdot\big(\sum_{k=0}^\infty x^k \big)'=2\cdot (\frac{1}{1-x})'=\frac{2}{(1-x)^2}
+$$
+$\{0,0,0,2,4,6,8,\ldots \}$
+
+$2\cdot \{0,0,0,1,2,3,4\}$
+$$
+2\cdot \sum_{k=0}^{\infty} k \cdot x^{k+2} = 2x^3 \sum_{k=0}^\infty k\cdot x^{k-1}=\frac{2x^3}{(1-x)^2}
+$$
+$\{1,5,25,125,\ldots \}$
+$$
+\sum_{k=0}^\infty 5^k \cdot x^k =\sum_{k=0}^\infty (5x)^k=\frac{1}{1-5x}
+$$
+$\{1,-3,9,-27,81,\ldots\}$
+$$
+\sum_{k=0}^{\infty} (-3)^k\cdot x^k=(-3x)^k =\frac{1}{1+3x}
+$$
+$\{1,0,5,0,25,0,125,0,\ldots \}$
+$$
+\sum_{k=0}^\infty 5^{\frac{k}{2}} x^k [k\bmod 2=0]=\sum_{k=0}^{\infty} 5^{k}\cdot x^{2k}=\sum_{k=0}^\infty (5x^2)^k=\frac{1}{1-5x^2} 
+$$
+$\{0,1,0,0,2,0,0,3,0,0,4,0,0,5,\ldots \}$
+$$
+\sum_{k=0}^{\infty} k\cdot x^{3k-2}=x^{-2} \sum_{k=0}^{\infty} k \cdot x^{3k}
+$$
+令$y=x^3$
+$$
+x^{-2} \sum_{k=0}^{\infty} k \cdot x^{3k}=x\sum_{k=0}^{\infty} k\cdot y^{k-1}=x \sum_{k=0}^{\infty}(y^k)'=\frac{x}{(1-y)^2}=\frac{x}{(1-x^3)^2}
+$$
+$\{4,5,7,10,14,19,25,\ldots  \}$
+
+令$F(x)=4+5x+7x^2+10x^3+\ldots$
+$$
+(1-x)\cdot F(x)=4+x+2x^2+3x^3+\ldots
+$$
+拆成$\{4,0,0,\ldots \}+\{0,1,2,3,\ldots \}$得到：
+$$
+(1-x)\cdot F(x)=4+\frac{x}{(1-x)^2}
 $$
 
 $$
-\{0,0,0,2,4,6,8,\ldots \}
+F(x)=\frac{4}{1-x}+\frac{x}{(1-x)^3}
 $$
 
-$$
-\{1,5,25,125,\ldots \}
-$$
+### 经典例题
 
-$$
-\{1,-3,9,-27,81,\ldots\}
-$$
 
-$$
-\{1,0,5,0,25,0,125,0,\ldots \}
-$$
-
-$$
-\{0,1,0,0,2,0,0,3,0,0,4,0,0,5,\ldots \}
-$$
-
-$$
-\{4,5,7,10,14,19,25,\ldots  \}
-$$
 
