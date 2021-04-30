@@ -49,7 +49,7 @@
 <meta itemprop="name" content="生成函数">
 <meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-04-29T07:21:49&#43;08:00" />
 <meta itemprop="dateModified" content="2021-04-29T07:21:49&#43;08:00" />
-<meta itemprop="wordCount" content="2276">
+<meta itemprop="wordCount" content="3715">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="生成函数"/>
 <meta name="twitter:description" content=""/>
@@ -135,6 +135,9 @@
             <li><a href="#小练习">小练习</a></li>
             <li><a href="#练习">练习</a></li>
             <li><a href="#经典例题">经典例题</a></li>
+            <li><a href="#fibonacci-数列">Fibonacci 数列</a></li>
+            <li><a href="#线性递推的特征根法">线性递推的特征根法</a></li>
+            <li><a href="#catlan数">Catlan数</a></li>
           </ul>
         </li>
       </ul>
@@ -446,6 +449,109 @@ $$</p>
 F(x)=\frac{4}{1-x}+\frac{x}{(1-x)^3}
 $$</p>
 <h3 id="经典例题">经典例题</h3>
+<p>有四种无限多的水果，要求第一种恰好拿出偶数个，第二种恰好拿出$5$的倍数个，第三种最多拿$4$个，第四种最多拿$1$个，求恰好拿出$n$个水果的方案数。</p>
+<p>先考虑只有前两种水果时的情况</p>
+<p>现在知道了第一种水果拿$0$个的方案数是$a_0$，拿$1$个的方案数是$a_1$&hellip;拿$n$个的方案数$a_n$</p>
+<p>${a_0,a_1,a_2,\ldots ,a_n}$</p>
+<p>同样设第二种水果拿$0$个的方案数是$b_0$&hellip;&hellip;.</p>
+<p>${b_0,b_1,b_2,\ldots ,b_n}$</p>
+<p>然后现在求一共恰好拿出$n$个水果的方案
+$$
+\sum_{i=0}^n a_i\cdot b_{n-i}
+$$
+定义$C_n$表示$\sum\limits_{i=0}^n a_i \cdot b_{n-i}$</p>
+<p>解出$C_n$的生成函数$C(x)$
+$$
+\sum_{n=0}^{\infty} C_n\cdot x^n
+$$
+将定义式代回来，得到：
+$$
+\sum_{n=0}^\infty \sum_{i=0}^n a_i\cdot b_{n-i} \cdot x^n
+$$
+看到有两个求和符号，你的DNA就动了，交换两个求和符号
+$$
+\sum_{i=0}^\infty a_i \sum_{n=i}^n b_{n-i} \cdot x^n
+$$
+然后令$j=n-i$，原式变为：
+$$
+\sum_{i=0}^\infty a_i \sum_{j=0}^\infty b_j\cdot x^{i+j}
+$$
+而$x^{i+j}=x^i\cdot x^j$，所以继续转化原式变为：
+$$
+\big(\sum_{i=0}^\infty a_i\cdot x^i \big )\big(\sum_{j=0}^\infty b_j\cdot x^j \big )
+$$
+那么其实这就分别是$a$和$b$的生成函数，记作$A(x)$和$B(x)$</p>
+<p>事实上$C(x)=A(x)\cdot B(x)$</p>
+<p>那么例题就是分别求出$4$个条件的生成函数然后直接乘起来就是了</p>
+<p>为什么这会是对的呢？</p>
+<p>可以想象一下做一个$dp$，设$dp_{i,j}$表示前$i$种水果恰好拿出$j$个的方案数。</p>
+<p>假设它第$i$行的一个生成函数叫做$F_i$</p>
+<p>就有$F_i(x)=F_{i-1}(x)\cdot A_i(x)$，$A_i(x)$为从第$i$个水果中拿恰好多少个对应的生成函数</p>
+<p>那么如$F_4(x)=A_1A_2A_3A_4$</p>
+<p>回到例题</p>
+<p>第一种水果的数列为${1,0,1,0,\ldots}$，它的生成函数即$\frac{1}{1-x^2}$</p>
+<p>第二种生成函数为$\frac{1}{1-x^5}$</p>
+<p>第三种为${1,1,1,1,1,0,0,0,0,\ldots}$，它的生成函数即$1+x^1+x^2+x^3+x^4$</p>
+<p>第四种的生成函数为$1+x$</p>
+<p>四个相乘就可以得到恰好拿出$n$个水果的方案数即$\frac{1}{(1-x)^2}$。</p>
+<p>就是${1,2,3,4,5,\ldots}$的生成函数</p>
+<p>故方案数为$n+1$</p>
+<p>对于线性递推都可以求普通生成函数</p>
+<h3 id="fibonacci-数列">Fibonacci 数列</h3>
+<p>求 Fibonacci 数列 $a_0=a_1=1,a_n=a_{n-1}+a_{n-2}(n\ge 2)$的普通生成函数？</p>
+<p>设：
+$$
+A=a_0+a_1x+a_2x^2+a_3x^3+\ldots 
+$$</p>
+<p>$$
+xA=0+a_0x+a_1x^2+a_2x^3+\ldots
+$$</p>
+<p>$$
+x^2A=0+0+a_0x^2+a_1x^3+a_2x^4\ldots
+$$</p>
+<p>然后可以得到
+$$
+(1-x-x^2)A=a_0+a_1x-a_0x=1
+$$</p>
+<p>$$
+A=\frac{1}{1-x-x^2}
+$$</p>
+<h3 id="线性递推的特征根法">线性递推的特征根法</h3>
+<p>假设现在有一个$k$阶的线性递推$a_n=\sum\limits_{i=1}^k b_i\cdot a_{n-i}$</p>
+<p>怎么用上述方法来做呢。</p>
+<p>我们想要凑出来在某一项之后，在某一个位置，</p>
+<p>第一位是$a_n$，第二位$b_1a_{n-1}$，第三位$b_2a_{n-2}$&hellip;.</p>
+<p>在后面乘的$x^n$要对齐，那么第一个就是$A$，第二个就是$b_1xA$，第三个就是$b_2x^2A$</p>
+<p>大概就这个样子</p>
+<p><img src="https://i.loli.net/2021/04/30/hdQli42PNRB3rFJ.png" alt="QQ图片20210430110014.png"></p>
+<p>仿照刚刚一减，就可以得到式子
+$$
+(1-b_1x-b_2x^2-b_3x^3-\ldots-b_k x^k)A(x)=F(x)
+$$
+其中$F(x)$是一个低次多项式。</p>
+<p>左边的一堆东西可以分解成
+$$
+(1-\alpha_1 x)\cdot (1-\alpha_2 x)\cdot \ldots \cdot (1-\alpha_n x)
+$$
+假设$\alpha$两两不相同，那么分母待定系数一下，可以证明可以写成
+$$
+\frac{a_1}{1-\alpha_1x}+\frac{a_2}{1-\alpha_2 x}+\ldots 
+$$
+每一项都可以算出来如第一项为$\alpha_1^n \cdot a_1$（这里变量名重复了</p>
+<p>通项公式第$n$项就是
+$$
+\alpha_1 a_1+\alpha_2 a_2+\ldots
+$$
+假如有重复就有一点麻烦，比如$\alpha_1 =\alpha_2$</p>
+<p>就会出现
+$$
+\frac{a_1}{1-a_1x}+\frac{a_2}{(1-a_1x)^2}
+$$
+当然这也能算。</p>
+<p><a href="https://blog.csdn.net/hefenghhhh/article/details/84897165">如果看不懂可以看这里</a></p>
+<p>使用特征根法，即可得到Fibonacci数列的通项公式</p>
+<h3 id="catlan数">Catlan数</h3>
+<p>求Catlan数$c_0=1,c_n=\sum\limits_{i=0}^{n-1}c_i\cdot c_{n-i-1}$的普通生成函数？</p>
     </div>
 
     
