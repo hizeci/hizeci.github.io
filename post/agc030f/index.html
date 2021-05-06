@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>AGC030F - having little or no sense, use, or purpose.</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="TRAGEDY:ETERNITY" /><meta name="description" content="" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.81.0 with theme even" />
+
+
+<link rel="canonical" href="https://hizeci.github.io/post/agc030f/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+
+<link href="/sass/main.min.6a025d60334ccde9f765dedcf6936f4c2eb3ea8d22276e9f389bb2efc2d55e11.css" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+<meta property="og:title" content="AGC030F" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hizeci.github.io/post/agc030f/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-05-06T15:07:13&#43;08:00" />
+<meta property="article:modified_time" content="2021-05-06T15:07:13&#43;08:00" />
+
+<meta itemprop="name" content="AGC030F">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-05-06T15:07:13&#43;08:00" />
+<meta itemprop="dateModified" content="2021-05-06T15:07:13&#43;08:00" />
+<meta itemprop="wordCount" content="1701">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="AGC030F"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">菜</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">AGC030F</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-05-06 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>假设存在一个$i(i\in [1,n])$满足$A_{2i-1}$与$A_{2i}$均不为$-1$。显然此时的$B_i$已经确定，所以这两个数并不会产生贡献，直接将这两个数“丢掉”即可。</p>
+<p>由于我们只需要求出不同序列${B_i}$的数量，为了更方便求出答案，考虑进行以下钦定：</p>
+<ul>
+<li>$A_{2i}=-1$ (否则可以交换$A_{2i-1}$与$A_{2i}$)</li>
+<li>如果$A_{2i-1}=A_{2i}=-1$，则$A_{2i-1}$上填的数比$A_{2i}$上填的数大。</li>
+<li>令$S$为满足条件的$A_{2i-1}=A_{2i}=-1$的所有$i$的集合，假设$S={x_1,\ldots ,x_k } (x_1 &lt; \ldots &lt;x_k )$，则$A_{2x_1},\ldots A_{2x_k}$上填的数是递减的。</li>
+</ul>
+<p>再乘上$|S|!$就是最后的答案。</p>
+<p>考虑确定整数$2N,2N-1,\ldots 1$在${B_i}$中出现（或不出现）的位置。</p>
+<p>然后分类讨论${B_i}$中出现整数$n$的出现有以下几类：</p>
+<ul>
+<li>
+<p>$a(n):$ $n$并没有在${A_i}$或者${B_i}$中出现</p>
+</li>
+<li>
+<p>$a'(n): n$并没有在${B_i}$中出现，但在${A_i }$中出现过</p>
+</li>
+<li>
+<p>$b(n):$对于所有满足$A_{2i-1}=A_{2i}=-1$的$i$，它出现在$B_i$中</p>
+</li>
+<li>
+<p>$c_p(n):$对于满足$A_{2i-1}=p (p&gt;n)$的$i$，它出现在$B_i$中</p>
+</li>
+<li>
+<p>$d(n):$对于满足$A_{2i-1}\neq -1$的$i$，它出现在$B_i$中，此时$A_{2i-1}=n$</p>
+</li>
+</ul>
+<p>考虑使用$2N,2N-1,\ldots 1$的相对的出现顺序来表示${B_i}$</p>
+<p>例如样例1的$(B_1,B_2,B_3)=(1,3,2)$就可以转换成$a'(6)\to a(5)\to a(4)\to d(3) \to b(2) \to d(1)$</p>
+<p>所以说，不同的${B_i}$会产生出不同的出现顺序。因此，可以计算出与正确的${B_i }$相对应的出现序列的数量（即从有效排列${A_i}$中得到的${B_i}$）。</p>
+<p>然后来考虑哪些会是正确的${B_i}$。</p>
+<p>首先，$a(n)$和$a'(n)$必须出现总共正好$N$次，因为$B$的长度为$N$。</p>
+<p>第二，如果$n$出现在${A_i}$中，那么它一定是$a'(n)$或者$c_p(n)$。类似的，如果$n$没有出现在${A_i}$中，那么它一定是$a(n),b(n)$或者$d(n)$。</p>
+<p>最后，在产生${B_i}$的序列${A_i}$中，$b(n),c_p(n)$和$d(n)$都应该与大于$n$的数进行匹配，即$b(n)$和$d(n)$应该与满足$n' &gt; n$的$a(n')$匹配。而$c_p(n)$应该与$a'(p)$进行匹配。且一个整数不能进行多次匹配。另一方面，如果出现的序列满足上述所有条件，我们可以看到对应与正确的${B_i}$。</p>
+<p>令$f_{n,X,Y}$表示已经考虑了$\ge n$的数值中，其中有$X$个$a(i)$没有被选过，有$Y$个$a'(i)$没有选过的方案数。</p>
+<p>然后考虑转移</p>
+<ul>
+<li>若$n$在${A_i}$中：
+<ul>
+<li>如果$n$是$a'(n)$，那么它可以转移至$f_{n-1,X,Y\cup {n}}$（设这个为a式）</li>
+<li>如果$n$是$d(n)$，那么它可以转移至$f_{n-1,X-1,Y}(X\geq 1)$</li>
+</ul>
+</li>
+<li>如果$n$不在${A_i}$中：
+<ul>
+<li>如果$n$是$a(n)$，那么它可以转移至$f_{n-1,X+1,Y}$</li>
+<li>如果$n$是$b(n)$，那么它可以转移至$f_{n-1,X-1,Y}$</li>
+<li>如果$n$是$c_p(n)$，那么它可以转移至$f_{n-1,X,p}(p\in Y)$（设这个为b式）</li>
+</ul>
+</li>
+</ul>
+<p>然后令$g(n,x,y)=\sum_{|Y|=y} f_{n,x,Y}$，可以发现a式为$(n,x,y)\to (n-1,x,y+1)$的转移，而b式为$y$个$(n,x,y)\to (n-1,x,y-1)$的转移。最后答案即为$g(0,0,0)$。</p>
+<p>可以通过$O(n^3)$时间复杂度算出。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">tot</span><span class="p">,</span><span class="n">cur</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">dp</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">333</span><span class="p">][</span><span class="mi">333</span><span class="p">],</span><span class="n">num</span><span class="p">[</span><span class="mi">666</span><span class="p">];</span>
+<span class="kr">inline</span> <span class="kt">void</span> <span class="nf">add</span><span class="p">(</span><span class="kt">int</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">,</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span><span class="n">x</span><span class="o">+=</span><span class="n">y</span><span class="p">;</span><span class="n">x</span><span class="o">&gt;=</span><span class="n">mod</span><span class="o">?</span><span class="n">x</span><span class="o">-=</span><span class="nl">mod</span><span class="p">:</span><span class="mi">0</span><span class="p">;}</span>
+<span class="kt">signed</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+	<span class="kt">int</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">;</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> 
+	<span class="p">{</span>
+		<span class="n">x</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">y</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">==-</span><span class="mi">1</span><span class="o">&amp;&amp;</span><span class="n">y</span><span class="o">==-</span><span class="mi">1</span><span class="p">)</span> <span class="o">++</span><span class="n">tot</span><span class="p">;</span>
+		<span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">!=-</span><span class="mi">1</span><span class="o">&amp;&amp;</span><span class="n">y</span><span class="o">!=-</span><span class="mi">1</span><span class="p">)</span> <span class="n">num</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">=</span><span class="n">num</span><span class="p">[</span><span class="n">y</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+		<span class="k">else</span> <span class="n">num</span><span class="p">[</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">L</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="n">n</span><span class="p">)</span> 
+	<span class="p">{</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">num</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+		<span class="n">cur</span><span class="o">^=</span><span class="mi">1</span><span class="p">;</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">num</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="n">R</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="n">R</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> 
+			<span class="p">{</span>
+				<span class="n">dp</span><span class="p">[</span><span class="n">cur</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+				<span class="k">if</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="n">add</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">cur</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">],</span><span class="n">dp</span><span class="p">[</span><span class="n">cur</span><span class="o">^</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">k</span><span class="p">]);</span>				
+				<span class="k">if</span><span class="p">(</span><span class="n">k</span><span class="o">&lt;</span><span class="n">n</span><span class="p">)</span> <span class="n">add</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">cur</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">],</span><span class="n">dp</span><span class="p">[</span><span class="n">cur</span><span class="o">^</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]);</span>
+				<span class="n">dp</span><span class="p">[</span><span class="n">cur</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">%=</span><span class="n">mod</span><span class="p">;</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		<span class="k">else</span>
+		<span class="p">{</span>
+			<span class="n">R</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="n">R</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+			<span class="p">{</span>
+				<span class="n">dp</span><span class="p">[</span><span class="n">cur</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+				<span class="k">if</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="n">add</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">cur</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">],</span><span class="n">dp</span><span class="p">[</span><span class="n">cur</span><span class="o">^</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]);</span>
+				<span class="k">if</span><span class="p">(</span><span class="n">k</span><span class="o">&lt;</span><span class="n">n</span><span class="p">)</span> <span class="n">add</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">cur</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">],</span><span class="n">dp</span><span class="p">[</span><span class="n">cur</span><span class="o">^</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]);</span>
+				<span class="k">if</span><span class="p">(</span><span class="n">j</span><span class="o">&lt;</span><span class="n">n</span><span class="p">)</span> <span class="n">add</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">cur</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">],</span><span class="mi">1ll</span><span class="o">*</span><span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dp</span><span class="p">[</span><span class="n">cur</span><span class="o">^</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">%</span><span class="n">mod</span><span class="p">);</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span> 
+	<span class="kt">int</span> <span class="n">ans</span><span class="o">=</span><span class="n">dp</span><span class="p">[</span><span class="n">cur</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">tot</span><span class="p">)</span> <span class="n">ans</span><span class="o">=</span><span class="mi">1ll</span><span class="o">*</span><span class="n">ans</span><span class="o">*</span><span class="n">i</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+	<span class="n">writeln</span><span class="p">(</span><span class="n">ans</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/">
+            <span class="next-text nav-default">生成函数</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  <span id="/post/agc030f/" class="leancloud_visitors" data-flag-title="AGC030F">
+		<span class="post-meta-item-text">文章阅读量 </span>
+		<span class="leancloud-visitors-count">0</span>
+		<p></p>
+	  </span>
+  <div id="vcomments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'F8xu4BfgVST0H6107wApro6n-gzGzoHsz',
+        appKey: 'qlgvukJKICXwyoy3NkVygfIu',
+        notify:  false ,
+        verify:  false ,
+        avatar:'mm',
+        placeholder: '说点什么吧...',
+        visitor:  true 
+    });
+  </script>
+
+  
+
+      </div>
+    </main>
+
+    
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        tags: 'ams',
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+    docsearch({
+    apiKey: "97c22106dbe3955818bc05a0be5f3511",
+    indexName: "hizeci's blog",
+    appId: "9HLPOQJVAD",
+    inputSelector: '.docsearch-input',
+    debug: false,
+    });
+</script>
+
+
+</body>
+</html>

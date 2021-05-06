@@ -44,7 +44,7 @@ $$
 
 以及拓展一下**拉格朗日余项**
 $$
-f(x)=T_n(x)+\frac{f^{(n+1)(\xi)}}{(n+1)!}(x-x_0)^{n+1}
+f(x)=T_n(x)+\frac{f^{(n+1)}(\xi)}{(n+1)!}(x-x_0)^{n+1}
 $$
 其中$\xi \in [x_0,x]$
 
@@ -529,7 +529,9 @@ $$
 $$
 其中$F(x)$是一个低次多项式。
 
-左边的一堆东西可以分解成
+考虑解这个方程
+
+左边的一堆东西可以分解成形如
 $$
 (1-\alpha_1 x)\cdot (1-\alpha_2 x)\cdot \ldots \cdot (1-\alpha_n x)
 $$
@@ -537,7 +539,7 @@ $$
 $$
 \frac{a_1}{1-\alpha_1x}+\frac{a_2}{1-\alpha_2 x}+\ldots 
 $$
-每一项都可以算出来如第一项为$\alpha_1^n \cdot a_1$（这里变量名重复了
+每一项都可以算出来如第$n$项第一位为$\alpha_1^n \cdot a_1$
 
 通项公式第$n$项就是
 $$
@@ -551,6 +553,8 @@ $$
 $$
 当然这也能算。
 
+通过这种方法可以很方便地求出一个线性递推的通项公式。
+
 [如果看不懂可以看这里](https://blog.csdn.net/hefenghhhh/article/details/84897165)
 
 
@@ -561,4 +565,163 @@ $$
 
 ### Catlan数
 
-求Catlan数$c_0=1,c_n=\sum\limits_{i=0}^{n-1}c_i\cdot c_{n-i-1}$的普通生成函数？
+求Catlan数$c_0=1,c_n=\sum\limits_{i=0}^{n-1}c_i\cdot c_{n-i-1}(n\ge 1)$的普通生成函数？
+
+错误版：
+
+$c_n$的生成函数$C(x)=\sum\limits_{n=0}^{\infty} \sum\limits_{i=0}^{n-1} c_i\cdot c_{n-i-1}\cdot  x^n$
+
+将$x^n$拆成$x^i,x^{n-i-1},x$
+
+然后原式变成$\sum\limits_{i=0}^{\infty} c_i x^i\cdot \sum\limits_{j=0}^{\infty} c_j x^j\cdot x$
+
+这样会得到$C(x)=C^2(x)\cdot x$，然而这实际上是错的，因为当$n\ge 1$时，$c_n$才会等于这个式子。
+
+即$c_n$本来为$\sum\limits_{n=1}^{\infty} c_nx^n=\sum\limits_{n=1}^{\infty} \sum\limits_{i=0}^{n-1} c_i\cdot c_{n-i-1}\cdot x^n$
+
+然而$n$从$0$开始或从$1$开始在下面的式子并不能体现出来，因为已经将$x^n$拆成$x^i,x^{n-i-1},x$
+
+所以说正确的式子应长成$C(x)=\sum\limits_{n=1}^{\infty} c_nx^n+c_0\cdot x^0$
+
+而$c_0\cdot x^0=1$
+
+所以$C(x)=C^2(x)+x+1$
+
+解得$C(x)=\frac{1\pm \sqrt{1-4x}}{2x}$
+
+若$C(x)=\frac{1+\sqrt{1-4x}}{2x}$，则$\lim\limits_{x\to 0} C(x)=\infty$，与$C(x)$的常数项为$1$矛盾。（或者将这个按照下面展开，可以发现$c_0\neq 1$）
+
+ 现在知道$C(x)=\frac{1-\sqrt{1-4x}}{2x}$，现在来求通项，将它泰勒展开（因为$\sqrt{1-4x}$长得很像$x^a$的形状$-\sqrt{1-4x}=-(1-4x)^{\frac{1}{2}}$，将它按照$x^a$泰勒展开，然后将$1-4x$代入，就可以得到：
+$$
+\frac{1-\sqrt{1-4x}}{2x}=\frac{1}{2x} \sum_{k=1}^{\infty} \frac{1\cdot 3 \cdot \ldots \cdot (2k-3)}{2^k}\cdot \frac{(4x)^k}{k!}
+$$
+因为这个东西就是原来的生成函数$\sum\limits_{k=0}^{\infty} c_k x^k$，按$x$对齐，将系数提出来，就得到了
+$$
+c_k=\frac{1}{2}\cdot \frac{1\cdot 3\cdot \ldots \cdot (2k-1)}{2^{k+1}} \cdot \frac{4^{k+1}}{(k+1)!}
+$$
+整理得到：
+$$
+c_k=\frac{(2k)!}{(k+1)!k!}=\frac{1}{k+1} \binom {2k} {k}
+$$
+
+### 例子3（多元生成函数）
+
+$$
+a_n=\sum\limits_{i=0}^{\infty}\binom {n+i}{2i}
+$$
+
+令$A(x)$为这个的生成函数
+$$
+A(x)=\sum_{n=0}^{\infty} \sum_{i=0}^n \binom {n+i} {2i} x^n
+$$
+令杨辉三角第$n$行的生成函数为$F_n(x)=\sum\limits_{i=0}^n \binom {n}{i} x^i$
+
+然后对着$F_0(x),F_1(x),F_2(x),\ldots$这些生成函数再整一个生成函数$\sum\limits_{n=0}^{\infty} F_n(x)\cdot y^n $
+
+
+$$
+\sum_{n=0}^{\infty} \sum_{i=0}^n \binom{n}{i} x^i y^n
+$$
+然后转换一下形式
+$$
+\sum_{i=0}^{\infty} \sum_{j=0}^{\infty} \binom{i+j}{i} x^i y^{i+j}
+$$
+注意到同时有$x^i$和$y^i$，令$z=xy$
+
+原式化为：
+$$
+\sum_{i=0}^{\infty} \sum_{j=0}^{\infty} \binom{i+j}{i} z^i y^j
+$$
+这个东西是一个二项式定理的形状
+
+就可以化为
+$$
+\sum_{n=0}^{\infty} (y+z)^n
+$$
+回到一开始的生成函数$A(x)=\sum\limits_{n=0}^{\infty}\sum\limits_{i=0}^n \binom{n+i}{2i} x^n$
+
+与上面那个式子进行比较$\sum\limits_{a=0}^{\infty} \sum\limits_{b=0}^a \binom {a+b}{a} z^ay^b$
+
+考虑先让组合数对应起来，就是让$a=2i,b=n-i$
+
+那么后面的系数就变成了$z^{2i} y^{n-i}$
+
+然后令$y=z^2$，系数就变成了$z^{2n}$，然后令$x=z^2$，就可以对应起来的，然后得到了一个新的生成函数
+$$
+B(x)=\sum_{n=0}^{\infty} \sum_{i=0}^n \binom{n+i}{2i} z^{2n}=\sum_{n=0}^{\infty} (z^2+z)^n
+$$
+这是一个等比数列求和$=\frac{1}{1-z-z^2}$
+
+假如将$B(x)$写成$b_0,b_1,b_2\ldots$，$A(x)$写成$a_0,a_1,a_2,\ldots$
+
+因为$x=z^2$，所以$a_0\to b_0,a_1\to b_2,a_2\to b_4$即$a_k=b_{2k}$
+
+而因为$b$是斐波那契数列，所以第$n$条对角线的和$a_n=\sum\limits_{i=0}^{\infty}\binom {n+i}{2i}=\operatorname{Fib}_{2n}$
+
+
+
+最后理一下步骤
+
+首先明确问题是求$a_n=\sum\limits_{i=0}^n \binom{n+i}{2i}$
+
+那第一步是写出他的生成函数$A(x)=\sum\limits_{n=0}^{\infty} a_n x^n$
+
+代入$a_n$得到
+$$
+\sum_{n=0}^{\infty} \sum_{i=0}^n \binom {n+i}{2i}x^n
+$$
+然后对于杨辉三角每一行都写出一个生成函数$F_n(x)=\sum\limits_{j=0}^n \binom n j x^j$
+
+然后对于这$F_0(x),F_1(x),\ldots, F_{\infty}(x)$再写一个生成函数$G(x,y)$
+$$
+G(x,y)=\sum_{n=0}^{\infty} F_n(x) y^n=\sum_{n=0}^{\infty} \sum_{i=0}^n \binom n i x^i y^n
+$$
+
+将$y^n$拆成$y^i\cdot y^{n-i}$，令$z=xy$
+
+就有
+$$
+\sum_{n=0}^{\infty} \sum_{i=0}^n \binom n i z^i y^{n-i}
+$$
+运用二项式定理，得到：
+$$
+\sum_{n=0}^{\infty} (z+y)^n
+$$
+再把两个生成函数抄下来
+$$
+A(x)=\sum_{n=0}^{\infty} \sum_{i=0}^n \binom {n+i}{2i}\cdot x^n
+$$
+
+$$
+G(z,y)=\sum_{n=0}^{\infty} \sum_{i=0}^{n} \binom n i z^i y^{n-i}
+$$
+
+令$a=i,b=n-i$
+$$
+\sum_{a=0}^{\infty} \sum_{b=0}^{\infty} \binom {a+b} {a}y^b z^a
+$$
+然后要让这两个式子尽量一样，令$a=2i,b=n-i$
+
+然后$G(z,y)$就长成
+$$
+\sum_{n=0}^{\infty} \sum_{i=0}^n \binom {n+i} {2i} y^{n-i} z^{2i}
+$$
+然后它还是等于$\sum\limits_{n=0}^{\infty} (y+z)^n$
+
+接下来令$y=z^2$，然后两个式子就分别变成$\sum_{n=0}^{\infty} \sum_{i=0}^n \binom {n+i} {2i} z^{2n}$和$\sum\limits_{n=0}^{\infty} (z^2+z)^n$
+
+其中$\sum\limits_{n=0}^{\infty}(z^2+z)^n $可以通过等比数列求和得到$\frac{1}{1-z-z^2}$，即斐波那契数列。
+
+然后对比$A(x)=\sum\limits_{n=0}^\infty \sum\limits_{i=0}^\infty \binom {n+i}{2i} x^n$，令$x=z^2$
+
+上面那个就相当于斐波那契数列的$1,2,3\ldots$项，而下面斐波那契数列的$2,4,6,\ldots$ 项
+
+所以$a_k=F_{2k}$，其中$F_{k}$为斐波那契数列第$k$项。
+
+## 指数生成函数
+
+对于一个无穷序列$\{a_0,a_1,a_2,\ldots \}$，定义其**指数生成函数**为级数：$\sum\limits_{k=0}^{\infty} a_k \cdot \frac{x^k}{k!}$
+
+
+
+普通生成函数通常用来解决无标号计数问题，指数生成函数通常用来解决带标号的计数问题。
