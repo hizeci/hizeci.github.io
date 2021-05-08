@@ -25,3 +25,7 @@ CF1100FIvan and burgers
 
 loj6198谢特
 
+
+
+生成函数的题目部分。
+

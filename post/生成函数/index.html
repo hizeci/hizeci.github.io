@@ -49,7 +49,7 @@
 <meta itemprop="name" content="生成函数">
 <meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-04-29T07:21:49&#43;08:00" />
 <meta itemprop="dateModified" content="2021-04-29T07:21:49&#43;08:00" />
-<meta itemprop="wordCount" content="5952">
+<meta itemprop="wordCount" content="12023">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="生成函数"/>
 <meta name="twitter:description" content=""/>
@@ -141,7 +141,25 @@
             <li><a href="#例子3多元生成函数">例子3（多元生成函数）</a></li>
           </ul>
         </li>
-        <li><a href="#指数生成函数">指数生成函数</a></li>
+        <li><a href="#指数生成函数">指数生成函数</a>
+          <ul>
+            <li><a href="#一些例子-1">一些例子</a></li>
+          </ul>
+        </li>
+        <li><a href="#生成函数操作">生成函数操作</a>
+          <ul>
+            <li><a href="#乘法">乘法</a></li>
+            <li><a href="#求逆">求逆</a></li>
+            <li><a href="#牛顿迭代">牛顿迭代</a></li>
+            <li><a href="#求ln">求$\ln$</a></li>
+            <li><a href="#求exp">求$\exp$</a></li>
+            <li><a href="#除法与取余">除法与取余</a></li>
+            <li><a href="#多点求值">多点求值</a></li>
+            <li><a href="#多点插值">多点插值</a></li>
+            <li><a href="#复合逆拉格朗日反演">复合逆（拉格朗日反演）</a></li>
+            <li><a href="#扩展拉格朗日反演">扩展拉格朗日反演</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -665,6 +683,319 @@ $$
 <h2 id="指数生成函数">指数生成函数</h2>
 <p>对于一个无穷序列${a_0,a_1,a_2,\ldots }$，定义其<strong>指数生成函数</strong>为级数：$\sum\limits_{k=0}^{\infty} a_k \cdot \frac{x^k}{k!}$</p>
 <p>普通生成函数通常用来解决无标号计数问题，指数生成函数通常用来解决带标号的计数问题。</p>
+<h3 id="一些例子-1">一些例子</h3>
+<p>$n$个元素的排列数$p_n=n!$的指数生成函数？
+$$
+\hat{P}(x)=\sum\limits_{n=0}^{\infty} \frac{n!}{n!} x^n=\frac{1}{1-x}
+$$
+$n$个元素的环排列数$c_n=(n-1)! (n\ge 1)$的指数生成函数？
+$$
+\hat{C}=\sum_{n=0}^{\infty} \frac{1}{n} x^n
+$$
+这个东西和$\ln(1+x)$长的比较像$\ln(1+x)=\sum\limits_{n=0}^{\infty} (-1)^{n-1} \frac{x^n}{n}$</p>
+<p>然后把那个$-1$去掉，变成$(-1) \sum\limits_{n=0}^{\infty} (-1)^n \frac{x^n}{n}=(-1)\sum\limits_{n=0}^{\infty} (-x)^n \frac{1}{n}$</p>
+<p>如果变成$\ln(1-x)$就变成$(-1)\sum\limits_{n=0}^{\infty} x^n \frac{1}{n!}$</p>
+<p>所以$\hat{C}=-\ln(1-x)=\ln(\frac{1}{1-x})$</p>
+<p>注意到$\hat{P}(x)=e^{\hat{C}(x)}$</p>
+<p>考虑一个排列，对它进行置换分解，即沿$i\to p_i\to p_{p_i}\to p_{p_{p_i}}\to \ldots \to i$。这样会组成一个环。</p>
+<p>假设现在知道$1,3,5,8$这四个位置组成了一个环，然后现在要搞出来$p_1,p_3,p_5,p_8$分别是多少。</p>
+<p>举个例子$p_1=3,p_3=5,p_5=8,p_8=1$。</p>
+<p>现在要求出这样的排列数有多少个，显然为$(n-1)!$</p>
+<p>现在考虑排列数和原排列数的生成函数有什么关系</p>
+<p>先枚举它被分成了多少个环</p>
+<p>只有一个环就是$(n-1)!$</p>
+<p>假如组成两个环就是$f_n=\frac{1}{2} \sum\limits_{i=0}^{n} \binom n i (i-1)!(n-i-1)!$</p>
+<p>令$g_i=(n-1)!$那么$g_{n-i}=(n-i-1)!$（$g_0=0$）</p>
+<p>那么$f_n=\frac{1}{2}\sum\limits_{i=0}^n \binom n i g_i g_{n-i}$即一个卷积的形式</p>
+<p>然后写出它的生成函数
+$$
+\hat{F_2}(x)=\sum_{n=0}^{\infty} f_n \frac{x^n}{n!}=\sum_{n=0}^{\infty} \frac{1}{2} \sum_{i=0}^n \binom n i g_i g_{n-i} \frac{x^n}{n!}
+$$
+因为$\binom n i =\frac{n!}{i!(n-i)!},x^n= x^i\cdot x^{n-i}$</p>
+<p>所以原式
+$$
+\sum_{n=0}^{\infty} \frac{1}{2} \sum_{i=0}^n \frac{g_i}{i!} \frac{g_{n-i}}{(n-i)!} x^i x^{n-i}=\frac{1}{2}\sum_{i=0}^{\infty} \frac{g_i}{i!} x^i \sum_{j=0}^{\infty} \frac{g_j}{j!} x^j=\frac{1}{2} (\hat{G}(x))^2
+$$
+发现
+$$
+\hat{F_1}(x)=\hat{G} (x)
+$$</p>
+<p>$$
+\hat{F_2} (x)=\frac{1}{2} (\hat{G}(x))^2
+$$</p>
+<p>$$
+\hat{F_3}(x)=\frac{1}{6}(\hat{G}(x))^3
+$$</p>
+<p>$$
+\ldots
+$$</p>
+<p>$$
+\hat{F_n}(x)=\frac{1}{n!} (\hat{G}(x))^n
+$$
+而
+$$
+\hat{F} (x)=\sum_{n=0}^{\infty} \frac{1}{n!} (\hat{G}(x))^n
+$$
+这就是一个$\exp$的样子。
+$$
+\hat{F}(x)=e^{\hat{G}(x)}
+$$</p>
+<p>错排数的指数生成函数？</p>
+<p>把排列拆成环排列，只要没有大小为1的环就是一个错排。</p>
+<p>当$n\ge 2$时，类似地$g_n=(n-1)!$，但当$n=1$时，$g_n=0$</p>
+<p>这里同样以两个环为例：$d_n=\frac{1}{2}\sum\limits_{i=2}^{n-2} \binom n i g_i g_{n-i} $</p>
+<p>但是这个东西不太好卷起来，实际上只有下标为1不能选</p>
+<p>所以改成$\frac{1}{2}\sum\limits_{i=0}^n \binom n i g_i g_{n-i} [i\neq 1][n-i\neq 1]$</p>
+<p>然后令$h_i=g_i\cdot [i\neq 1]$</p>
+<p>式子就变成$\frac{1}{2}\sum\limits_{i=0}^n \binom n i h_i h_{n-i}$
+$$
+\hat{H} =\sum_{n=0}^{\infty} \frac{h_n}{n!} x^n=\sum_{n=0}^{\infty} \frac{g_n[n\neq 1]}{n!} x^n=\sum_{n=2}^{\infty} \frac{g_n}{n!} x^n
+$$
+因为$g_1=1$，所以又等于$\sum\limits_{n=0}^{\infty} \frac{g_n}{n!}x^n-x$</p>
+<p>前面的一堆就是$\hat{G}(x)=\ln (\frac{1}{1-x})$</p>
+<p>所以$\hat{H}(x)=\ln(\frac{1}{1-x})-x$</p>
+<p>那错排数$\hat{D}(x)=\exp(\hat{H}(x))= \exp(\ln(\frac{1}{1-x})-x)=\frac{e^{-x}}{1-x}$</p>
+<p>这个东西看上去挺简洁的，实际上一点也不简洁。</p>
+<p>展开就相当于两个东西卷起来，分子是一个无限项的东西，分母又是一个无限项的东西，所以这个通项展开并不好看。</p>
+<p>$n$个点的有标号无向连通图个数的指数生成函数？</p>
+<p>先把连通这个条件去掉，即$n$个点的有标号无向连通图个数显然为$2^{\frac{n(n-1)}{2}}$。</p>
+<p>假设这个东西为$b_n$，这个的生成函数为$\hat{B}$。</p>
+<p>一个无向图可以分成若干个连通块的不交并，而且这还是带标号的。</p>
+<p>第一步，先确定每一个联通块分别有哪些点。</p>
+<p>第二步，将每一个联通块内的联通方式算上。</p>
+<p>假如已经知道这个东西是$a_n$了，那现在就相当于求$b_n$</p>
+<p>然后两个连通块，三个连通块这样推下来……</p>
+<p>就可以得到$\hat{B}=\exp (\hat{A})$</p>
+<p>所以有$\hat{A}=\ln (\hat{B})$</p>
+<h2 id="生成函数操作">生成函数操作</h2>
+<h3 id="乘法">乘法</h3>
+<p>FFT：</p>
+<p>假如现在有一个$n$次多项式$f(x)$，现在求出了$f(x_0),f(x_1),\ldots ,f(x_n)$且知道$x_0,x_1,\ldots x_n$，那么就可以求出$f(x)$，现在有$f(x)$也可以知道在$x_0,x_1\ldots x_n$的点值。</p>
+<p>通过拉格朗日插值可以在任意$x_0,x_1,\ldots x_n$平方复杂度插出来。</p>
+<p>但是如果不取任意位置，可以在更优的时间复杂度求出</p>
+<p>假设$n &lt; 2^k$，令$\omega =\exp(\frac{2\pi i}{2^k})=\cos(\frac{2\pi}{2^k})+i\sin (\frac{2\pi}{2^k})$</p>
+<p>假设$f(x)=\sum\limits_{i=0}^n a_i x^i$</p>
+<p>现在求$\sum\limits_{i=0}^n a_i \omega_{2^k} ^i$</p>
+<p>不妨设系数到$2^k-1$即求$\sum\limits_{i=0}^{2^k} a_i \omega_{2^k}^i$</p>
+<p>单位圆有$\omega_{2^k}=\omega_{2^{k+1}}^2$的性质</p>
+<p>这启发我们分治，将它劈成奇数项和偶数项
+$$
+\sum_{i=0}^{2^{k-1}-1} a_{2i} \omega _{2^k}^{2i} +\sum_{i=0}^{2^{k-1}-1} a_{2i+1} \omega _{2^k}^{2i+1}
+$$</p>
+<p>$$
+\sum_{i=0}^{2^{k-1}-1} a_{2i} \omega _{2^k}^{2i} +\omega_{2k} \sum_{i=0}^{2^{k-1}-1} a_{2i+1} \omega _{2^k}^{2i}
+$$</p>
+<p>而$\omega_{2^k}^{2i}=\omega_{2^{k-1}}^i$</p>
+<p>所以可以将左边偶数项的$a_0,a_2,a_4,\ldots$再分治下去就可以求出左边，右边奇数项同理。</p>
+<p>这样就得到了$i$在$0\to 2^{k-1}-1$范围的结果。</p>
+<p>实际上这只是求了$x_1=\omega_{2^k}^1$处的点值</p>
+<p>我们需要一次性求出上面的这些。</p>
+<p>我们还需要求$\omega^2$的$i$次方，$\omega^3$的$i$次方。</p>
+<p>但是为了保证复杂度，显然不能一次全部把$0\to 2^k -1$全部都代进去。</p>
+<p>每次分治的时候求一半，那么之后怎么合并回去呢？</p>
+<p>直接合并只能求出一半。</p>
+<p>但是注意到$\omega_{2^k}$转$2^k -1$次正好转到$-1$。且现在已经知道$0\to 2^k-1$（上半圆）的点值。</p>
+<p>对于一半之后的，在提出来的$\omega_{2^k}$上直接乘一个$-1$，具体原因是转一半就正好转出了$-1$。因此分治下去即可。时间复杂度就是$O(n\log n)$的。</p>
+<p>所以说可以在$O(n\log n)$时间复杂度求出在$f(x)$上的点值，插值回去同样，这涉及到傅里叶变换一个优美的性质，两个只差一个系数。</p>
+<p>NTT：</p>
+<p>与FFT是一样的，唯一的区别是FTT是在复平面上做这件事，相当于$1$开了$2^k$根。而NTT是在数论域（模$p$域）上做这件事，这个时候也是把$1$开$2^k$根。</p>
+<p>原根：</p>
+<p>$g^0,g^1,\ldots,,g^{p-2}$在模$p$意义下两两不同，且遍历$1\to p-1$</p>
+<p>若$2^k | p-1$</p>
+<p>令$\omega_{2^k}=g^{\frac{p-1}{2^k}}$</p>
+<p>就得到了一个开$2^k$的结果</p>
+<p>所以说只要求出$g$，且$2^k|p-1$，就能很方便求出不管多少次的单位根。</p>
+<p>第一个条件比较好弄直接暴力枚举或者随机即可。如$998244353$的一个原根就是$3$。</p>
+<p>第二个条件比较麻烦。如$10^9+7$就只能处理$2$以内的DFT。</p>
+<p>MTT：</p>
+<p>在模数为$10^9+7$时就不太好，这个时候一般有几种做法：</p>
+<p>FFT，需要精度比较高</p>
+<p>中国剩余定理，要达到$10^9+7$，每一次NTT选的模数也在$10^9$左右，且若值域较大要选三个左右。</p>
+<p>假如要乘两个矩阵$A,B$，那么$A$要一次FFT到$A$的点值，$B$也需要一次FFT到$B$的点值，乘起来得到$C$的点值，再FFT回去得到$C$，就需要三次FFT，选三个FFT模数就要九次.</p>
+<p>而MTT只需要做四次。</p>
+<p>模数是$P$，$P$只要是一个质数就行。</p>
+<p>然后随便一个数$M$，这个$M$差不多是$\sqrt P$。</p>
+<p>然后把每一个数字表示成$a+bM$</p>
+<p>现在要卷两个序列，假设系数分别为$a_1,a_2,\ldots a_n,b_1,b_2,\ldots b_n$。</p>
+<p>然后把每一个数字都写成这样的形式，如$a_i=a_{1i}+b_{1i}M,b_i=a_{2i}+b_{2i}M$</p>
+<p>相乘会长成这个样子
+$$
+(a_1+b_1M)(a_2+b_2M)=a_1a_2+(a_1b_2+a_2b_1)M+b_1b_2M^2
+$$
+然后假如现在给它DFT过去，然后回来的时候只要DFT $a_1 a_2,(a_1b_2+a_2b_1)M,b_1b_2M^2$即可。</p>
+<p>这时就把$9$次FFT变成了$7$次FFT，因为$a,b$都在$M$以内，所以结果是在$P$以内的，所以<code>double</code>的精度够了，直接FFT即可。</p>
+<p>这样总共是7次FFT（去4次，回来3次），继续优化。</p>
+<p>假如说现在有两个实数序列$A(x),B(x)$</p>
+<p>令$P(x)=A(x)+iB(x),Q(x)=A(x)-iB(x)$
+$$
+P(\omega ^k_{2^n})=\sum_{j=0}^{2^n-1} (a_j+ib_j)\omega_{2^n}^{jk}=\sum_{j=0}^{2^n-1} (a_j+ib_j)(\cos(\frac{2\pi jk}{2^n})+i\sin \frac{2\pi j k}{2^n} )
+$$
+然后暴力乘开
+$$
+\sum_{j=0}^{2^n-1} (a_j \cos(\frac{2\pi jk}{2^n})-b_j\sin(\frac{2\pi jk}{2^n}) )+i(b_j \cos(\frac{2\pi jk}{2^n})+a_j\sin(\frac{2\pi jk}{2^n}))
+$$
+同理
+$$
+Q(\omega^k)=\sum_{j=0}^{2^n-1} (a_j \cos(\frac{2\pi jk}{2^n})+b_j\sin(\frac{2\pi jk}{2^n}) )-i(b_j \cos(\frac{2\pi jk}{2^n})-a_j\sin(\frac{2\pi jk}{2^n}))
+$$
+对比一下上下的式子，大概就是$\cos$不变而$\sin$正负号变了</p>
+<p>$\cos$是横坐标，$\sin$是纵坐标，有什么方法让横坐标不变而纵坐标变呢，就是上下折一下，原来是$\theta$就变成$-\theta$，然后式子就变成：
+$$
+\sum_{j=0}^{2^n-1} (a_j \cos(\frac{2\pi jk}{2^n})-b_j\sin(\frac{2\pi jk}{2^n}) )-i(b_j \cos(\frac{2\pi jk}{2^n})+a_j\sin(\frac{2\pi jk}{2^n}))
+$$
+就和上面那个式子差不多了，除了$i$那里一个是加一个是减。</p>
+<p>所以$=\overline{P(\omega^{-k})}=\overline{P(\omega^{2^n-k})}$</p>
+<p>所以只需要对$P$跑一次DFT，就可以得到$P$的所有$\omega^k$（$P(\omega^k)$）</p>
+<p>然后<code>reverse</code>一下再取一个共轭，就可以得到$Q(\omega^k)$</p>
+<p>然后还可以求出$A,B$</p>
+<p>$P=A+iB,Q=A-iB$</p>
+<p>所以$\frac{1}{2}(P+Q)=A$</p>
+<p>所以说对$a_1,b_1$做一次DFT得到$a_1,b_1$的点值，再对$a_2,b_2$做一次得到点值，反过来三个东西$a_1a_2+(a_1b_2+a_2b_1)M+b_1b_2M^2$就是把两个一拼做一次DFT，然后另外一个自己做一次。总共就是$4$次了。这玩意就是MTT。</p>
+<p>然而这玩意没有什么用&hellip;</p>
+<h3 id="求逆">求逆</h3>
+<p>给你一个多项式$f$，求$\frac{1}{f}$。（假设$f$的常数项不为0，因为0乘任何数都不为1）</p>
+<p>假设只需要求一个多项式$g$满足$f\cdot g\equiv 1 \pmod {x^n}$，不妨设$n$是$2$的幂。</p>
+<p>倍增下去，令$k=\frac{n}{2}$</p>
+<p>假设当前已经知道$f\cdot h\equiv 1 \pmod {x^k}$</p>
+<p>有$f\cdot g\equiv 1\pmod {x^k}$</p>
+<p>将两式相减，一定要有这个式子成立
+$$
+f\cdot (g-h) \equiv 0 \pmod {x^k}
+$$
+将两边平方
+$$
+f^2\cdot(g-h)^2\equiv 0 \pmod {x^{2k}}
+$$
+因为$f$显然不为$0$
+$$
+g^2-2gh+h^2\equiv 0 \pmod {x^{2k}}
+$$
+然后两边同时乘个$f$
+$$
+fg^2-2fgh+fh^2\equiv 0 \pmod {x^{2k}}
+$$
+因为上面的各种条件可以得到：
+$$
+g=2h-h^2f=h(2-hf)
+$$
+然后分析一下时间复杂度
+$$
+T(n)=T(\frac{n}{2})+O(n\log n)
+$$</p>
+<p>$$
+\rightarrow T(n)=O(n\log n)
+$$</p>
+<h3 id="牛顿迭代">牛顿迭代</h3>
+<p>解方程$f(Y)\equiv 0 \pmod {x^n}$</p>
+<p>其中$f:R[x]\to R[x]$（从多项式到多项式的一个函数）</p>
+<p>然后令$k=\frac{n}{2}$，然后现在已经知道$f(Z)\equiv 0 \pmod {x^k}$</p>
+<p>因为$f$是一个函数，既然它是一个函数，那么它就能泰勒展开，具体原因我不会！！1</p>
+<p>我们对$f$这个函数在$Z$位置泰勒展开
+$$
+f(Y)=f(Z)+\frac{f'(Z)}{1!}(Y-Z)+\frac{f''(Z)}{2!}(Y-Z)^2+\ldots
+$$
+解方程的时候，不妨设$Y\equiv Z \pmod {x^k}$（因为解是不唯一的）</p>
+<p>所以说$(Y-Z)^2\equiv 0 \pmod {x^{2k}}$</p>
+<p>所以上面泰勒展开后面的几项全没了。</p>
+<p>即：
+$$
+f(Y)=f(Z)+f'(Z)(Y-Z) \pmod {x^2k}
+$$
+而因为$f(Y)\equiv 0 \pmod {x^n}$</p>
+<p>所以$0\equiv f(Z)+f'(Z)(Y-Z) \pmod {x^{2k}}$
+$$
+Y\cdot f'(Z)\equiv Z f'(Z)-f(Z) \pmod {x^{2k}}
+$$</p>
+<p>$$
+Y\equiv Z- \frac{f(Z)}{f'(Z)} \pmod {x^{2k}}
+$$</p>
+<p>$\frac{f(Z)}{f'(Z)}=(f'(Z))^{-1} \cdot f(Z)$</p>
+<p>时间复杂度为$O(n\log n)$</p>
+<p>值得一提的是$f'$怎么办，这个东西机器不会帮我们求，只能具体问题具体分析，</p>
+<p>比如说$f(A)=\ln A$</p>
+<p>对它求导是$\frac{1}{A}$还是$\frac{A'}{A}$。</p>
+<p>什么叫求导？</p>
+<p>应该是
+$$
+\frac{\mathrm{d}f}{\mathrm{d}A} = \frac{\mathrm{d}(\ln A)}{\mathrm{d} A}=\frac{1}{A}
+$$
+而后面这个是
+$$
+\frac{\mathrm{d}f}{\mathrm{d}x}=\frac{\mathrm{d}(\ln A)}{\mathrm{d}A} \frac{\mathrm{d}A}{\mathrm{d}x}=\frac{A'}{A}
+$$
+我们要上面那一个，因为泰勒公式是对$f$里面这个东西求导</p>
+<p>加入写作$f(Y)$，那么$f'(Y)$应该被定义成$\frac{df}{dY}$，就是说不管里面是什么东西都是说对里面这个东西求导，而不是更里层的变量来求导。</p>
+<p>再举个例子$f(A)=A-B$而$B$是一个固定的多项式，</p>
+<p>而$f'(A)=1$，因为你要记住你是对A求导的，所以对A而言B只是一个常数。</p>
+<h3 id="求ln">求$\ln$</h3>
+<p>$$
+\frac{\mathrm{d}(\ln A)}{\mathrm{d}x	}=\frac{A'}{A}
+$$</p>
+<p>而$A'$好求，$\frac{1}{A}$也好求，右边就可以求出来了。而因为是对$x$求导的，所以对$x$的积分也直接求出来了，就有
+$$
+\ln x=\int \frac{A'}{A} \mathrm{d} x
+$$
+时间复杂度$O(n\log n)$</p>
+<h3 id="求exp">求$\exp$</h3>
+<p>相当于解$B= e^A$</p>
+<p>两边取$\ln$，$\ln B =A$</p>
+<p>令$f(B)=\ln B-A$，牛顿迭代求零点即可。</p>
+<h3 id="除法与取余">除法与取余</h3>
+<p>$A=DB+R$</p>
+<p>翻转一下，即将所有的$X$用$\frac{1}{X}$代替，$A(\frac{1}{x})=D(\frac{1}{x})B(\frac{1}{x})+R(\frac{1}{x})$</p>
+<p>两边同乘$x^n$，$x^n A(\frac{1}{x})=x^n D(\frac{1}{x})B(\frac{1}{x})+R(\frac{1}{x})$</p>
+<p>然后拆成
+$$
+x^nA(\frac{1}{x})=(x^{n-m} D(\frac{1}{x})) (x^m B(\frac{1}{x}))+x^{m-1}\cdot x^{n-m+1} R(\frac{1}{x})
+$$
+注意到$x^n A(\frac{1}{x})$就是把$A$的各项系数给反过来，就是$\sum\limits_{i=0}^n a_{n-i}\cdot x^i$记作$A^R(x)$</p>
+<p>那么有
+$$
+A^R(x)=D^R (x)B^R(x)+x^{n-m+1} R^R(x)
+$$
+然后两边对$x^{n-m+1}$取模，因为$D^R(x)$是$n-m$次的，所以取模之后$x^{n-m+1}\cdot R^R(x)$这一项就没有了。而$D^R(x)$是不变的，所以再将$A^R(x)$与$B^R(x)$取模之后，就可以准确求出$D^R(X)$。然后把系数翻回去就得到了$D$，然后再代回原式$A=DB+R$，就得到了$R$。</p>
+<h3 id="多点求值">多点求值</h3>
+<p>咕咕咕</p>
+<h3 id="多点插值">多点插值</h3>
+<p>咕咕咕</p>
+<h3 id="复合逆拉格朗日反演">复合逆（拉格朗日反演）</h3>
+<p>给出$F(x)$求$G(x)$满足$F\circ G=G\circ F =id$（$id$为恒等函数）
+$$
+[x^n]G(x)=\frac{1}{n} [x^{n-1}] (\frac{x}{F(x)})^n
+$$
+（$[x^n]G(x)$表示$G(x)$的$n$次项。）</p>
+<p>证明：</p>
+<p>令$G=\sum\limits_{i=0}^{\infty} a_i x^i$</p>
+<p>要求$\sum\limits_{i=0}^{\infty} a_i F^i(x)=x$</p>
+<p>然后两边对$x$求导
+$$
+\frac{\mathrm{d}\sum\limits_{i=0}^{\infty} a_i F^i(x) }{\mathrm{d}x}=1
+$$</p>
+<p>$$
+1=\sum_{i=1}^{\infty} a_i\cdot iF^{i-1}(x) F'(x)
+$$</p>
+<p>然后左右两边同时除以$F^n(x)$
+$$
+\frac{1}{F^n(x)} =\frac{ \sum\limits_{i=1}^{\infty} a_i \cdot i F^{i-1}(x) F'(x)} {F^{n}(x)}
+$$
+两边同时取$[x^{-1}]$得到 
+$$
+[x^{-1}]\sum_{i=0}^{\infty} i \cdot a_i F^{i-n-1}(x)F'(x)=[x^{-1}]\frac{1}{F^n(x)}
+$$
+然后考虑这个$\sum$的式子</p>
+<p>分两种情况</p>
+<ol>
+<li>$i \neq n$，$F^{i-n-1}(x)F'(x)$这个东西是刚刚求导求出来的东西，所以可以搞回去$=\frac{1}{i-n} (F^{i-n}(x))'$这个东西是一个多项式$\in R[<input checked="" disabled="" type="checkbox"> ]$（用两个中括号表示$x$的幂都$\ge 0$，就形式幂级数化），所以不存在$x^{-1}$项，所以这边是$0$。</li>
+<li>$i=n$，当$i=n$时，上面有一个$F^{-1}(x)$，这个东西想要求导直接用$0$次方是求不出来的，相当应用$\ln$求导，$\frac{F'(x)}{F(x)}$，而不是用多项式求导。（然而也没用$\ln$求导），考虑直接写出来$\frac{F'(x)}{F(x)}=\frac{a_1+2a_2x+3a_3x^2+\ldots}{a_1x+a_2x^2+a_3x^3+\ldots}=\frac{a_1\ldots}{a_1x}\cdot \frac{1}{1+\frac{a_2}{a_1}x+\frac{a_3}{a_1}x^2+\ldots}$，后面那个东西是一个多项式的逆，因为常数项为$1$，所以可以逆。而前面那个东西$[x^{-1}]$上的系数为$1$,而后面那个东西$[x^0]=1$，所以$a_n=[x^{-1}]\frac{1}{F^{n}(x)}$</li>
+</ol>
+<p>所以就有$[x^n]G(x)=\frac{1}{n} [x^{n-1}] (\frac{x}{F(x)})^n$</p>
+<p>更有趣的东西：</p>
+<h3 id="扩展拉格朗日反演">扩展拉格朗日反演</h3>
+<p>$$
+[x^n]H(G(x))=\frac{1}{n}<a href="H'(x)(%5Cfrac%7Bx%7D%7BF(x)%7D)%5En">x^{n-1}</a>
+$$</p>
+<p>这个东西记住即可，证明没有什么用，而且我也不会。</p>
+<p>而且不像前面的东西过程可能会有点用&hellip;</p>
     </div>
 
     
