@@ -25,6 +25,8 @@ CF1100FIvan and burgers
 
 loj6198谢特
 
+[AGC016F] Games on DAG
+
 
 
 生成函数的题目部分。
