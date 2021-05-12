@@ -49,7 +49,7 @@
 <meta itemprop="name" content="CF98E">
 <meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-05-09T20:26:47&#43;08:00" />
 <meta itemprop="dateModified" content="2021-05-09T20:26:47&#43;08:00" />
-<meta itemprop="wordCount" content="726">
+<meta itemprop="wordCount" content="782">
 <meta itemprop="keywords" content="纳什平衡," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="CF98E"/>
 <meta name="twitter:description" content=""/>
@@ -168,8 +168,51 @@
 <p><img src="https://i.loli.net/2021/05/10/hRcMT8IECb5tO1Y.png" alt="QQ图片20210510114346.png"></p>
 <p>这题就是
 $$
-p\times( \frac{n}{(n+1)}\times (1-P(n-1,m)))+ (1-p)\times( \frac{1}{n+1}+\frac{n}{(n+1)}\times (1-P(n-1,m)))=p +((1-p) \times 1-P(n,m-1)) 
+p\times( \frac{n}{(n+1)}\times (1-P(n-1,m)))+ (1-p)\times( \frac{1}{n+1}+\frac{n}{(n+1)}\times (1-P(n-1,m)))=p +((1-p) \times 1-P(n,m-1))
 $$</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">double</span> <span class="n">P</span><span class="p">[</span><span class="mi">2222</span><span class="p">][</span><span class="mi">2222</span><span class="p">];</span>
+<span class="kr">inline</span> <span class="kt">double</span> <span class="nf">f</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="kt">int</span> <span class="n">m</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">n</span><span class="p">)</span> <span class="k">return</span> <span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mf">1.0</span><span class="o">+</span><span class="n">m</span><span class="p">);</span>
+	<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">m</span><span class="p">)</span> <span class="k">return</span> <span class="mf">1.0</span><span class="p">;</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="n">m</span><span class="p">])</span> <span class="k">return</span> <span class="n">P</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="n">m</span><span class="p">];</span>
+	<span class="kt">double</span> <span class="n">A</span><span class="o">=</span><span class="mf">1.0</span><span class="o">*</span><span class="n">m</span><span class="o">/</span><span class="p">(</span><span class="n">m</span><span class="o">+</span><span class="mf">1.0</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">f</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">));</span>
+	<span class="kt">double</span> <span class="n">B</span><span class="o">=</span><span class="mf">1.0</span><span class="p">;</span>
+	<span class="kt">double</span> <span class="n">C</span><span class="o">=</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="n">m</span><span class="o">+</span><span class="mf">1.0</span><span class="p">)</span><span class="o">+</span><span class="n">A</span><span class="p">;</span>
+	<span class="kt">double</span> <span class="n">D</span><span class="o">=</span><span class="mf">1.0</span><span class="o">-</span><span class="n">f</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mf">1.0</span><span class="p">);</span>
+	<span class="kt">double</span> <span class="n">p</span><span class="o">=</span><span class="p">(</span><span class="n">D</span><span class="o">-</span><span class="n">B</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="n">B</span><span class="o">-</span><span class="n">C</span><span class="o">+</span><span class="n">D</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">P</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="n">m</span><span class="p">]</span><span class="o">=</span><span class="n">p</span><span class="o">*</span><span class="n">A</span><span class="o">+</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">p</span><span class="p">)</span><span class="o">*</span><span class="n">B</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">signed</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">a</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">b</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">&#34;%.18lf %.18lf</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span><span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">),</span><span class="mf">1.0</span><span class="o">-</span><span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
     </div>
 
     
@@ -178,7 +221,11 @@ $$</p>
           <a href="/tags/%E7%BA%B3%E4%BB%80%E5%B9%B3%E8%A1%A1/">纳什平衡</a>
           </div>
       <nav class="post-nav">
-        
+        <a class="prev" href="/post/dsu-on-tree/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">dsu on tree</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
         <a class="next" href="/post/agc028d/">
             <span class="next-text nav-default">AGC028D</span>
             <span class="next-text nav-mobile">下一篇</span>

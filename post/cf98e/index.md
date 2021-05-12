@@ -42,5 +42,27 @@
 
 这题就是
 $$
-p\times( \frac{n}{(n+1)}\times (1-P(n-1,m)))+ (1-p)\times( \frac{1}{n+1}+\frac{n}{(n+1)}\times (1-P(n-1,m)))=p +((1-p) \times 1-P(n,m-1)) 
+p\times( \frac{n}{(n+1)}\times (1-P(n-1,m)))+ (1-p)\times( \frac{1}{n+1}+\frac{n}{(n+1)}\times (1-P(n-1,m)))=p +((1-p) \times 1-P(n,m-1))
 $$
+
+```c++
+double P[2222][2222];
+inline double f(int n,int m)
+{
+	if(!n) return 1.0/(1.0+m);
+	if(!m) return 1.0;
+	if(P[n][m]) return P[n][m];
+	double A=1.0*m/(m+1.0)*(1.0-f(m-1,n));
+	double B=1.0;
+	double C=1.0/(m+1.0)+A;
+	double D=1.0-f(m,n-1.0);
+	double p=(D-B)/(A-B-C+D);
+	return P[n][m]=p*A+(1.0-p)*B;
+}
+signed main()
+{
+	int a=read(),b=read();
+	printf("%.18lf %.18lf\n",f(a,b),1.0-f(a,b));
+}
+```
+

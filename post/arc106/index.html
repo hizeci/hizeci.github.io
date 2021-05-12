@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Arc106 - having little or no sense, use, or purpose.</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="TRAGEDY:ETERNITY" /><meta name="description" content="" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.81.0 with theme even" />
+
+
+<link rel="canonical" href="https://hizeci.github.io/post/arc106/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+
+<link href="/sass/main.min.6a025d60334ccde9f765dedcf6936f4c2eb3ea8d22276e9f389bb2efc2d55e11.css" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+<meta property="og:title" content="Arc106" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hizeci.github.io/post/arc106/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-05-11T21:02:01&#43;08:00" />
+<meta property="article:modified_time" content="2021-05-11T21:02:01&#43;08:00" />
+
+<meta itemprop="name" content="Arc106">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-05-11T21:02:01&#43;08:00" />
+<meta itemprop="dateModified" content="2021-05-11T21:02:01&#43;08:00" />
+<meta itemprop="wordCount" content="837">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Arc106"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">菜</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Arc106</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-05-11 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#d">D：</a></li>
+            <li><a href="#e">E:</a></li>
+            <li><a href="#f">F:</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="d">D：</h3>
+<p>给出$N,K,A_i$</p>
+<p>对于每个$X\in [1,k]$计算$\sum\limits_{L=1}^{N-1} \sum\limits_{R=L+1} ^N (A_i+A_j)^X $</p>
+<p>考虑将式子改成
+$$
+\frac{\sum\limits_{i=1}^N \sum\limits_{j=1}^N (A_i+A_j)^X-\sum\limits_{i=1}^ N (2\cdot A_i)^X }{2}
+$$
+然后继续化简左边那个东西。
+$$
+\sum_{i=1}^N \sum_{j=1}^N (A_i+A_j) ^X=\sum_{i=1} ^N \sum_{j=1}^N \sum_{k=0}^{X} \binom X k A_j^k A_j^{X-k}
+$$
+然后拆开$\binom X k$
+$$
+\sum_{i=1} ^N \sum_{j=1}^N \sum_{k=0} ^{X} {X!}\cdot  \frac{A_j^k}{k!} \cdot \frac{A_j^{X-k}}{(X-k)!}=X! \cdot \sum_{k=0}^X \big(\sum_{i=1}^N \frac{A_i^k}{k!} \big)\cdot \big(\sum_{j=1}^N \frac{A_j^{X-k}}{(X-k)!} \big)
+$$
+$\sum\limits_{i=1}^N \frac{A_i^ k }{k!}$可以在$O(NK)$的时间内预处理出来。</p>
+<p>整个式子可以在$O(k^2)$的时间复杂度算出来（也可以做到$O(k\log k)$）</p>
+<h3 id="e">E:</h3>
+<p>你经营着一家有$N$个员工的商店，从今天开始，第$i$个员工会连续上$A_i$天班然后连续休息$A_i$天。</p>
+<p>每一天，你都可以从所有上班的员工中选出一位，给它一枚奖章，求最少要几天每个员工获得至少$k$枚奖章。</p>
+<p>考虑通过二分答案来找到最少的天数$D$。</p>
+<p>考虑一个二分图拥有$N\times K +D$个点。</p>
+<p>令$U$表示这$N\times K$个顶点的集合。</p>
+<p>将代表每天的点与当天工作的员工相对应的点连一条边，那么满足题目条件就相当于覆盖整个$U$。</p>
+<blockquote>
+<p>霍尔定理：二分图存在最大完备匹配的充要条件是与某一侧的<strong>任意</strong>$k$个点相连的另一侧节点$\ge k$个</p>
+</blockquote>
+<p>考虑霍尔定理，这种情况就相当于对于每个子集$A \in U$，满足$|A|\le |\Gamma (A)|$</p>
+<p>而$|\Gamma (A)|$只取决于关于$A$中包含的一组员工。因此对于与某个相对应的点，我们只需考虑两种情况：情况A不包含所有的点，或者包含所有的点。</p>
+<p>因此，对于每一个包含员工的非空子集，我们可以找到子集中包含的至少一名员工开始上班的天数。</p>
+<p>此外$|A|\leq NK \leq |\Gamma (A)|$，显然这不会超过$2NK$天。</p>
+<p>由于这不是很说人话，搬一份别人的题解：</p>
+<p><img src="https://i.loli.net/2021/05/12/Ifhe6uYoLCD8a7N.png" alt="QQ图片20210512085433.png"></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">a</span><span class="p">[</span><span class="mi">22</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">popcnt1</span><span class="p">[</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">18</span><span class="p">],</span><span class="n">cnt</span><span class="p">[</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">18</span><span class="p">];</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">m</span><span class="o">=</span><span class="mi">18</span><span class="o">*</span><span class="mi">100000</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">tag</span><span class="p">[</span><span class="mi">3600010</span><span class="p">];</span>
+<span class="kt">int</span> <span class="nf">check</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="c1">//cnt[i]表示选择工人集合是i（i看成一个二进制数）的子集天数和
+</span><span class="c1"></span>	<span class="n">memset</span><span class="p">(</span><span class="n">cnt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">cnt</span><span class="p">));</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">cnt</span><span class="p">[</span><span class="n">tag</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">++</span><span class="p">;</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">R</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="mi">0</span><span class="p">,(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">n</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span><span class="p">((</span><span class="n">j</span><span class="o">&gt;&gt;</span><span class="n">i</span><span class="p">)</span><span class="o">&amp;</span><span class="mi">1</span><span class="p">)</span> <span class="n">cnt</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">+=</span><span class="n">cnt</span><span class="p">[</span><span class="n">j</span><span class="o">^</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">i</span><span class="p">)];</span> 
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">n</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span><span class="p">(</span><span class="n">popcnt1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">k</span><span class="o">&gt;</span><span class="n">x</span><span class="o">-</span><span class="n">cnt</span><span class="p">[(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">n</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">i</span><span class="p">])</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">signed</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">k</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">n</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">popcnt1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">popcnt1</span><span class="p">[</span><span class="n">i</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="p">(</span><span class="n">i</span><span class="o">&amp;</span><span class="mi">1</span><span class="p">);</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">R</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span><span class="p">(</span><span class="n">j</span><span class="o">%</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span><span class="o">&lt;</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="n">tag</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">|=</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">i</span><span class="p">);</span><span class="c1">//选择员工的集合。
+</span><span class="c1"></span>	<span class="kt">int</span> <span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">r</span><span class="o">=</span><span class="n">m</span><span class="p">,</span><span class="n">best</span><span class="o">=</span><span class="n">m</span><span class="p">;</span>
+	<span class="k">while</span><span class="p">(</span><span class="n">l</span><span class="o">&lt;=</span><span class="n">r</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="kt">int</span> <span class="n">mid</span><span class="o">=</span><span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">check</span><span class="p">(</span><span class="n">mid</span><span class="p">))</span> <span class="n">best</span><span class="o">=</span><span class="n">mid</span><span class="p">,</span><span class="n">r</span><span class="o">=</span><span class="n">mid</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+		<span class="k">else</span> <span class="n">l</span><span class="o">=</span><span class="n">mid</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">writeln</span><span class="p">(</span><span class="n">best</span><span class="p">);</span>
+
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="f">F:</h3>
+<p>暂时不会，之后来做</p>
+    </div>
+
+    
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/dsu-on-tree/">
+            <span class="next-text nav-default">dsu on tree</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  <span id="/post/arc106/" class="leancloud_visitors" data-flag-title="Arc106">
+		<span class="post-meta-item-text">文章阅读量 </span>
+		<span class="leancloud-visitors-count">0</span>
+		<p></p>
+	  </span>
+  <div id="vcomments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'F8xu4BfgVST0H6107wApro6n-gzGzoHsz',
+        appKey: 'qlgvukJKICXwyoy3NkVygfIu',
+        notify:  false ,
+        verify:  false ,
+        avatar:'mm',
+        placeholder: '说点什么吧...',
+        visitor:  true 
+    });
+  </script>
+
+  
+
+      </div>
+    </main>
+
+    
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        tags: 'ams',
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+    docsearch({
+    apiKey: "97c22106dbe3955818bc05a0be5f3511",
+    indexName: "hizeci's blog",
+    appId: "9HLPOQJVAD",
+    inputSelector: '.docsearch-input',
+    debug: false,
+    });
+</script>
+
+
+</body>
+</html>

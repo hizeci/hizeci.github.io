@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://hizeci.github.io/post/arc106/</loc>
+    <lastmod>2021-05-11T21:02:01+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://hizeci.github.io/post/dsu-on-tree/</loc>
+    <lastmod>2021-05-11T15:48:27+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://hizeci.github.io/post/cf98e/</loc>
     <lastmod>2021-05-09T20:26:47+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -318,14 +332,14 @@
   
   <url>
     <loc>https://hizeci.github.io/</loc>
-    <lastmod>2021-05-09T20:26:47+08:00</lastmod>
+    <lastmod>2021-05-11T21:02:01+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://hizeci.github.io/post/</loc>
-    <lastmod>2021-05-09T20:26:47+08:00</lastmod>
+    <lastmod>2021-05-11T21:02:01+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
