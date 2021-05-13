@@ -116,3 +116,159 @@ $d(M)=b(M)\cdot g(M) +r(M)$
 
 由于多项式除法是$O(k\log k)$的，所以总复杂度就是$O(k\log k\log n)$，就是每一次快速幂都这样做一次多项式取模。
 
+```c++
+const int N=333333;
+const int _G=3;
+const int invG=332748118;
+int k,n,m,K,AN;
+int lim,totp;
+
+inline int read_mod(){static int x;x=read();x%=mod;x+=x>>31&mod;return x;}
+int tr[N],tf;
+int inv[N];
+int W[N],p[N],f[N],t[N];
+int a[N],ans[N];
+
+inline void tpre(int n)
+{ 
+	if(tf==n)return;tf=n;R(i,0,n-1) tr[i]=(tr[i>>1]>>1)|((i&1)?n>>1:0);
+}
+void NTT(int *g,int rev,int n) 
+{
+	tpre(n);
+	static ull f[N<<1],w[N<<1];w[0]=1;
+	R(i,0,n-1) f[i]=(((ll)mod<<5)+g[tr[i]])%mod;
+	for(int l=1;l<n;l<<=1) 
+	{
+		ull tG=fpow(rev?_G:invG,(mod-1)/(l+l));
+		R(i,1,l-1) w[i]=w[i-1]*tG%mod;
+		for(int k=0;k<n;k+=l+l) 
+		{
+			R(p,0,l-1) 
+			{
+				int tt=w[p]*f[k|l|p]%mod;
+				f[k|l|p]=f[k|p]+mod-tt;
+				f[k|p]+=tt;
+			}
+		}
+		if(l==(1<<10)) R(i,0,n-1) f[i]%=mod;
+	}
+	if(!rev) 
+	{
+		ull invn=fpow(n);
+		R(i,0,n-1) g[i]=f[i]%mod*invn%mod;
+	}
+	else R(i,0,n-1) g[i]=f[i]%mod;
+}
+void px(int *f,int *g,int *p,int n){R(i,0,n-1)p[i]=1ll*f[i]*g[i]%mod;}
+void poly_inv(int *f,int *g,int m)
+{
+	int n=lim;
+	static int w[N<<1],r[N<<1],sav[N<<1];
+	w[0]=fpow(f[0]);
+	//printf("f0:%d w0:%d\n",f[0],w[0]);
+	for(int l=2;l<=n;l<<=1) 
+	{
+		R(i,0,(l>>1)-1) r[i]=w[i];
+		cpy(sav,f,l);NTT(sav,1,l);
+		NTT(r,1,l);px(r,sav,r,l);
+		NTT(r,0,l);clr(r,l>>1);
+		cpy(sav,w,l);NTT(sav,1,l);
+		NTT(r,1,l);px(r,sav,r,l);
+		NTT(r,0,l);
+		R(i,l>>1,l-1) w[i]=(w[i]*2ll-r[i]+mod)%mod;
+	}
+	cpy(g,w,m+1);clr(sav,n);clr(w,n);clr(r,n);
+}
+void poly_times(int *f,int *g,int *p,int n,int m,int lim)
+{
+	static int tmpf[N<<1],tmpg[N<<1];
+	for(m+=n,n=1;n<m;n<<=1);
+	clr(tmpf,n),cpy(tmpf,f,n);
+	clr(tmpg,n),cpy(tmpg,g,n);
+	NTT(tmpf,1,n),NTT(tmpg,1,n);
+	px(tmpf,tmpg,p,n),NTT(p,0,n);
+	clr(p+lim,n-lim);clr(tmpf,n),clr(tmpg,n);
+}
+void init(int n) 
+{
+	for(lim=1;lim<=n;lim<<=1,++totp);
+	tpre(lim);
+	int tG=fpow(3,mod>>totp);W[lim>>1]=1;
+	R(i,(lim>>1)+1,lim-1) W[i]=1ll*W[i-1]*tG%mod;
+	L(i,1,(lim>>1)-1) W[i]=W[i<<1];
+}
+
+void times(int *f,int *g)
+{
+	static int sav[N<<1];
+	cpy(sav,f,lim);
+	NTT(sav,1,lim);NTT(g,1,lim);
+	px(g,sav,g,lim);NTT(g,0,lim);
+	R(i,0,lim-1) sav[i]=i>K?0:g[n-i];
+	NTT(sav,1,lim);
+	px(sav,t,sav,lim);NTT(sav,0,lim);
+	R(i,0,lim-1) sav[i]=i>K?0:sav[i];
+	reverse(sav,sav+K+1);
+	NTT(sav,1,lim);
+	px(sav,p,sav,lim);NTT(sav,0,lim);
+	R(i,0,lim-1) g[i]=(g[i]-sav[i]+mod)%mod;
+	clr(sav,lim);
+}
+signed main()
+{
+	k=read(),m=read();
+	init(m<<1);n=(m-1)<<1;K=n-m;
+	R(i,1,m) p[i]=read_mod();
+	R(i,0,m-1) f[i]=read_mod();
+	p[0]=mod-1;
+	poly_inv(p,t,K);
+	NTT(t,1,lim);
+	reverse(p,p+m+1);NTT(p,1,lim);	
+	a[1]=ans[0]=1;
+	while(k) 
+	{
+		if(k&1) times(a,ans);
+		times(a,a);
+		k>>=1;
+	}
+	R(i,0,m-1) AN=(AN+1ll*ans[i]*f[i]%mod)%mod;
+	writeln(AN);
+}
+```
+
+
+
+## BZOJ 3625 小朋友与二叉树
+
+（CF438E）
+
+给定一棵$n$个节点的二叉树是合法的，当且仅当每个节点的权值都在给定的集合$C$中。对于每个$S\in [1,m]$，求有多少棵不同的，权值和为$S$的合法二叉树。
+
+$n,m\leq 10^5$，$C$中的元素不超过$10^5$。
+
+Sol：
+
+令$f_s$表示满足条件的权重为$s$的二叉树数量
+
+则有$f_0=1$
+$$
+f_s= \sum_{w\in \{c_1,\ldots,c_n \}}\sum_i f_i\times f_{s-w-i} (s>0)
+$$
+然后令$f$的普通生成函数为$F(x)=\sum\limits _{i=0}^{\infty} f_i x^i$
+
+然后令$G(x)=\sum\limits_{i=1}^n x^{c_i}$
+
+然后发现就有$F(x)=F(x)^2 G(x)+1$（$+1$是因为$f_0=1$）
+
+然后解得：
+$$
+f_s=\frac{1\pm \sqrt{1-4G(x)}}{2G(x)}
+$$
+然后由于$f_0=1,1\leq c_i$，所以取加号时并不可能。
+
+所以有：
+$$
+f_s=\frac{1-\sqrt{1-4G(x)}}{2G(x)}=\frac{4G(x)}{2G(x)(1+\sqrt{1-4G(x)})}=\frac{2}{1+\sqrt{1-4G(x)}}
+$$
+然后就是多项式开根+求逆了。

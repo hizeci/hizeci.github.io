@@ -49,7 +49,7 @@
 <meta itemprop="name" content="图论和网络流相关">
 <meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-04-17T07:55:54&#43;08:00" />
 <meta itemprop="dateModified" content="2021-04-17T07:55:54&#43;08:00" />
-<meta itemprop="wordCount" content="12058">
+<meta itemprop="wordCount" content="12055">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="图论和网络流相关"/>
 <meta name="twitter:description" content=""/>
@@ -1999,7 +1999,7 @@
 <p>具体做法是对于一个图，算出来从$S$到其他所有点的距离，假如有一条边$x\to y$，如果$dist_x+1=dist_y$，那么就把这条边加入可以增广的边的集合，否则就不管这条边。然后再从$S$进行一次dfs，然后对于可行的边增广一下就行了。容易发现一次增广的复杂度最快是$O(nm)$的，每次增广之后$S\to T$的最短距离一定会变所以距离最多只会变$n$次，时间复杂度为$O(n^2m)$的。</p>
 <h3 id="dinic的一些优化">Dinic的一些优化</h3>
 <p>都是在一些增广途中的一些优化</p>
-<p>**当前弧优化 **</p>
+<p><strong>当前弧优化</strong></p>
 <p>就大概目前从$p\to x$，而$x$已经访问了一些边如$e_1,e_2$且这些边已经没有多余的流量了，假设现在访问$e_3$，所以假如之后有一个点$k$再去访问$x$之后，就没有必要再去访问$e_1,e_2$了。</p>
 <p>就对每一个$x$记一个当前出边，当他退出之后就不用访问出边前的出边了。</p>
 <p><strong>炸点优化</strong></p>

@@ -913,6 +913,113 @@ $$
 
 所以说可以在$O(n\log n)$时间复杂度求出在$f(x)$上的点值，插值回去同样，这涉及到傅里叶变换一个优美的性质，两个只差一个系数。
 
+```c++
+const int N=1351111;
+int n,m;
+struct CP
+{
+	double x,y;
+	CP (double xx=0,double yy=0) {x=xx,y=yy;}
+	CP operator + (CP const &A)const{return CP(x+A.x,y+A.y);}
+	CP operator - (CP const &A)const{return CP(x-A.x,y-A.y);}
+	CP operator * (CP const &A)const{return CP(x*A.x-y*A.y,x*A.y+y*A.x);}
+	CP operator / (CP const &A)const{double tt=A.x*A.x-A.y*A.y;return CP((x*A.x+y*A.y)/tt,(y*A.x-x*A.y)/tt);}
+}f[N<<1],p[N<<1];
+int tr[N<<1];
+void fft(CP *f,int rev)
+{
+	R(i,0,n-1) if(i<tr[i]) swap(f[i],f[tr[i]]);
+	for(int p=2;p<=n;p<<=1) 
+	{
+		int len=p>>1;
+		CP tG(cos(2*Pi/p),sin(2*Pi/p));
+		if(!rev) tG.y*=-1;
+		for(int k=0;k<n;k+=p) 
+		{
+			CP buf(1,0);
+			for(int l=k;l<k+len;l++)
+			{
+				CP tt=buf*f[len+l];
+				f[l+len]=f[l]-tt;
+				f[l]=f[l]+tt;
+				buf=buf*tG;
+			}
+		}
+	}
+}
+/*
+//F(x)=FL(x^2)+x*FR(x^2)
+//F(W^k)=FL(w^k)+W^k*FR(w^k)
+//F(W^{k+n/2})=FL(w^k)-W^k*FR(w^k)
+*/
+signed main()
+{
+	n=read(),m=read();
+	R(i,0,n) scanf("%lf",&f[i].x);
+	R(i,0,m) scanf("%lf",&p[i].x);
+	for(m+=n,n=1;n<=m;n<<=1);
+	R(i,0,n-1) tr[i]=(tr[i>>1]>>1)|((i&1)?n>>1:0);
+	fft(f,1);fft(p,1); 
+	R(i,0,n-1) f[i]=f[i]*p[i];
+	fft(f,0);
+	R(i,0,m) printf("%lld ",(int)(f[i].x/n+0.49999));
+}
+````
+
+以及三变二：
+
+```c++
+const int N=1351111;
+int n,m;
+struct CP
+{
+	double x,y;
+	CP (double xx=0,double yy=0) {x=xx,y=yy;}
+	CP operator + (CP const &A)const{return CP(x+A.x,y+A.y);}
+	CP operator - (CP const &A)const{return CP(x-A.x,y-A.y);}
+	CP operator * (CP const &A)const{return CP(x*A.x-y*A.y,x*A.y+y*A.x);}
+	CP operator / (CP const &A)const{double tt=A.x*A.x-A.y*A.y;return CP((x*A.x+y*A.y)/tt,(y*A.x-x*A.y)/tt);}	
+}f[N<<1];
+int tr[N<<1];
+void fft(CP *f,int rev)
+{
+	R(i,0,n-1) if(i<tr[i]) swap(f[i],f[tr[i]]);
+	for(int p=2;p<=n;p<<=1)
+	{
+		int len=p>>1;
+		CP tG(cos(2*Pi/p),sin(2*Pi/p));
+		if(!rev) tG.y*=-1;
+		for(int k=0;k<n;k+=p)
+		{
+			CP buf(1,0);
+			for(int l=k;l<k+len;l++)
+			{
+				CP tt=buf*f[len+l];
+				f[l+len]=f[l]-tt;
+				f[l]=f[l]+tt;
+				buf=buf*tG;
+			}
+		}
+	}		
+}
+signed main()
+{
+	n=read(),m=read();
+	R(i,0,n) f[i].x=read();
+	R(i,0,m) f[i].y=read();
+	for(m+=n,n=1;n<=m;n<<=1);
+	R(i,0,n-1) tr[i]=(tr[i>>1]>>1)|((i&1)?n>>1:0);
+	fft(f,1);
+	R(i,0,n-1) f[i]=f[i]*f[i];
+	fft(f,0);
+	R(i,0,m) printf("%lld ",(int)(f[i].y/n/2+0.499999));
+}
+/*
+至于修正方法,可以把两个多项式数乘到相同的值域范围,这样子就不会产生平方项的大误差了。
+注意最后要除回去。
+*/
+```
+
 NTT：
 
 与FFT是一样的，唯一的区别是FTT是在复平面上做这件事，相当于$1$开了$2^k$根。而NTT是在数论域（模$p$域）上做这件事，这个时候也是把$1$开$2^k$根。
@@ -932,6 +1039,137 @@ $g^0,g^1,\ldots,,g^{p-2}$在模$p$意义下两两不同，且遍历$1\to p-1$
 第一个条件比较好弄直接暴力枚举或者随机即可。如$998244353$的一个原根就是$3$。
 
 第二个条件比较麻烦。如$10^9+7$就只能处理$2$以内的DFT。
+
+```c++
+const int _G=3;
+const int N=1111111;
+const int invG=fpow(_G);
+int tr[N<<1],tf;
+int n,m,F[N<<1],G[N<<1];
+
+void tpre(int n){
+	if(tf==n) return;tf=n;
+	R(i,0,n-1) tr[i]=(tr[i>>1]>>1)|((i&1)?n>>1:0);
+}
+void NTT(int *g,int rev,int n)
+{
+	tpre(n);
+	static ull f[N<<1],w[N<<1];w[0]=1;
+	R(i,0,n-1) f[i]=(((ll)mod<<5)+g[tr[i]])%mod;
+	for(int l=1;l<n;l<<=1)
+	{
+		ull tG=fpow(rev?_G:invG,(mod-1)/(l+l));
+		R(i,1,l-1) w[i]=w[i-1]*tG%mod;
+		for(int k=0;k<n;k+=l+l)
+		{
+			R(p,0,l-1) 
+			{
+				int tt=w[p]*f[k|l|p]%mod;
+				f[k|l|p]=f[k|p]+mod-tt;
+				f[k|p]+=tt;
+			}
+		}
+		if(l==(1<<10)) R(i,0,n-1) f[i]%=mod;
+	}
+	if(!rev) 
+	{
+		ull invn=fpow(n);
+		R(i,0,n-1) g[i]=f[i]%mod*invn%mod;
+	}
+	else R(i,0,n-1) g[i]=f[i]%mod;
+}
+void px(int *f,int *g,int n) {R(i,0,n-1)f[i]=1ll*f[i]*g[i]%mod;}
+void times(int *f,int *g,int len,int lim) 
+{
+	static int sav[N<<1];
+	int n=1;for(;n<=len;n<<=1);
+	clr(sav,n);cpy(sav,g,n);
+	NTT(f,1,n);NTT(sav,1,n);
+	px(f,sav,n);NTT(f,0,n);
+	clr(f+lim,n-lim);clr(sav,n);
+}
+
+signed main()
+{
+	n=read(),m=read();
+	R(i,0,n) F[i]=read();
+	R(i,0,m) G[i]=read();
+	for(m+=n,n=1;n<=m;n<<=1);
+	times(F,G,m,n);
+	R(i,0,m) printf("%lld ",F[i]);
+}
+```
+
+以及`vector`版
+
+```cpp
+const int _G=3;
+const int N=1111111;
+const int invG=fpow(_G);
+int tr[N<<1],tf;
+void tpre(int n){
+	if(tf==n) return;tf=n;
+	R(i,0,n-1) tr[i]=(tr[i>>1]>>1)|((i&1)?n>>1:0);
+}
+void NTT(int *g,int rev,int n)
+{
+	tpre(n);
+	static ull f[N<<1],w[N<<1];w[0]=1;
+	R(i,0,n-1) f[i]=(((ll)mod<<5)+g[tr[i]])%mod;
+	for(int l=1;l<n;l<<=1)
+	{
+		ull tG=fpow(rev?_G:invG,(mod-1)/(l+l));
+		R(i,1,l-1) w[i]=w[i-1]*tG%mod;
+		for(int k=0;k<n;k+=l+l)
+		{
+			R(p,0,l-1) 
+			{
+				int tt=w[p]*f[k|l|p]%mod;
+				f[k|l|p]=f[k|p]+mod-tt;
+				f[k|p]+=tt;
+			}
+		}
+		if(l==(1<<10)) R(i,0,n-1) f[i]%=mod;
+	}
+	if(!rev) 
+	{
+		ull invn=fpow(n);
+		R(i,0,n-1) g[i]=f[i]%mod*invn%mod;
+	}
+	else R(i,0,n-1) g[i]=f[i]%mod;
+}
+void px(int *f,int *g,int n) {R(i,0,n-1)f[i]=1ll*f[i]*g[i]%mod;}
+#define Poly vector<int>
+Poly operator + (const Poly &A,const Poly &B)
+{
+	Poly C=A;C.resize(max(A.size(),B.size()));
+	FR(i,0,(int)B.size()) C[i]=(C[i]+B[i])%mod;
+	return C;
+}
+Poly operator * (const Poly &A,const Poly &B)
+{
+	static int a[N<<1],b[N<<1];
+	//FR(i,0,(int)A.size()) a[i]=A[i];
+	cpy(a,&A[0],A.size()),cpy(b,&B[0],B.size());
+	Poly C;C.resize(A.size()+B.size()-1);
+	int n=1;for(n;n<(int)C.size();n<<=1);
+	NTT(a,1,n);NTT(b,1,n);
+	px(a,b,n);NTT(a,0,n);
+	cpy(&C[0],a,C.size());
+	clr(a,n);clr(b,n);
+	return C;
+}
+Poly F,G;
+signed main()
+{
+	int n=read(),m=read();
+	F.resize(n+1),G.resize(m+1);
+	FR(i,0,(int)F.size()) F[i]=read();
+	FR(i,0,(int)G.size()) G[i]=read();
+	F=F*G;
+	FR(i,0,(int)F.size()) printf("%lld ",F[i]);
+}
+```
 
 MTT：
 
@@ -1005,7 +1243,7 @@ $P=A+iB,Q=A-iB$
 
 
 
-然而这玩意没有什么用...
+然而这玩意没有什么用...我还不会写...
 
 ### 求逆
 
@@ -1047,6 +1285,29 @@ $$
 $$
 \rightarrow T(n)=O(n\log n)
 $$
+
+```c++
+void poly_inv(int *f,int *g,int m)
+{
+	int n=1;for(;n<m;n<<=1);
+	static int w[N<<1],r[N<<1],sav[N<<1];
+	w[0]=fpow(f[0]);
+	for(int l=2;l<=n;l<<=1) 
+	{
+		FR(i,0,(l>>1)) r[i]=w[i];
+		cpy(sav,f,l);NTT(sav,1,l);
+		NTT(r,1,l);px(r,sav,r,l);
+		NTT(r,0,l);clr(r,l>>1);
+		cpy(sav,w,l);NTT(sav,1,l);
+		NTT(r,1,l);px(r,sav,r,l);
+		NTT(r,0,l);
+		FR(i,l>>1,l) w[i]=(w[i]*2ll-r[i]+mod)%mod;
+	}
+	cpy(g,w,m+1);clr(sav,n);clr(w,n);clr(r,n);
+}
+```
+
+
 
 ### 牛顿迭代
 
@@ -1115,6 +1376,8 @@ $$
 
 而$f'(A)=1$，因为你要记住你是对A求导的，所以对A而言B只是一个常数。
 
+[fuyuki](https://www.luogu.com.cn/blog/fuyuki/dui-duo-xiang-shi-niu-dun-die-dai-suan-fa-di-yi-suo-li-xie)
+
 ### 求$\ln$
 
 $$
@@ -1125,15 +1388,97 @@ $$
 $$
 \ln x=\int \frac{A'}{A} \mathrm{d} x
 $$
+附求导和求积分公式：
+$$
+(x^a)'=ax^{a-1} , \int x^a\mathrm{d} x=\frac{1}{a+1} x^{a+1}
+$$
 时间复杂度$O(n\log n)$
+
+```c++
+inline void poly_derivation(int *f,int *g,int n){R(i,1,n-1)g[i-1]=1ll*f[i]*i%mod;g[n-1]=0;}
+inline void poly_integral(int *f,int *g,int n){R(i,1,n-1)g[i]=1ll*f[i-1]*inv[i]%mod;g[0]=0;}
+void poly_mul(int *f,int *g,int *p,int n,int m) 
+{
+	for(m+=n,n=1;n<m;n<<=1);
+	NTT(f,1,n);NTT(g,1,n);
+	px(f,g,p,n);NTT(p,0,n);
+}
+
+void poly_ln(int *f,int *g,int n)
+{
+	static int ff[N<<1],_f[N<<1],_g[N<<1];
+	poly_derivation(f,ff,n);
+	poly_inv(f,_f,n);
+	poly_mul(ff,_f,_g,n,n);
+	poly_integral(_g,g,n);
+}
+```
+
+
 
 ### 求$\exp$
 
-相当于解$B= e^A$
+相当于解$B(x)= e^{A(x)}$
 
-两边取$\ln$，$\ln B =A$
+两边取$\ln$，$\ln B(x) =A(x)$
 
-令$f(B)=\ln B-A$，牛顿迭代求零点即可。
+令$f(B(x))=\ln B(x)-A(x)$，牛顿迭代求零点即可。
+
+由于保证$a_0=0$，则有$\ln b_0-0=0$，所以直接赋值为$1$即可。
+
+由于有$f'(B(x))=\frac{1}{B(x)}$：
+$$
+B(x) \equiv B_0(x)-\frac{\ln B_0(x) - A(x)}{\frac{1}{B_0(x)}} \pmod {x^n}
+$$
+
+$$
+\equiv B_0(x)-B_0(\ln B_0(x)-A(x)) \pmod {x^n}
+$$
+
+$$
+\equiv B_0(x)(1-\ln B_0(x)+A(x))
+$$
+
+```c++
+void poly_exp(int *f,int *g,int m) 
+{
+	if(m==1) {g[0]=1;return;}
+	static int s[N<<1],w[N<<1];
+	poly_exp(f,g,(m+1)>>1);
+	int n=1;
+	for(;n<(m<<1);n<<=1);
+	clr(s,m);
+	poly_ln(g,s,m);
+	tpre(n);
+	cpy(w,f,n);clr(w+m,n-m);
+	NTT(w,1,n);NTT(g,1,n);NTT(s,1,n);
+	R(i,0,n) g[i]=g[i]*(1-s[i]+w[i]+mod)%mod;
+	NTT(g,0,n);
+	clr(g+m,n-m);
+}
+```
+
+以及不知道对不对但是跑得较慢得迭代版：
+
+```c++
+void poly_exp(int *f,int *g,int m)
+{
+	static int s[N<<1],s2[N<<1],w[N<<1];
+	int n=1;for(;n<m;n<<=1);
+	s2[0]=1;
+	for(int l=2;l<=n;l<<=1)
+	{
+		cpy(s,s2,l>>1);poly_ln(s,s,l);
+		cpy(w,s2,l);
+		R(i,0,l-1) s[i]=(f[i]-s[i]+mod)%mod;
+		s[0]=(s[0]+1)%mod;
+		poly_times(s2,s,s2,l,l,l);
+	}
+	cpy(g,s2,m);clr(s,n);clr(s2,n);
+}
+```
+
+
 
 ### 除法与取余
 
@@ -1154,6 +1499,161 @@ $$
 A^R(x)=D^R (x)B^R(x)+x^{n-m+1} R^R(x)
 $$
 然后两边对$x^{n-m+1}$取模，因为$D^R(x)$是$n-m$次的，所以取模之后$x^{n-m+1}\cdot R^R(x)$这一项就没有了。而$D^R(x)$是不变的，所以再将$A^R(x)$与$B^R(x)$取模之后，就可以准确求出$D^R(X)$。然后把系数翻回去就得到了$D$，然后再代回原式$A=DB+R$，就得到了$R$。
+
+```c++
+void poly_times(int *f,int *g,int *p,int n,int m,int lim) 
+{
+	static int tmpf[N<<1],tmpg[N<<1];
+	for(m+=n,n=1;n<m;n<<=1);
+	clr(tmpf,n);cpy(tmpf,f,n);
+	clr(tmpg,n);cpy(tmpg,g,n);
+	NTT(tmpf,1,n);NTT(tmpg,1,n);
+	px(tmpf,tmpg,p,n);NTT(p,0,n);
+	clr(p+lim,n-lim);clr(tmpf,n);clr(tmpg,n);
+}
+void poly_division(int *f,int *g,int *q,int *r,int n,int m)
+{
+	static int tmpf[N<<1],tmpg[N<<1],d[N<<1],ivd[N<<1],_d[N<<1],_g[N<<1],fg[N<<1];
+	cpy(tmpf,f,n),cpy(tmpg,g,m);
+	int L=n-m+1;
+	reverse(tmpf,tmpf+n);cpy(fg,tmpf,L);reverse(tmpf,tmpf+n);
+	reverse(tmpg,tmpg+m);cpy(d,tmpg,L);reverse(tmpg,tmpg+m);
+	poly_inv(d,ivd,L);poly_times(ivd,fg,_d,L,L,L);reverse(_d,_d+L);
+	poly_times(tmpg,_d,_g,n,n,n);
+	R(i,0,m-2) _g[i]=(tmpf[i]-_g[i]+mod)%mod;
+	cpy(r,_g,m-1);clr(r+m-1,L);
+	cpy(q,_d,L);clr(q+L,n-L);
+}
+```
+
+
+
+### 开根
+
+假设当前有
+$$
+H^2(x)\equiv F(x) \pmod {x^{\lceil \frac{n}{2} \rceil}}
+$$
+求
+$$
+G(x)\equiv H(x) \pmod {x^{\lceil \frac{n}{2}\rceil}}
+$$
+所以
+$$
+G(x)-H(x)\equiv 0 \pmod {x^{\lceil \frac{n}{2} \rceil}}
+$$
+两边开方
+$$
+(G(x)-H(x))^2\equiv 0 \pmod {x^{n}}
+$$
+
+$$
+G^2(x)-2H(x)G(x)+H^2(x) \equiv 0 \pmod {x^n}
+$$
+
+$$
+F(x)-2H(x)G(x)+H^2(x) \equiv 0 \pmod {x^n}
+$$
+
+$$
+G(x)=\frac{F(x)+H^2(x)}{2H(x)}
+$$
+
+```c++
+void poly_sqrt(int *f,int *g,int m)
+{
+	int n=1;for(;n<m;n<<=1);
+	static int _g[N<<1],ivg[N<<1];
+	g[0]=1;
+	for(int l=2;l<=n;l<<=1) 
+	{
+		FR(i,0,l>>1) _g[i]=(g[i]<<1)%mod;
+		poly_inv(_g,ivg,l);
+		NTT(g,1,l);px(g,g,g,l);NTT(g,0,l);
+		R(i,0,l-1) g[i]=(f[i]+g[i])%mod;
+		poly_times(g,ivg,g,l,l,l);
+	}
+	clr(_g,n+n),clr(ivg,n+n);
+}
+```
+
+
+
+### 幂函数
+
+求$G(x)\equiv F^k (x) \pmod {x^n}$
+
+当满足$f_0=1$时
+
+两边取$\ln$
+$$
+\ln G(x)\equiv k \ln F(x) \pmod {x^n}
+$$
+然后两边$\exp$
+$$
+G(x)\equiv e^{k\ln F(x)} \pmod {x^n}
+$$
+
+```c++
+for(int i=0;isdigit(str[i]);i++) k=(k<<3)+(k<<1)+str[i]-'0',k%=mod;
+R(i,0,n-1) A[i]=read();
+get_ln(A,n);
+R(i,0,n-1) A[i]=A[i]*k%mod;
+get_exp(A,n);
+```
+
+如果不满足$f_0=1$
+
+在取$\ln$之前需要先提取一个公因式$g\cdot x^t$满足$a_t\neq 0$且$a_i=0,i\in[0,t)$。$b$为$g^t$的系数，这样就可以保证最低位为$1$。
+$$
+F^k(x)=\big(\frac{F(x)}{x^t}\big)^k x^{tk}
+$$
+需要注意$t\times k>n$的特殊处理。
+
+以及新的$F^k(x)$的$k$应对$p$取模，而$g^k$中的$k$应对于$\varphi(p)$取模
+
+```c++
+const int N=2222222;
+const int _G=3;
+const int invG=332748118;
+int tr[N<<1],tf;
+int n,k1,k2,k3,A[N],B[N],C[N];
+int inv[N<<1];
+int ixi;
+inline void read_mod() 
+{
+	char c=getchar();int x=0;
+    for(;isdigit(c);c=getchar())k1=((k1<<1)+(k1<<3)+(c^48))%mod,k2=((k2<<1)+(k2<<3)+(c^48))%(mod-1),k3++;
+}
+void poly_pwr(int *f,int *g,int m) 
+{
+	static int _f[N<<1];
+	int x=m;
+	for(int i=0;i<x;++i) if(f[i]) x=i;
+	if(x==m||(x&&k3>5)) return;
+	if(!k1&&!k2) {g[0]=1;return;}
+	m-=x;
+	cpy(f,f+x,m);
+	poly_ln(f,_f,m);
+	R(i,0,m-1) _f[i]=_f[i]*k1%mod;
+	poly_exp(_f,g,m);
+	int tt=fpow(f[0],k2);
+	R(i,0,m-1) g[i]=g[i]*tt%mod;
+	m+=x;x=min(x*k1,m);
+	cpy(g+x,g,m-x);
+	clr(_f,n);clr(g,x);
+}
+signed main()
+{
+	init_inv(2621244+5);
+	n=read();read_mod();
+	R(i,0,n-1) A[i]=read();
+	poly_pwr(A,B,n);
+	printofary(B,n);
+}
+```
+
+
 
 ### 多点求值
 
