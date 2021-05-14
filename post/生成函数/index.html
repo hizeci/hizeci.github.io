@@ -49,7 +49,7 @@
 <meta itemprop="name" content="生成函数">
 <meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-04-29T07:21:49&#43;08:00" />
 <meta itemprop="dateModified" content="2021-04-29T07:21:49&#43;08:00" />
-<meta itemprop="wordCount" content="13633">
+<meta itemprop="wordCount" content="13653">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="生成函数"/>
 <meta name="twitter:description" content=""/>
@@ -1468,30 +1468,18 @@ $$
 </span><span class="lnt"> 9
 </span><span class="lnt">10
 </span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kr">inline</span> <span class="kt">void</span> <span class="nf">poly_derivation</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">f</span><span class="p">,</span><span class="kt">int</span> <span class="o">*</span><span class="n">g</span><span class="p">,</span><span class="kt">int</span> <span class="n">n</span><span class="p">){</span><span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="n">g</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">1ll</span><span class="o">*</span><span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">i</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span><span class="n">g</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">;}</span>
 <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">poly_integral</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">f</span><span class="p">,</span><span class="kt">int</span> <span class="o">*</span><span class="n">g</span><span class="p">,</span><span class="kt">int</span> <span class="n">n</span><span class="p">){</span><span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="n">g</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="mi">1ll</span><span class="o">*</span><span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">inv</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span><span class="n">g</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">;}</span>
-<span class="kt">void</span> <span class="nf">poly_mul</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">f</span><span class="p">,</span><span class="kt">int</span> <span class="o">*</span><span class="n">g</span><span class="p">,</span><span class="kt">int</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="kt">int</span> <span class="n">m</span><span class="p">)</span> 
-<span class="p">{</span>
-	<span class="k">for</span><span class="p">(</span><span class="n">m</span><span class="o">+=</span><span class="n">n</span><span class="p">,</span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">n</span><span class="o">&lt;</span><span class="n">m</span><span class="p">;</span><span class="n">n</span><span class="o">&lt;&lt;=</span><span class="mi">1</span><span class="p">);</span>
-	<span class="n">NTT</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span><span class="n">NTT</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
-	<span class="n">px</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">n</span><span class="p">);</span><span class="n">NTT</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
-<span class="p">}</span>
-
 <span class="kt">void</span> <span class="nf">poly_ln</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">f</span><span class="p">,</span><span class="kt">int</span> <span class="o">*</span><span class="n">g</span><span class="p">,</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
 <span class="p">{</span>
 	<span class="k">static</span> <span class="kt">int</span> <span class="n">ff</span><span class="p">[</span><span class="n">N</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">],</span><span class="n">_f</span><span class="p">[</span><span class="n">N</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">],</span><span class="n">_g</span><span class="p">[</span><span class="n">N</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">];</span>
 	<span class="n">poly_derivation</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">ff</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
 	<span class="n">poly_inv</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">_f</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
-	<span class="n">poly_mul</span><span class="p">(</span><span class="n">ff</span><span class="p">,</span><span class="n">_f</span><span class="p">,</span><span class="n">_g</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+	<span class="n">poly_times</span><span class="p">(</span><span class="n">ff</span><span class="p">,</span><span class="n">_f</span><span class="p">,</span><span class="n">_g</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
 	<span class="n">poly_integral</span><span class="p">(</span><span class="n">_g</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+	<span class="n">clr</span><span class="p">(</span><span class="n">ff</span><span class="p">,</span><span class="n">n</span><span class="p">),</span><span class="n">clr</span><span class="p">(</span><span class="n">_g</span><span class="p">,</span><span class="n">n</span><span class="p">),</span><span class="n">clr</span><span class="p">(</span><span class="n">_f</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
@@ -1542,9 +1530,9 @@ $$</p>
 	<span class="n">tpre</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
 	<span class="n">cpy</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">n</span><span class="p">);</span><span class="n">clr</span><span class="p">(</span><span class="n">w</span><span class="o">+</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="n">m</span><span class="p">);</span>
 	<span class="n">NTT</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span><span class="n">NTT</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span><span class="n">NTT</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
-	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="n">g</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">g</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">mod</span><span class="p">)</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="n">g</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="mi">1ll</span><span class="o">*</span><span class="n">g</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">mod</span><span class="p">)</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
 	<span class="n">NTT</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
-	<span class="n">clr</span><span class="p">(</span><span class="n">g</span><span class="o">+</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="n">m</span><span class="p">);</span>
+	<span class="n">clr</span><span class="p">(</span><span class="n">g</span><span class="o">+</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="n">m</span><span class="p">);</span><span class="n">clr</span><span class="p">(</span><span class="n">s</span><span class="o">+</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="n">m</span><span class="p">);</span><span class="n">clr</span><span class="p">(</span><span class="n">w</span><span class="o">+</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="n">m</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
@@ -1731,13 +1719,19 @@ $$</p>
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">isdigit</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">k</span><span class="o">=</span><span class="p">(</span><span class="n">k</span><span class="o">&lt;&lt;</span><span class="mi">3</span><span class="p">)</span><span class="o">+</span><span class="p">(</span><span class="n">k</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="sc">&#39;0&#39;</span><span class="p">,</span><span class="n">k</span><span class="o">%=</span><span class="n">mod</span><span class="p">;</span>
-<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
-<span class="n">get_ln</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
-<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">k</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
-<span class="n">get_exp</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">void</span> <span class="nf">poly_fpow</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">f</span><span class="p">,</span><span class="kt">int</span> <span class="o">*</span><span class="n">g</span><span class="p">,</span><span class="kt">int</span> <span class="n">m</span><span class="p">,</span><span class="kt">int</span> <span class="n">k</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">static</span> <span class="kt">int</span> <span class="n">ff</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+	<span class="kt">int</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="k">for</span><span class="p">(;</span><span class="n">n</span><span class="o">&lt;</span><span class="n">m</span><span class="p">;</span><span class="n">n</span><span class="o">&lt;&lt;=</span><span class="mi">1</span><span class="p">);</span>
+	<span class="n">poly_ln</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">ff</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">ff</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="mi">1ll</span><span class="o">*</span><span class="n">ff</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">k</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+	<span class="n">poly_exp</span><span class="p">(</span><span class="n">ff</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+<span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
 </div><p>如果不满足$f_0=1$</p>
@@ -1864,7 +1858,31 @@ $$
 <li>$i=n$，当$i=n$时，上面有一个$F^{-1}(x)$，这个东西想要求导直接用$0$次方是求不出来的，相当应用$\ln$求导，$\frac{F'(x)}{F(x)}$，而不是用多项式求导。（然而也没用$\ln$求导），考虑直接写出来$\frac{F'(x)}{F(x)}=\frac{a_1+2a_2x+3a_3x^2+\ldots}{a_1x+a_2x^2+a_3x^3+\ldots}=\frac{a_1\ldots}{a_1x}\cdot \frac{1}{1+\frac{a_2}{a_1}x+\frac{a_3}{a_1}x^2+\ldots}$，后面那个东西是一个多项式的逆，因为常数项为$1$，所以可以逆。而前面那个东西$[x^{-1}]$上的系数为$1$,而后面那个东西$[x^0]=1$，所以$a_n=[x^{-1}]\frac{1}{F^{n}(x)}$</li>
 </ol>
 <p>所以就有$[x^n]G(x)=\frac{1}{n} [x^{n-1}] (\frac{x}{F(x)})^n$</p>
-<p>更有趣的东西：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="nf">poly_lagrange_inversion</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">f</span><span class="p">,</span><span class="kt">int</span> <span class="n">m</span><span class="p">,</span><span class="kt">int</span> <span class="n">k</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">static</span> <span class="kt">int</span> <span class="n">g</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">ivf</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+	<span class="kt">int</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="k">for</span><span class="p">(;</span><span class="n">n</span><span class="o">&lt;=</span><span class="n">m</span><span class="p">;</span><span class="n">n</span><span class="o">&lt;&lt;=</span><span class="mi">1</span><span class="p">);</span>
+	<span class="n">tpre</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+	<span class="n">poly_inv</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">ivf</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>	
+	<span class="n">poly_fpow</span><span class="p">(</span><span class="n">ivf</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">k</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">1ll</span><span class="o">*</span><span class="n">g</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">inv</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>更有趣的东西：</p>
 <h3 id="扩展拉格朗日反演">扩展拉格朗日反演</h3>
 <p>这里公式好像挂了</p>
 <p><img src="https://i.loli.net/2021/05/12/JFV58geykI6XGs1.png" alt="QQ图片20210512112912.png">

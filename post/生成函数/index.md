@@ -1397,20 +1397,14 @@ $$
 ```c++
 inline void poly_derivation(int *f,int *g,int n){R(i,1,n-1)g[i-1]=1ll*f[i]*i%mod;g[n-1]=0;}
 inline void poly_integral(int *f,int *g,int n){R(i,1,n-1)g[i]=1ll*f[i-1]*inv[i]%mod;g[0]=0;}
-void poly_mul(int *f,int *g,int *p,int n,int m) 
-{
-	for(m+=n,n=1;n<m;n<<=1);
-	NTT(f,1,n);NTT(g,1,n);
-	px(f,g,p,n);NTT(p,0,n);
-}
-
 void poly_ln(int *f,int *g,int n)
 {
 	static int ff[N<<1],_f[N<<1],_g[N<<1];
 	poly_derivation(f,ff,n);
 	poly_inv(f,_f,n);
-	poly_mul(ff,_f,_g,n,n);
+	poly_times(ff,_f,_g,n,n,n);
 	poly_integral(_g,g,n);
+	clr(ff,n),clr(_g,n),clr(_f,n);
 }
 ```
 
@@ -1452,9 +1446,9 @@ void poly_exp(int *f,int *g,int m)
 	tpre(n);
 	cpy(w,f,n);clr(w+m,n-m);
 	NTT(w,1,n);NTT(g,1,n);NTT(s,1,n);
-	R(i,0,n) g[i]=g[i]*(1-s[i]+w[i]+mod)%mod;
+	R(i,0,n) g[i]=1ll*g[i]*(1-s[i]+w[i]+mod)%mod;
 	NTT(g,0,n);
-	clr(g+m,n-m);
+	clr(g+m,n-m);clr(s+m,n-m);clr(w+m,n-m);
 }
 ```
 
@@ -1595,11 +1589,14 @@ G(x)\equiv e^{k\ln F(x)} \pmod {x^n}
 $$
 
 ```c++
-for(int i=0;isdigit(str[i]);i++) k=(k<<3)+(k<<1)+str[i]-'0',k%=mod;
-R(i,0,n-1) A[i]=read();
-get_ln(A,n);
-R(i,0,n-1) A[i]=A[i]*k%mod;
-get_exp(A,n);
+void poly_fpow(int *f,int *g,int m,int k)
+{
+	static int ff[N];
+	int n=1;for(;n<m;n<<=1);
+	poly_ln(f,ff,n);
+	R(i,0,n-1) ff[i]=1ll*ff[i]*k%mod;
+	poly_exp(ff,g,n);
+}
 ```
 
 如果不满足$f_0=1$
@@ -1702,6 +1699,20 @@ $$
 2. $i=n$，当$i=n$时，上面有一个$F^{-1}(x)$，这个东西想要求导直接用$0$次方是求不出来的，相当应用$\ln$求导，$\frac{F'(x)}{F(x)}$，而不是用多项式求导。（然而也没用$\ln$求导），考虑直接写出来$\frac{F'(x)}{F(x)}=\frac{a_1+2a_2x+3a_3x^2+\ldots}{a_1x+a_2x^2+a_3x^3+\ldots}=\frac{a_1\ldots}{a_1x}\cdot \frac{1}{1+\frac{a_2}{a_1}x+\frac{a_3}{a_1}x^2+\ldots}$，后面那个东西是一个多项式的逆，因为常数项为$1$，所以可以逆。而前面那个东西$[x^{-1}]$上的系数为$1$,而后面那个东西$[x^0]=1$，所以$a_n=[x^{-1}]\frac{1}{F^{n}(x)}$
 
 所以就有$[x^n]G(x)=\frac{1}{n} [x^{n-1}] (\frac{x}{F(x)})^n$
+
+```c++
+int poly_lagrange_inversion(int *f,int m,int k)
+{
+	static int g[N],ivf[N];
+	int n=1;for(;n<=m;n<<=1);
+	tpre(n);
+	poly_inv(f,ivf,n);	
+	poly_fpow(ivf,g,n,k);
+	return 1ll*g[k-1]*inv[k]%mod;
+}
+```
+
+
 
 更有趣的东西：
 
