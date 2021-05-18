@@ -49,7 +49,7 @@
 <meta itemprop="name" content="生成函数题目部分">
 <meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-05-08T10:36:13&#43;08:00" />
 <meta itemprop="dateModified" content="2021-05-08T10:36:13&#43;08:00" />
-<meta itemprop="wordCount" content="4073">
+<meta itemprop="wordCount" content="6707">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="生成函数题目部分"/>
 <meta name="twitter:description" content=""/>
@@ -137,9 +137,11 @@ M=\begin{bmatrix} a_1 &amp; a_2 &amp; a_3 &amp;\cdots &amp;a_k  \1 &amp; 0 &amp;
         <li><a href="#bzoj-3625-小朋友与二叉树">BZOJ 3625 小朋友与二叉树</a>
           <ul>
             <li><a href="#bzoj-3684-大朋友与多叉树">BZOJ 3684 大朋友与多叉树</a></li>
-            <li><a href="#loj-2105-tjoi2015-概率论">LOJ 2105 [TJOI2015] 概率论</a></li>
           </ul>
         </li>
+        <li><a href="#loj-2105-tjoi2015-概率论">LOJ 2105 [TJOI2015] 概率论</a></li>
+        <li><a href="#uoj-50链式反应">UOJ #50链式反应</a></li>
+        <li><a href="#hdu6585">HDU6585</a></li>
       </ul>
     </li>
   </ul>
@@ -988,7 +990,7 @@ $$
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><h3 id="loj-2105-tjoi2015-概率论">LOJ 2105 [TJOI2015] 概率论</h3>
+</div><h2 id="loj-2105-tjoi2015-概率论">LOJ 2105 [TJOI2015] 概率论</h2>
 <p>对于一棵随机生成的$n$个节点的有根二叉树（所有互相不同构的形态等概率出现），求叶子节点数的期望。</p>
 <p>$n\leq 10^9$。同构的判定如下：</p>
 <p>sol：</p>
@@ -1037,6 +1039,328 @@ $$
 <p>所以$\frac{f_n}{g_n}=\frac{n(n+1)}{4n-2}$</p>
 <p>这个题就做完了。</p>
 <p>时间复杂度$O(1)$。</p>
+<h2 id="uoj-50链式反应">UOJ #50链式反应</h2>
+<p>求满足下列条件的$n$个点的带标号树的个数：</p>
+<ul>
+<li>父亲的编号大于儿子。</li>
+<li>一个点如果有儿子，则有两个无序的$\alpha$型儿子，有$c$个无序的$\beta$型儿子，其中$c\in A$。</li>
+<li>如果一个点是根节点或$\alpha$型儿子，那么它可以有儿子或者是叶节点；如果一个点是$\beta$型儿子，那么它只能是叶节点。</li>
+</ul>
+<p>对于所有的$n\leq n_{\max}$求出答案。</p>
+<p>$n_{\max}\leq 2\times 10^5$。</p>
+<p>首先考虑$dp$。</p>
+<p>令$f_n$表示$n$个节点的方案数。首先有$f_1=1$。</p>
+<p>考虑枚举两个$\alpha$型儿子的子树大小分别为$j,k$，剩下就是$\beta$型。于是要满足$i-j-k-1 \in A$。</p>
+<p>然后考虑先选出两个$\alpha$型儿子的编号，方案数为$\binom {i-1} {j} \cdot \binom {i-1-j} {k}$。然后将两个子树的节点都重标号，方案数为$f_j$和$f_k$。</p>
+<p>所以有
+$$
+f_i =\frac{1}{2} \sum_j \sum_k \binom {i-1}{j} \binom {i-1-j}{k} f_j f_k [i-j-k-1 \in A]
+$$
+首先有$\binom {i-1}{j} \binom{i-j-1} {k} =\frac{(i-1)!}{j!k!(i-j-k-1)!}$</p>
+<p>然后考虑枚举$i+j$的和：
+$$
+f_i= \frac{1}{2} \sum_s [i-s-1 \in A]\frac{(i-1)!}{(i-s-1)!} \sum_{j=0}^s \frac{f_j}{j!} \frac{f_{s-j}}{(s-j)!}
+$$
+然后将$\sum_{i=0}^s \frac{f_i}{i!} \frac{f_{s-i}}{(s-i)!}$记作$g_x$。</p>
+<p>然后这又是一个卷积的形式。</p>
+<p>这样直接做是$O(n^2)$的。</p>
+<p>而因为$g$依赖于$f$，而$f$又依赖于$g$。</p>
+<p>然后就要用到一个叫分治FFT的东西。</p>
+<p>假设要求$f_{l,\ldots r}$的值。</p>
+<p>那将它分前一半，后一半，然后先求出前一半。</p>
+<p>那么假设现在要求$f_i$的值，将它写成$g$和$h$的卷积
+$$
+f_i=(i-1)! \sum_{j+k=i-1} g_j h_k
+$$
+现在因为$h$一开始就知道，可以先求出来，现在将$j$分个类。</p>
+<p>考虑分治的过程中包含$i$的区间，然后$j$的取值一定要在$i$的左边。</p>
+<p><img src="https://i.loli.net/2021/05/17/ft3zirEOaZ2MmKD.png" alt="QQ图片20210517183342.png"></p>
+<p>对于分治过程中的对于右半边的每一个$i$，考虑左半边的每一个$j$对他的贡献，然后只要将这几个区间加起来就得到了他们的贡献。</p>
+<p>把$j$那一段拿出来，再把$k$一段拿出来卷一下，就得到了左边对右边的贡献，再找出对应的位置就好了。</p>
+<p>时间复杂度$O(n\log^2 n)$</p>
+<p>然后卡常就可以过了&hellip;</p>
+<p>标算是$O(n\log n)$了&hellip;</p>
+<p><a href="https://vfleaking.blog.uoj.ac/blog/43">https://vfleaking.blog.uoj.ac/blog/43</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span><span class="lnt">92
+</span><span class="lnt">93
+</span><span class="lnt">94
+</span><span class="lnt">95
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">const</span> <span class="kt">int</span> <span class="n">_G</span><span class="o">=</span><span class="mi">3</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">invG</span><span class="o">=</span><span class="mi">332748118</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">;</span>
+<span class="kt">char</span> <span class="n">s</span><span class="p">[</span><span class="mi">444444</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">F</span><span class="p">[</span><span class="mi">888888</span><span class="p">],</span><span class="n">G</span><span class="p">[</span><span class="mi">888888</span><span class="p">],</span><span class="n">G2</span><span class="p">[</span><span class="mi">888888</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">fac</span><span class="p">[</span><span class="mi">888888</span><span class="p">],</span><span class="n">inv</span><span class="p">[</span><span class="mi">888888</span><span class="p">],</span><span class="n">Finv</span><span class="p">[</span><span class="mi">888888</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">s1</span><span class="p">[</span><span class="mi">888888</span><span class="p">],</span><span class="n">s2</span><span class="p">[</span><span class="mi">888888</span><span class="p">],</span><span class="n">s3</span><span class="p">[</span><span class="mi">888888</span><span class="p">];</span>
+<span class="kr">inline</span> <span class="kt">void</span> <span class="nf">init_FAC</span><span class="p">(</span><span class="kt">int</span> <span class="n">lim</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">fac</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">Finv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">inv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">lim</span><span class="p">)</span> <span class="n">inv</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">mod</span><span class="o">-</span><span class="n">mod</span><span class="o">/</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">inv</span><span class="p">[</span><span class="n">mod</span><span class="o">%</span><span class="n">i</span><span class="p">]</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">lim</span><span class="p">)</span> <span class="n">fac</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="mi">1ll</span><span class="o">*</span><span class="n">fac</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">i</span><span class="o">%</span><span class="n">mod</span><span class="p">,</span><span class="n">Finv</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="mi">1ll</span><span class="o">*</span><span class="n">Finv</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">inv</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+<span class="c1">//	R(i,1,lim) printf(&#34;%lld %lld %lld\n&#34;,fac[i],inv[i],Finv[i]);
+</span><span class="c1"></span><span class="p">}</span>
+<span class="kt">int</span> <span class="n">tr</span><span class="p">[</span><span class="mi">888888</span><span class="p">],</span><span class="n">tf</span><span class="p">;</span>
+<span class="kt">void</span> <span class="nf">tpre</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">tf</span><span class="o">==</span><span class="n">n</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span><span class="n">tf</span><span class="o">=</span><span class="n">n</span><span class="p">;</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">tr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">tr</span><span class="p">[</span><span class="n">i</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">)</span><span class="o">|</span><span class="p">((</span><span class="n">i</span><span class="o">&amp;</span><span class="mi">1</span><span class="p">)</span><span class="o">?</span><span class="n">n</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="o">:</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">NTT</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">g</span><span class="p">,</span><span class="kt">int</span> <span class="n">rev</span><span class="p">,</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">tpre</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+	<span class="k">static</span> <span class="n">ull</span> <span class="n">f</span><span class="p">[</span><span class="mi">888888</span><span class="p">],</span><span class="n">w</span><span class="p">[</span><span class="mi">888888</span><span class="p">];</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="p">(((</span><span class="n">ll</span><span class="p">)</span><span class="n">mod</span><span class="o">&lt;&lt;</span><span class="mi">5</span><span class="p">)</span><span class="o">+</span><span class="n">g</span><span class="p">[</span><span class="n">tr</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">l</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span><span class="n">l</span><span class="o">&lt;&lt;=</span><span class="mi">1</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">ull</span> <span class="n">tG</span><span class="o">=</span><span class="n">fpow</span><span class="p">(</span><span class="n">rev</span><span class="o">?</span><span class="nl">_G</span><span class="p">:</span><span class="n">invG</span><span class="p">,(</span><span class="n">mod</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="n">l</span><span class="p">));</span>
+		<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">tG</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+		<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">k</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span><span class="n">k</span><span class="o">+=</span><span class="n">l</span><span class="o">+</span><span class="n">l</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="n">R</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> 
+			<span class="p">{</span>
+				<span class="kt">int</span> <span class="n">tt</span><span class="o">=</span><span class="n">w</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">*</span><span class="n">f</span><span class="p">[</span><span class="n">k</span><span class="o">|</span><span class="n">l</span><span class="o">|</span><span class="n">p</span><span class="p">]</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+				<span class="n">f</span><span class="p">[</span><span class="n">k</span><span class="o">|</span><span class="n">l</span><span class="o">|</span><span class="n">p</span><span class="p">]</span><span class="o">=</span><span class="n">f</span><span class="p">[</span><span class="n">k</span><span class="o">|</span><span class="n">p</span><span class="p">]</span><span class="o">+</span><span class="n">mod</span><span class="o">-</span><span class="n">tt</span><span class="p">;</span>
+				<span class="n">f</span><span class="p">[</span><span class="n">k</span><span class="o">|</span><span class="n">p</span><span class="p">]</span><span class="o">+=</span><span class="n">tt</span><span class="p">;</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">l</span><span class="o">==</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">10</span><span class="p">))</span> <span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">%=</span><span class="n">mod</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">rev</span><span class="p">)</span> 
+	<span class="p">{</span>
+		<span class="n">ull</span> <span class="n">invn</span><span class="o">=</span><span class="n">fpow</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+		<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">g</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">%</span><span class="n">mod</span><span class="o">*</span><span class="n">invn</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">else</span> <span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">g</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">px</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">f</span><span class="p">,</span><span class="kt">int</span> <span class="o">*</span><span class="n">g</span><span class="p">,</span><span class="kt">int</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span><span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="mi">1ll</span><span class="o">*</span><span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">g</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">%</span><span class="n">mod</span><span class="p">;}</span>
+<span class="kt">void</span> <span class="nf">cdq</span><span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span><span class="kt">int</span> <span class="n">r</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="c1">//printf(&#34;%lld %lld\n&#34;,l,r);
+</span><span class="c1"></span>	<span class="c1">//printf(&#34;G:&#34;); R(i,0,n-1) printf(&#34;%lld &#34;,G[i]);puts(&#34;&#34;);
+</span><span class="c1"></span>	<span class="k">if</span><span class="p">(</span><span class="n">r</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">r</span><span class="o">-</span><span class="n">l</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span><span class="k">if</span><span class="p">(</span><span class="n">l</span><span class="o">!=</span><span class="mi">1</span><span class="p">)</span><span class="n">G</span><span class="p">[</span><span class="n">l</span><span class="p">]</span><span class="o">=</span><span class="mi">1ll</span><span class="o">*</span><span class="n">G</span><span class="p">[</span><span class="n">l</span><span class="p">]</span><span class="o">*</span><span class="n">fpow</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="p">)</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span><span class="k">return</span><span class="p">;}</span>
+	<span class="kt">int</span> <span class="n">mid</span><span class="o">=</span><span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="o">=</span><span class="n">r</span><span class="o">-</span><span class="n">l</span><span class="p">,</span><span class="n">nd2</span><span class="o">=</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+	<span class="n">cdq</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">mid</span><span class="p">);</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">l</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">cpy</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">G</span><span class="p">,</span><span class="n">nd2</span><span class="p">);</span><span class="n">clr</span><span class="p">(</span><span class="n">s1</span><span class="o">+</span><span class="n">nd2</span><span class="p">,</span><span class="n">nd2</span><span class="p">);</span><span class="n">NTT</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+		<span class="n">px</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">s1</span><span class="p">,</span><span class="n">s1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span><span class="n">NTT</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+		<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">nd2</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">G2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">G2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">s1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+		<span class="n">cpy</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">G2</span><span class="p">,</span><span class="n">nd2</span><span class="p">);</span><span class="n">clr</span><span class="p">(</span><span class="n">s1</span><span class="o">+</span><span class="n">nd2</span><span class="p">,</span><span class="n">nd2</span><span class="p">);</span><span class="n">NTT</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+		<span class="n">cpy</span><span class="p">(</span><span class="n">s2</span><span class="p">,</span><span class="n">F</span><span class="p">,</span><span class="n">nd2</span><span class="p">);</span><span class="n">clr</span><span class="p">(</span><span class="n">s2</span><span class="o">+</span><span class="n">nd2</span><span class="p">,</span><span class="n">nd2</span><span class="p">);</span><span class="n">NTT</span><span class="p">(</span><span class="n">s2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+		<span class="n">px</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">s2</span><span class="p">,</span><span class="n">s1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span><span class="n">NTT</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+		<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">nd2</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">G</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">G</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">s1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">else</span>
+	<span class="p">{</span>
+		<span class="n">cpy</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">G</span><span class="o">+</span><span class="n">l</span><span class="p">,</span><span class="n">nd2</span><span class="p">);</span><span class="n">clr</span><span class="p">(</span><span class="n">s1</span><span class="o">+</span><span class="n">nd2</span><span class="p">,</span><span class="n">nd2</span><span class="p">);</span><span class="n">NTT</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+		<span class="n">cpy</span><span class="p">(</span><span class="n">s2</span><span class="p">,</span><span class="n">G</span><span class="p">,</span><span class="n">n</span><span class="p">);</span><span class="n">NTT</span><span class="p">(</span><span class="n">s2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+		<span class="n">px</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">s2</span><span class="p">,</span><span class="n">s1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span><span class="n">NTT</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+		<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">nd2</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">G2</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">l</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">G2</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">l</span><span class="p">]</span><span class="o">+</span><span class="mi">2ll</span><span class="o">*</span><span class="n">s1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+		<span class="n">cpy</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">F</span><span class="o">+</span><span class="n">l</span><span class="p">,</span><span class="n">nd2</span><span class="p">);</span><span class="n">clr</span><span class="p">(</span><span class="n">s1</span><span class="o">+</span><span class="n">nd2</span><span class="p">,</span><span class="n">nd2</span><span class="p">);</span><span class="n">NTT</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+		<span class="n">cpy</span><span class="p">(</span><span class="n">s2</span><span class="p">,</span><span class="n">G2</span><span class="p">,</span><span class="n">n</span><span class="p">);</span><span class="n">NTT</span><span class="p">(</span><span class="n">s2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+		<span class="n">px</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">s2</span><span class="p">,</span><span class="n">s1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+		<span class="n">cpy</span><span class="p">(</span><span class="n">s3</span><span class="p">,</span><span class="n">s1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+		<span class="n">cpy</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">G2</span><span class="o">+</span><span class="n">l</span><span class="p">,</span><span class="n">nd2</span><span class="p">);</span><span class="n">clr</span><span class="p">(</span><span class="n">s1</span><span class="o">+</span><span class="n">nd2</span><span class="p">,</span><span class="n">nd2</span><span class="p">);</span><span class="n">NTT</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+		<span class="n">cpy</span><span class="p">(</span><span class="n">s2</span><span class="p">,</span><span class="n">F</span><span class="p">,</span><span class="n">n</span><span class="p">);</span><span class="n">NTT</span><span class="p">(</span><span class="n">s2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+		<span class="n">px</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">s2</span><span class="p">,</span><span class="n">s1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+		<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">s3</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">s3</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">s1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+		<span class="n">NTT</span><span class="p">(</span><span class="n">s3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+		<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">nd2</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">G</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">l</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">G</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">l</span><span class="p">]</span><span class="o">+</span><span class="n">s3</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">cdq</span><span class="p">(</span><span class="n">mid</span><span class="p">,</span><span class="n">r</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">signed</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">m</span><span class="o">=</span><span class="n">read</span><span class="p">();</span><span class="n">scanf</span><span class="p">(</span><span class="s">&#34;%s&#34;</span><span class="p">,</span><span class="n">s</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+	<span class="n">init_FAC</span><span class="p">(</span><span class="n">m</span><span class="o">+</span><span class="mi">10</span><span class="p">);</span>
+	<span class="n">G</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">m</span><span class="p">)</span> <span class="k">if</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="sc">&#39;1&#39;</span><span class="p">)</span> <span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">Finv</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+	<span class="k">for</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">n</span><span class="o">&lt;=</span><span class="n">m</span><span class="p">;</span><span class="n">n</span><span class="o">&lt;&lt;=</span><span class="mi">1</span><span class="p">);</span>
+	<span class="n">cdq</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+	<span class="n">R</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">m</span><span class="p">)</span> <span class="n">writeln</span><span class="p">(</span><span class="mi">1ll</span><span class="o">*</span><span class="n">fac</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">G</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">%</span><span class="n">mod</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="hdu6585">HDU6585</h2>
+<p>求无标号，有根，连通，且每条边在恰好一个环的无向图个数。</p>
+<p>$n\leq 10^5$。</p>
+<p>考虑把根去掉之后会得到一串，考虑一串上面挂的方式。</p>
+<p>令$a_n$是有根仙人掌的个数（将$n-1$个点丢进任意个连通块的方案数），然后根节点上会连很多个环，且每一个环是独立的。</p>
+<p>将根节点断开会形成很多个连通块，每一块分别考虑。</p>
+<p>由于每条边在且仅在一个环内，所以一个连通块应该长成某个点从根节点进来，然后中间连出一个环，再从某个点出去。</p>
+<p>然后在这个链上挂了若干个仙人掌。</p>
+<p>然后把这些边也砍了，分别看。</p>
+<p>因为现在假如已经定了这样一个根，然后就可以定下来这么一个链，这些仙人掌都相当于有根，然后将根挂在这个链上。</p>
+<p>设$b_n$表示环上一共有$n$个点，$b_n=a_n+\sum\limits_{i=1}^{n-1} a_i b_{n-i}$。</p>
+<p>这是不考虑重复时的方案数。</p>
+<p>但是有些这样的会算两遍：</p>
+<p><img src="https://files.catbox.moe/voe2si.png" alt=""></p>
+<p>一个<code>naive</code>的想法是直接给它除个二，但是这样会算少。</p>
+<p>比如这样子的，翻了之后还是自己，但是这本身就只算了一次。</p>
+<p><img src="https://files.catbox.moe/y3cahf.png" alt=""></p>
+<p>所以考虑处理出来回文的有多少个，然后除的时候去掉。</p>
+<p>然后挂着的点数分奇偶考虑：</p>
+<p>偶数的话就是直接算一半，然后另一半对着复制过去即可。即$b_{\frac{n}{2}}$</p>
+<p>而假如挂了奇数个点：</p>
+<p>那么不仅要把前一半翻过去，还要枚举中间一个。</p>
+<p>然后考虑递推，假设方案数为$c_n=a_n+\sum\limits_{i=1}^{\lfloor \frac{n}{2}\rfloor } a_i c_{n-2i}$</p>
+<p>令$d_n$表示环上只挂了一个大小为$n$的连通块的内部连边方案数</p>
+<p>最后答案为$d_n=\frac{1}{2} (b_n+c_n+b_{\frac{n}{2}})$</p>
+<p>然后再来考虑$a_n$是什么，就相当于要搭配一个东西，可以往里面随便塞东西，每一个大小的东西有不同的样式（连通块内部连接方式），大小为$n$的样式个数为$d_n$。且由于没有标号，假如大小为$3$有红的和绿的，那么放两个红的和一个绿的与先放一个红的再放一个绿的再放一个红的是一样的。</p>
+<p>考虑用生成函数的思想来做</p>
+<p>对于$n$个点有$d_n$种样式，对于每一种样式，枚举它选了多少个，假如选了$k$个，然后就相当于每一个样式的生成函数卷积起来，是一个背包。
+$$
+[x^m]\prod_{n=1}^{\infty} \prod_{i=1}^{d_n} \sum_{k=0}^{\infty} 1\cdot x^{nk}
+$$
+这里$nk$指$nk$个点。</p>
+<p>而这个的$m$次项就代表$m$个点分到若干个连通块的方案数。</p>
+<p>$a_n$表示把$n-1$个点分进这些连通块的方案数
+$$
+\sum_{n=1}^{\infty} a_n x^n= x\prod _{i=1}^{\infty} \prod_{j=1}^{d_i} \sum_{k=0}^{\infty} x^{ik}
+$$</p>
+<p>$$
+\sum_{n=1}^{\infty} a_n x^{n-1}=\prod _{i=1}^{\infty} \prod_{j=1}^{d_i} \sum_{k=0}^{\infty} x^{ik}
+$$</p>
+<p>$$
+\sum_{n=1}^{\infty} a_n x^{n-1}=\prod _{i=1}^{\infty} \big(\sum_{k=0}^{\infty} x^{ik}\big) ^{d_i}
+$$</p>
+<p>将$\sum\limits_{k=0}^{\infty} x^{ik}$单独拿出来，拆开，发现这是一个等比数列：
+$$
+\sum_{k=0}^{\infty} x^{ik} = \sum_{k=0}^{\infty} (x^i)^k =\frac{1}{1-x^i}
+$$</p>
+<p>$$
+\sum_{n=1}^{\infty} a_n x^{n-1}=\prod _{i=1}^{\infty} \frac{1}{(1-x^i)^{d_i}}
+$$</p>
+<p>然后两边取$\ln$
+$$
+\ln \sum_{n=1}^{\infty} a_n x^{n-1} = \sum_{i=1}^{\infty} \ln \frac{1}{(1-x^i)^{d_i}}=\sum_{i=1}^{\infty} -\ln (1-x^i)^{d_i}=\sum_{i=1}^{\infty} d_i \cdot \big(-\ln (1-x^i)\big)
+$$
+然后因为$-\ln(1-x)=\sum\limits_{i=1}^{\infty} \frac{x^i}{i}$</p>
+<p>所以：
+$$
+\ln \sum_{n=1}^{\infty} a_n x^{n-1}= \sum_{i=1}^{\infty} d_i \sum_{j=1}^{\infty}\frac{x^{ij}}{j}
+$$
+然后求个导（$\frac{\mathrm{d}(\ln A)}{\mathrm{d} x}=\frac{A'}{A}$）：
+$$
+\frac{\mathrm{d}\ln \sum\limits_{n=1}^{\infty}a_n x^{n-1}}{\mathrm{d} x}=\frac{\mathrm{d}\sum\limits_{i=1}^{\infty}d_i \sum\limits_{j=1}^{\infty}\frac{x^{ij}}{j}}{\mathrm{d} x}
+$$</p>
+<p>$$
+\frac{\sum\limits_{n=2}^{\infty}(n-1)a_n x^{n-2}}{\sum\limits_{n=1}^{\infty}a_n x^{n-1}}=\sum_{i=1}^{\infty} d_i \sum_{j=1}^{\infty} \frac{ijx^{ij-1}}{j}=\sum_{i=1}^{\infty}i\cdot d_i \sum_{j=1}^{\infty} x^{ij-1}
+$$</p>
+<p>$$
+\sum_{n=2}^{\infty} (n-1)a_n x^{n-2} =\sum_{n=1}^{\infty} a_n x^{n-1}\big(\sum_{i=1}^{\infty} i \cdot d_i\sum_{j=1}^{\infty} x^{ij-1} \big)
+$$</p>
+<p>$$
+\sum_{n=2}^{\infty} (n-1)a_n x^{n} =\sum_{n=1}^{\infty} a_n x^{n}\big(\sum_{i=1}^{\infty} i \cdot d_i\sum_{j=1}^{\infty} x^{ij} \big)
+$$</p>
+<p>然后将$\sum\limits_{i=1}^{\infty} i\cdot d_i \sum\limits_{j=1}^{\infty} x^{ij}$提出来，令$k=ij$考虑枚举$k$，则原式化为：
+$$
+\sum_{k=1}^{\infty} \big(\sum_{i|k} i\cdot d_i \big)x^k
+$$
+那么假如已知$d_i$，算$\sum\limits_{i|k} i\cdot d_i$就是$\log n$的，然后假设这个为$e_k$。</p>
+<p>那么
+$$
+\sum_{n=2}^{\infty}(n-1) a_n x^n =\big(\sum_{n=1}^{\infty} a_n x^n \big) \big(\sum_{k=1}^{\infty} e_k x^k \big)
+$$
+把右边卷出来之后把左边的$n-1$除掉，就又得到了$a_n$。</p>
+<p>而假如知道$a_i$就可以算出$b_i$和$c_i$，而已知$b_i$和$c_i$又可以算出$d_i$，知道$d_i$就可以算出$\sum\limits_{i|k} i\cdot d_i$，然后就可以算出$a_i$，分治FFT即可。</p>
+<p>时间复杂度$O(n\log^2 n)$</p>
     </div>
 
     

@@ -549,7 +549,7 @@ signed main()
 
 
 
-### LOJ 2105 [TJOI2015] 概率论
+## LOJ 2105 [TJOI2015] 概率论
 
 对于一棵随机生成的$n$个节点的有根二叉树（所有互相不同构的形态等概率出现），求叶子节点数的期望。
 
@@ -627,4 +627,301 @@ $$
 这个题就做完了。
 
 时间复杂度$O(1)$。
+
+
+
+## UOJ #50链式反应
+
+求满足下列条件的$n$个点的带标号树的个数：
+
+- 父亲的编号大于儿子。
+- 一个点如果有儿子，则有两个无序的$\alpha$型儿子，有$c$个无序的$\beta$型儿子，其中$c\in A$。
+- 如果一个点是根节点或$\alpha$型儿子，那么它可以有儿子或者是叶节点；如果一个点是$\beta$型儿子，那么它只能是叶节点。
+
+对于所有的$n\leq n_{\max}$求出答案。
+
+$n_{\max}\leq 2\times 10^5$。
+
+首先考虑$dp$。
+
+令$f_n$表示$n$个节点的方案数。首先有$f_1=1$。
+
+考虑枚举两个$\alpha$型儿子的子树大小分别为$j,k$，剩下就是$\beta$型。于是要满足$i-j-k-1 \in A$。
+
+然后考虑先选出两个$\alpha$型儿子的编号，方案数为$\binom {i-1} {j} \cdot \binom {i-1-j} {k}$。然后将两个子树的节点都重标号，方案数为$f_j$和$f_k$。
+
+所以有
+$$
+f_i =\frac{1}{2} \sum_j \sum_k \binom {i-1}{j} \binom {i-1-j}{k} f_j f_k [i-j-k-1 \in A]
+$$
+首先有$\binom {i-1}{j} \binom{i-j-1} {k} =\frac{(i-1)!}{j!k!(i-j-k-1)!}$
+
+然后考虑枚举$i+j$的和：
+$$
+f_i= \frac{1}{2} \sum_s [i-s-1 \in A]\frac{(i-1)!}{(i-s-1)!} \sum_{j=0}^s \frac{f_j}{j!} \frac{f_{s-j}}{(s-j)!}
+$$
+然后将$\sum_{i=0}^s \frac{f_i}{i!} \frac{f_{s-i}}{(s-i)!}$记作$g_x$。
+
+然后这又是一个卷积的形式。
+
+这样直接做是$O(n^2)$的。
+
+而因为$g$依赖于$f$，而$f$又依赖于$g$。
+
+然后就要用到一个叫分治FFT的东西。
+
+假设要求$f_{l,\ldots r}$的值。
+
+那将它分前一半，后一半，然后先求出前一半。
+
+那么假设现在要求$f_i$的值，将它写成$g$和$h$的卷积
+$$
+f_i=(i-1)! \sum_{j+k=i-1} g_j h_k
+$$
+现在因为$h$一开始就知道，可以先求出来，现在将$j$分个类。
+
+考虑分治的过程中包含$i$的区间，然后$j$的取值一定要在$i$的左边。
+
+![QQ图片20210517183342.png](https://i.loli.net/2021/05/17/ft3zirEOaZ2MmKD.png)
+
+对于分治过程中的对于右半边的每一个$i$，考虑左半边的每一个$j$对他的贡献，然后只要将这几个区间加起来就得到了他们的贡献。
+
+把$j$那一段拿出来，再把$k$一段拿出来卷一下，就得到了左边对右边的贡献，再找出对应的位置就好了。
+
+时间复杂度$O(n\log^2 n)$
+
+然后卡常就可以过了...
+
+标算是$O(n\log n)$了...
+
+https://vfleaking.blog.uoj.ac/blog/43
+
+```c++
+const int _G=3;
+const int invG=332748118;
+int m,n;
+char s[444444];
+int F[888888],G[888888],G2[888888];
+int fac[888888],inv[888888],Finv[888888];
+int s1[888888],s2[888888],s3[888888];
+inline void init_FAC(int lim)
+{
+	fac[0]=Finv[0]=inv[1]=1;
+	R(i,2,lim) inv[i]=(mod-mod/i)*inv[mod%i]%mod;
+	R(i,1,lim) fac[i]=1ll*fac[i-1]*i%mod,Finv[i]=1ll*Finv[i-1]*inv[i]%mod;
+//	R(i,1,lim) printf("%lld %lld %lld\n",fac[i],inv[i],Finv[i]);
+}
+int tr[888888],tf;
+void tpre(int n)
+{
+	if(tf==n) return;tf=n;
+	R(i,0,n-1) tr[i]=(tr[i>>1]>>1)|((i&1)?n>>1:0);
+}
+void NTT(int *g,int rev,int n)
+{
+	tpre(n);
+	static ull f[888888],w[888888];w[0]=1;
+	R(i,0,n-1) f[i]=(((ll)mod<<5)+g[tr[i]])%mod;
+	for(int l=1;l<n;l<<=1)
+	{
+		ull tG=fpow(rev?_G:invG,(mod-1)/(l+l));
+		R(i,1,l-1) w[i]=w[i-1]*tG%mod;
+		for(int k=0;k<n;k+=l+l)
+		{
+			R(p,0,l-1) 
+			{
+				int tt=w[p]*f[k|l|p]%mod;
+				f[k|l|p]=f[k|p]+mod-tt;
+				f[k|p]+=tt;
+			}
+		}
+		if(l==(1<<10)) R(i,0,n-1) f[i]%=mod;
+	}
+	if(!rev) 
+	{
+		ull invn=fpow(n);
+		R(i,0,n-1) g[i]=f[i]%mod*invn%mod;
+	}
+	else R(i,0,n-1) g[i]=f[i]%mod;
+}
+void px(int *f,int *g,int *p,int n) {R(i,0,n-1)p[i]=1ll*f[i]*g[i]%mod;}
+void cdq(int l,int r)
+{
+	//printf("%lld %lld\n",l,r);
+	//printf("G:"); R(i,0,n-1) printf("%lld ",G[i]);puts("");
+	if(r==1) return;
+	if(r-l==1) {if(l!=1)G[l]=1ll*G[l]*fpow(2*l)%mod;return;}
+	int mid=(l+r)>>1,n=r-l,nd2=n/2;
+	cdq(l,mid);
+	if(l==0)
+	{
+		cpy(s1,G,nd2);clr(s1+nd2,nd2);NTT(s1,1,n);
+		px(s1,s1,s1,n);NTT(s1,0,n);
+		R(i,nd2,n-1) G2[i]=(G2[i]+s1[i])%mod;
+		cpy(s1,G2,nd2);clr(s1+nd2,nd2);NTT(s1,1,n);
+		cpy(s2,F,nd2);clr(s2+nd2,nd2);NTT(s2,1,n);
+		px(s1,s2,s1,n);NTT(s1,0,n);
+		R(i,nd2,n-1) G[i]=(G[i]+s1[i])%mod;
+	}
+	else
+	{
+		cpy(s1,G+l,nd2);clr(s1+nd2,nd2);NTT(s1,1,n);
+		cpy(s2,G,n);NTT(s2,1,n);
+		px(s1,s2,s1,n);NTT(s1,0,n);
+		R(i,nd2,n-1) G2[i+l]=(G2[i+l]+2ll*s1[i])%mod;
+		cpy(s1,F+l,nd2);clr(s1+nd2,nd2);NTT(s1,1,n);
+		cpy(s2,G2,n);NTT(s2,1,n);
+		px(s1,s2,s1,n);
+		cpy(s3,s1,n);
+		cpy(s1,G2+l,nd2);clr(s1+nd2,nd2);NTT(s1,1,n);
+		cpy(s2,F,n);NTT(s2,1,n);
+		px(s1,s2,s1,n);
+		R(i,0,n-1) s3[i]=(s3[i]+s1[i])%mod;
+		NTT(s3,0,n);
+		R(i,nd2,n-1) G[i+l]=(G[i+l]+s3[i])%mod;
+	}
+	cdq(mid,r);
+}
+signed main()
+{
+	m=read();scanf("%s",s+1);
+	init_FAC(m+10);
+	G[1]=1;
+	R(i,1,m) if(s[i]=='1') F[i]=Finv[i-1];
+	for(n=1;n<=m;n<<=1);
+	cdq(0,n);
+	R(i,1,m) writeln(1ll*fac[i]*G[i]%mod);
+}
+```
+
+
+
+## HDU6585
+
+求无标号，有根，连通，且每条边在恰好一个环的无向图个数。
+
+$n\leq 10^5$。
+
+考虑把根去掉之后会得到一串，考虑一串上面挂的方式。
+
+令$a_n$是有根仙人掌的个数（将$n-1$个点丢进任意个连通块的方案数），然后根节点上会连很多个环，且每一个环是独立的。
+
+将根节点断开会形成很多个连通块，每一块分别考虑。
+
+由于每条边在且仅在一个环内，所以一个连通块应该长成某个点从根节点进来，然后中间连出一个环，再从某个点出去。
+
+然后在这个链上挂了若干个仙人掌。
+
+然后把这些边也砍了，分别看。
+
+因为现在假如已经定了这样一个根，然后就可以定下来这么一个链，这些仙人掌都相当于有根，然后将根挂在这个链上。
+
+设$b_n$表示环上一共有$n$个点，$b_n=a_n+\sum\limits_{i=1}^{n-1} a_i b_{n-i}$。
+
+这是不考虑重复时的方案数。
+
+但是有些这样的会算两遍：
+
+![](https://files.catbox.moe/voe2si.png)
+
+一个`naive`的想法是直接给它除个二，但是这样会算少。
+
+ 比如这样子的，翻了之后还是自己，但是这本身就只算了一次。
+
+![](https://files.catbox.moe/y3cahf.png)
+
+所以考虑处理出来回文的有多少个，然后除的时候去掉。
+
+然后挂着的点数分奇偶考虑：
+
+偶数的话就是直接算一半，然后另一半对着复制过去即可。即$b_{\frac{n}{2}}$
+
+而假如挂了奇数个点：
+
+那么不仅要把前一半翻过去，还要枚举中间一个。
+
+然后考虑递推，假设方案数为$c_n=a_n+\sum\limits_{i=1}^{\lfloor \frac{n}{2}\rfloor } a_i c_{n-2i}$
+
+令$d_n$表示环上只挂了一个大小为$n$的连通块的内部连边方案数
+
+最后答案为$d_n=\frac{1}{2} (b_n+c_n+b_{\frac{n}{2}})$
+
+
+
+然后再来考虑$a_n$是什么，就相当于要搭配一个东西，可以往里面随便塞东西，每一个大小的东西有不同的样式（连通块内部连接方式），大小为$n$的样式个数为$d_n$。且由于没有标号，假如大小为$3$有红的和绿的，那么放两个红的和一个绿的与先放一个红的再放一个绿的再放一个红的是一样的。
+
+考虑用生成函数的思想来做
+
+对于$n$个点有$d_n$种样式，对于每一种样式，枚举它选了多少个，假如选了$k$个，然后就相当于每一个样式的生成函数卷积起来，是一个背包。
+$$
+[x^m]\prod_{n=1}^{\infty} \prod_{i=1}^{d_n} \sum_{k=0}^{\infty} 1\cdot x^{nk}
+$$
+这里$nk$指$nk$个点。
+
+而这个的$m$次项就代表$m$个点分到若干个连通块的方案数。
+
+$a_n$表示把$n-1$个点分进这些连通块的方案数
+$$
+\sum_{n=1}^{\infty} a_n x^n= x\prod _{i=1}^{\infty} \prod_{j=1}^{d_i} \sum_{k=0}^{\infty} x^{ik}
+$$
+
+$$
+\sum_{n=1}^{\infty} a_n x^{n-1}=\prod _{i=1}^{\infty} \prod_{j=1}^{d_i} \sum_{k=0}^{\infty} x^{ik}
+$$
+
+$$
+\sum_{n=1}^{\infty} a_n x^{n-1}=\prod _{i=1}^{\infty} \big(\sum_{k=0}^{\infty} x^{ik}\big) ^{d_i}
+$$
+
+将$\sum\limits_{k=0}^{\infty} x^{ik}$单独拿出来，拆开，发现这是一个等比数列：
+$$
+\sum_{k=0}^{\infty} x^{ik} = \sum_{k=0}^{\infty} (x^i)^k =\frac{1}{1-x^i}
+$$
+
+$$
+\sum_{n=1}^{\infty} a_n x^{n-1}=\prod _{i=1}^{\infty} \frac{1}{(1-x^i)^{d_i}}
+$$
+
+然后两边取$\ln$
+$$
+\ln \sum_{n=1}^{\infty} a_n x^{n-1} = \sum_{i=1}^{\infty} \ln \frac{1}{(1-x^i)^{d_i}}=\sum_{i=1}^{\infty} -\ln (1-x^i)^{d_i}=\sum_{i=1}^{\infty} d_i \cdot \big(-\ln (1-x^i)\big)
+$$
+然后因为$-\ln(1-x)=\sum\limits_{i=1}^{\infty} \frac{x^i}{i}$
+
+所以：
+$$
+\ln \sum_{n=1}^{\infty} a_n x^{n-1}= \sum_{i=1}^{\infty} d_i \sum_{j=1}^{\infty}\frac{x^{ij}}{j}
+$$
+然后求个导（$\frac{\mathrm{d}(\ln A)}{\mathrm{d} x}=\frac{A'}{A}$）：
+$$
+\frac{\mathrm{d}\ln \sum\limits_{n=1}^{\infty}a_n x^{n-1}}{\mathrm{d} x}=\frac{\mathrm{d}\sum\limits_{i=1}^{\infty}d_i \sum\limits_{j=1}^{\infty}\frac{x^{ij}}{j}}{\mathrm{d} x}
+$$
+
+$$
+\frac{\sum\limits_{n=2}^{\infty}(n-1)a_n x^{n-2}}{\sum\limits_{n=1}^{\infty}a_n x^{n-1}}=\sum_{i=1}^{\infty} d_i \sum_{j=1}^{\infty} \frac{ijx^{ij-1}}{j}=\sum_{i=1}^{\infty}i\cdot d_i \sum_{j=1}^{\infty} x^{ij-1}
+$$
+
+$$
+\sum_{n=2}^{\infty} (n-1)a_n x^{n-2} =\sum_{n=1}^{\infty} a_n x^{n-1}\big(\sum_{i=1}^{\infty} i \cdot d_i\sum_{j=1}^{\infty} x^{ij-1} \big)
+$$
+
+$$
+\sum_{n=2}^{\infty} (n-1)a_n x^{n} =\sum_{n=1}^{\infty} a_n x^{n}\big(\sum_{i=1}^{\infty} i \cdot d_i\sum_{j=1}^{\infty} x^{ij} \big)
+$$
+
+然后将$\sum\limits_{i=1}^{\infty} i\cdot d_i \sum\limits_{j=1}^{\infty} x^{ij}$提出来，令$k=ij$考虑枚举$k$，则原式化为：
+$$
+\sum_{k=1}^{\infty} \big(\sum_{i|k} i\cdot d_i \big)x^k
+$$
+那么假如已知$d_i$，算$\sum\limits_{i|k} i\cdot d_i$就是$\log n$的，然后假设这个为$e_k$。
+
+那么
+$$
+\sum_{n=2}^{\infty}(n-1) a_n x^n =\big(\sum_{n=1}^{\infty} a_n x^n \big) \big(\sum_{k=1}^{\infty} e_k x^k \big)
+$$
+把右边卷出来之后把左边的$n-1$除掉，就又得到了$a_n$。
+
+而假如知道$a_i$就可以算出$b_i$和$c_i$，而已知$b_i$和$c_i$又可以算出$d_i$，知道$d_i$就可以算出$\sum\limits_{i|k} i\cdot d_i$，然后就可以算出$a_i$，分治FFT即可。
+
+时间复杂度$O(n\log^2 n)$
 

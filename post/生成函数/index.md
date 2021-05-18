@@ -1472,9 +1472,98 @@ void poly_exp(int *f,int *g,int m)
 }
 ```
 
+还有一种方法是$O(n\log^2 n)$的分治FFT
+
+由于常数小并不会比牛顿迭代慢。
+
+考虑两边求导，得到$B'(x)=B(x)A'(x)$
+
+可能是过程：
+$$
+A=e^B
+$$
+
+$$
+\ln A=B
+$$
+
+$$
+\frac{A'}{A}=B
+$$
+
+然后提取$n$次项系数得到：
+$$
+(n+1)b_{n+1}=\sum\limits_{i=0}^n (i+1)a_{i+1} b_{n-i}
+$$
+
+$$
+b_n =\frac{1}{n} \sum_{i=1}^n i\cdot a_i b_{n-i}
+$$
+
+```c++
+const int _G=3;
+const int invG=332748118;
+int n,m,F[333333],G[333333],s1[333333],s2[633333];
+int tr[644444],tf;
+inline void tpre(int n)
+{
+	if(tf==n) return;tf=n;
+	R(i,0,n+5) tr[i]=(tr[i>>1]>>1)|((i&1)?n>>1:0); 
+}
+void NTT(int *g,int rev,int n)
+{
+	tpre(n);
+	static ull f[666666],w[666666];w[0]=1;
+	R(i,0,n-1) f[i]=(((ll)mod<<5)+g[tr[i]])%mod;
+	for(int l=1;l<n;l<<=1)
+	{
+		ull tG=fpow(rev?_G:invG,(mod-1)/(l+l));
+		R(i,1,l-1) w[i]=w[i-1]*tG%mod;
+		for(int k=0;k<n;k+=l+l)
+		{
+			R(p,0,l-1) 
+			{
+				int tt=f[k|l|p]*w[p]%mod;
+				f[k|l|p]=f[k|p]+mod-tt;
+				f[k|p]+=tt;
+			}
+		}
+		if(l==(1<<10)) R(i,0,n-1) f[i]%=mod;
+	}
+	if(!rev)
+	{
+		ull invn=fpow(n);
+		R(i,0,n-1) g[i]=f[i]%mod*invn%mod;
+	}
+	else R(i,0,n-1) g[i]=f[i]%mod;
+}
+inline void px(int *f,int *g,int *p,int n) {R(i,0,n-1)p[i]=1ll*f[i]*g[i]%mod;}
+void cdq(int l,int r)
+{
+	if(r-l==1) {if(l>0)G[l]=1ll*fpow(l)*G[l]%mod;return;}
+	int mid=(l+r)>>1,n=r-l;
+	cdq(l,mid);
+	cpy(s1,G+l,n/2);clr(s1+n/2,n/2);NTT(s1,1,n);
+	px(s1,s2+n,s1,n);NTT(s1,0,n);
+	R(i,n/2,n-1) G[l+i]=(G[l+i]+s1[i])%mod;
+	cdq(mid,r);
+}
+signed main()
+{
+	m=read();G[0]=1;	
+	R(i,0,m-1) F[i]=1ll*read()*i%mod;
+	for(n=1;(n>>1)<m;n<<=1)
+	{
+		cpy(s1,F,n);NTT(s1,1,n);
+		cpy(s2+n,s1,n);
+	}
+	n>>=1;
+	cdq(0,n);
+	R(i,0,m-1) writesp(G[i]);
+}
+```
 
 
-### 除法与取余
 
 $A=DB+R$
 
