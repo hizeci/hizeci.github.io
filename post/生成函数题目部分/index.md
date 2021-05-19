@@ -925,3 +925,118 @@ $$
 
 时间复杂度$O(n\log^2 n)$
 
+## LOJ 6569 仙人掌计数
+
+对于所有$i\in[1,n]$，求有多少个$i$个节点的有标号仙人掌。
+
+$n\leq 3\times 10^4$。
+
+令$1$号点为根，还是考虑一个根会对应好多个环，但这边无所谓：
+
+考虑有$c$和$d$的卷积，$a_n=\sum\limits_{i=0}^n\binom n i c_i d_{n-i}$
+
+所以就有
+$$
+\frac{a_n}{n!}=\sum_{i=0}^n \frac{c_i}{i!} \frac{d_{n-i}}{(n-i)!}
+$$
+然后写成指数生成函数的形式
+$$
+\hat{A} =\hat{C} \hat{D}
+$$
+那比如现在有很多个连通块，现在要算每一个连通块内部的方案数，比如不包括根节点环长是$i$
+
+，假如现在有$3$个点，那现在相当于要$3$个分别搞一个图出来，保证各自内部标号顺序不变，然后再叉起来。
+
+一个例子：
+
+![QQ图片20210518205812.png](https://i.loli.net/2021/05/18/UlNJBfmoiA1nP4r.png)
+
+比如现在有两个子树长成这个样子。
+
+新的节点肯定为1号节点，那么其他节点可以长这个样子。
+
+![QQ图片20210518210137.png](https://i.loli.net/2021/05/18/ZKPjcAo8JytNiuW.png)
+
+设左边的大小为$S_1$，右边的大小为$S_2$，总点数为$n$，$a$内部连边方案数
+
+然后这样两个东西卷起来的方案数为：
+$$
+\binom {n} {S_1}\times a_{S_1} a_{S_2}
+$$
+这个东西就刚刚上面说的那种卷积。
+
+那么挂$i$个连通块的方案数就是$(\hat{F})^i$
+
+![QQ图片20210518210659.png](https://i.loli.net/2021/05/18/Xu9DGlWmpOKxCsb.png)
+
+但是像这两种仍然是同一种方案。因为每一个点连的都一样。
+
+所以这个也要环翻转的问题，但理由是不一样的。
+
+刚刚是因为没有标号所以环翻转之后看形态
+
+而这个是因为我们已经标好号了，但并不知道怎么去数第一个子树，第二个子树……我们有可能会正着数，也有可能会倒着数。
+
+有可能但现在这个只要直接除以$2$即可，因为已经确定形状就算是回文的也有两种标号方式。
+
+然而在$i=1$时不变。。
+
+那么一个子仙人掌的方案数就是：
+$$
+\hat{F}(x)+\sum_{k\ge 2} \frac{1}{2}\big(\hat{F}(x)\big )^k
+$$
+然后来考虑有多个连通块怎么办：
+
+考虑将根节点去掉之后可以分成若干个不交的子仙人掌，而且是有标号问题，因此去掉根节点之后，方案数就是：
+$$
+\exp\left( \hat{F}(x)+\sum_{k\ge 2} \frac{1}{2}\big(\hat{F}(x)\big )^k\right)
+$$
+而里面的$\sum\limits_{\ge 2} \frac{1}{2}\big(\hat{F}(x) \big)^k$是一个等比数列的形式，所以原式可以化为：
+$$
+\exp \left(\frac{2\hat{F}(x)-\big(\hat{F}(x) \big)^2}{2-2\hat{F}(x)}\right)
+$$
+总的是$\hat{F}(x)$，而去掉根节点之后是$\exp \left(\frac{2\hat{F}(x)-\big(\hat{F}(x) \big)^2}{2-2\hat{F}(x)}\right)$
+
+所以
+$$
+\hat{F} (x)=x\cdot \exp \left(\frac{2\hat{F}(x)-\big(\hat{F}(x) \big)^2}{2-2\hat{F}(x)}\right )
+$$
+这是一个方程，所以牛顿迭代即可
+
+令：
+$$
+f(\hat{F})= x\cdot  \exp \left(\frac{2\hat{F}-\big(\hat{F} \big)^2}{2-2\hat{F}}\right) -\hat{F} =0
+$$
+
+$$
+f'(\hat{F})=x\left(\exp(\frac{2\hat{F}-\big(\hat{F}\big)^2}{2-2\hat{F}})\right)'-1
+$$
+
+$$
+=x\exp \left(\frac{2\hat{F}-\hat{F}^2}{2-2\hat{F}} \right) \left(\frac{2\hat{F}-\hat{F}^2}{2-2\hat{F}}\right)'-1
+$$
+
+$$
+=x \exp \left(\frac{2\hat{F}-\hat{F}^2}{2-2\hat{F}} \right)\left(\frac{(2-2\hat{F})^2- (-2)\left(2\hat{F}-\hat{F}^2 \right)}{\left(2-2\hat{F}\right)^2} \right)-1
+$$
+
+$$
+=x \exp \left(\frac{2\hat{F}-\hat{F}^2}{2-2\hat{F}} \right) \left(1+\frac{4\hat{F}-2\hat{F}^2}{(2-2\hat{F} )^2} \right)-1
+$$
+
+$$
+\hat{T_1}(x)=\hat{F}(x)-\frac{f\left(\hat{F}(x)\right)}{f'\left(\hat{F}(x) \right)}=\hat{F}(x)-\frac{2x \exp\left(\frac{2\hat{F}(x)-\hat{F}(x)^2}{2-\hat{F}(x)} \right)-2\hat{F}(x)}{x\exp \left(\frac{2\hat{F}(x)-\hat{F}(x)^2}{2-\hat{F}(x)} \right)\left(1+\frac{1}{(\hat{F}(x)-1)^2} \right) -2}
+$$
+
+
+
+时间复杂度$O(n\log n)$
+
+## HDU 6426 烷烃计数
+
+给定$n$，求$n$个点无标号的，每个节点度数$\leq 4$的无根树个数，以及还要求根节点度数$\leq 3$的无根树个数。
+
+$n,T\leq 10^5$
+
+咕咕咕
+
