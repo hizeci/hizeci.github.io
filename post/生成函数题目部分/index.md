@@ -1028,6 +1028,167 @@ $$
 \hat{T_1}(x)=\hat{F}(x)-\frac{f\left(\hat{F}(x)\right)}{f'\left(\hat{F}(x) \right)}=\hat{F}(x)-\frac{2x \exp\left(\frac{2\hat{F}(x)-\hat{F}(x)^2}{2-\hat{F}(x)} \right)-2\hat{F}(x)}{x\exp \left(\frac{2\hat{F}(x)-\hat{F}(x)^2}{2-\hat{F}(x)} \right)\left(1+\frac{1}{(\hat{F}(x)-1)^2} \right) -2}
 $$
 
+```c++
+const int N=555555;
+const int _G=3;
+const int invG=fpow(_G);
+int fac[N],Finv[N],inv[N];
+inline void init(int lim=262144)
+{
+	inv[1]=Finv[0]=fac[0]=1;
+	R(i,2,lim) inv[i]=(mod-mod/i)*inv[mod%i]%mod;
+	R(i,1,lim) fac[i]=1ll*fac[i-1]*i%mod,Finv[i]=1ll*Finv[i-1]*inv[i]%mod;
+	//R(i,1,10) printf("fac:%lld inv:%lld FInv:%lld\n",fac[i],inv[i],Finv[i]);
+}
+int tr[N],tf;
+void tpre(int n)
+{
+	if(tf==n) return;tf=n;
+	int ndiv2=n>>1;
+	R(i,0,n+5) tr[i]=(tr[i>>1]>>1)|((i&1)?ndiv2:0);
+}
+void NTT(int *g,int rev,int n)
+{
+	tpre(n);
+	static ull f[N],w[N];w[0]=1;
+	R(i,0,n-1) f[i]=g[tr[i]]%mod;
+	for(int l=1;l<n;l<<=1)
+	{
+		ull tG=fpow(rev?_G:invG,(mod-1)/(l+l));
+		R(i,1,l-1) w[i]=w[i-1]*tG%mod;
+		for(int k=0;k<n;k+=l+l)
+		{
+			R(p,0,l-1) 
+			{
+				int tt=w[p]*f[k|l|p]%mod;
+				f[k|l|p]=f[k|p]+mod-tt;
+				f[k|p]+=tt;
+			}
+		}
+		if(l==(1<<10)) R(i,0,n-1) f[i]%=mod;
+	}
+	if(!rev) 
+	{
+		int invn=fpow(n);
+		R(i,0,n-1) g[i]=f[i]%mod*invn%mod;
+	}
+	else R(i,0,n-1) g[i]=f[i]%mod;
+}
+inline void px(int *f,int *g,int *p,int n) {R(i,0,n-1)p[i]=1ll*f[i]*g[i]%mod;}
+void poly_times(int *f,int *g,int *p,int n,int m,int lim)
+{
+	static int tmpf[N],tmpg[N];
+	for(m+=n,n=1;n<m;n<<=1);
+	clr(tmpf,n);cpy(tmpf,f,n);NTT(tmpf,1,n);
+	clr(tmpg,n);cpy(tmpg,g,n);NTT(tmpg,1,n);
+	px(tmpf,tmpg,p,n);NTT(p,0,n);
+	clr(p+lim,n-lim);
+	clr(tmpf,n);clr(tmpg,n);
+}
+void poly_mul(int *f,int *g,int *p,int n)
+{
+	static int tmpf[N],tmpg[N];
+	int m=n<<1;
+	clr(tmpf,m);cpy(tmpf,f,m);NTT(tmpf,1,m);
+	clr(tmpg,m);cpy(tmpg,g,m);NTT(tmpg,1,m);
+	px(tmpf,tmpg,p,m);
+	NTT(p,0,m);
+	clr(tmpf,m),clr(tmpg,m);
+}
+void poly_inv(int *f,int *g,int m)
+{
+	int n=1;for(;n<m;n<<=1);
+	static int w[N],r[N],sav[N];
+	w[0]=fpow(f[0]);
+	for(int l=2;l<=n;l<<=1)
+	{
+		cpy(r,w,l>>1);NTT(r,1,l);
+		cpy(sav,f,l);NTT(sav,1,l);
+		px(r,sav,r,l);NTT(r,0,l);clr(r,l>>1);
+		cpy(sav,w,l);NTT(sav,1,l);
+		NTT(r,1,l);px(r,sav,r,l);NTT(r,0,l);
+		R(i,l>>1,l-1) w[i]=(2ll*w[i]-r[i]+mod)%mod;
+	}
+	cpy(g,w,m);clr(sav,n);clr(w,n);clr(r,n);
+}
+
+inline void poly_derivation(int *f,int *g,int n) 
+{
+	R(i,1,n-1) g[i-1]=1ll*f[i]*i%mod;g[n-1]=0;
+}
+inline void poly_integral(int *f,int *g,int n)
+{
+	R(i,1,n-1) g[i]=1ll*f[i-1]*inv[i]%mod;g[0]=0;
+}
+void poly_ln(int *f,int *g,int n)
+{
+	static int ff[N],_f[N],_g[N];
+	poly_derivation(f,ff,n);
+	poly_inv(f,_f,n);
+	poly_times(ff,_f,_g,n,n,n);
+	poly_integral(_g,g,n);
+	clr(ff,n),clr(_f,n),clr(_g,n);
+}
+void poly_exp(int *f,int *g,int m)
+{
+	static int s[N],s2[N],w[N];
+	int n=1;for(;n<m;n<<=1);
+	clr(g,n<<1);
+	s2[0]=1;
+	for(int l=2;l<=n;l<<=1)
+	{
+		cpy(s,s2,l>>1);poly_ln(s,s,l);
+		cpy(w,s2,l);
+		R(i,0,l-1) s[i]=(f[i]-s[i]+mod)%mod;
+		s[0]=(s[0]+1)%mod;
+		poly_times(s2,s,s2,l,l,l);
+	}
+	cpy(g,s2,m);clr(s,n);clr(s2,n);clr(w,n);
+}
+
+
+int F[N],G1[N],G2[N],G[N],G3[N];
+
+void newton(int *f,int n=262144)
+{
+	if(n==2) {f[1]=1;return;}
+	newton(f,n>>1);
+	poly_times(f,f,G1,n,n,n);
+	//2F-F^2
+	R(i,0,n-1) G1[i]=(f[i]+f[i]-G1[i]+mod)%mod,G2[i]=(mod-f[i]-f[i]+mod+mod)%mod;	
+	G2[0]+=2;G2[0]>=mod?G2[0]-=mod:1;//2-2F	
+	cpy(G3,G2,n);
+	poly_inv(G3,G2,n);// 1/(2-2F)
+	poly_times(G1,G2,G1,n,n,n);// (2F-F^2)/(2-2F)
+	cpy(G3,G1,n);
+	poly_exp(G3,G1,n);//exp((2F-F^2)/(2-2F))
+	L(i,1,n-1) G1[i]=G1[i-1];
+	G1[0]=0;//x*exp((2F-F^2)/(2-2F)) 
+	R(i,0,n-1) G[i]=(G1[i]+G1[i]-f[i]-f[i]+mod+mod)%mod;//2x*exp((2F-F^2)/(2-2F))-2F
+	cpy(G2,f,n);
+	G2[0]+=(mod-1),G2[0]>=mod?G2[0]-=mod:1;//F-1
+	poly_times(G2,G2,G2,n,n,n);//(F-1)^2
+	poly_inv(G2,G2,n);//1/((F-1)^2)
+	G2[0]++,G2[0]>=mod?G2[0]-=mod:1;//1/((F-1)^2) +1
+	poly_times(G1,G2,F,n,n,n);//x*(exp((2F-F^2)/(2-2F)))*(1/((F-1)^2) +1)
+	F[0]+=(mod-2),F[0]>=mod?F[0]-=mod:1;//x*(exp((2F-F^2)/(2-2F)))*(1/((F-1)^2) +1)-2
+	poly_inv(F,F,n);
+	poly_times(G,F,G,n,n,n);
+	R(i,0,n-1) f[i]=(f[i]-G[i]+mod)%mod;
+}
+int f[N],x;
+signed main()
+{
+	init();
+	newton(f);
+	for(int _=read();_;_--) 
+	{
+		x=read();
+		writeln(1ll*f[x]*fac[x-1]%mod);
+	}
+}
+```
+
 
 
 时间复杂度$O(n\log n)$
