@@ -6,7 +6,16 @@
     <description>Recent content on having little or no sense, use, or purpose.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 01 Jun 2021 15:07:28 +0800</lastBuildDate><atom:link href="https://hizeci.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 02 Jun 2021 15:31:09 +0800</lastBuildDate><atom:link href="https://hizeci.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>动态凸包</title>
+      <link>https://hizeci.github.io/post/%E5%8A%A8%E6%80%81%E5%87%B8%E5%8C%85/</link>
+      <pubDate>Wed, 02 Jun 2021 15:31:09 +0800</pubDate>
+      
+      <guid>https://hizeci.github.io/post/%E5%8A%A8%E6%80%81%E5%87%B8%E5%8C%85/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>最大流 最小割 2-SAT</title>
       <link>https://hizeci.github.io/post/%E6%9C%80%E5%A4%A7%E6%B5%81-%E6%9C%80%E5%B0%8F%E5%89%B2-2-sat/</link>

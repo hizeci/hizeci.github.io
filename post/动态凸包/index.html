@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>动态凸包 - having little or no sense, use, or purpose.</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="TRAGEDY:ETERNITY" /><meta name="description" content="" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.81.0 with theme even" />
+
+
+<link rel="canonical" href="https://hizeci.github.io/post/%E5%8A%A8%E6%80%81%E5%87%B8%E5%8C%85/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+
+<link href="/sass/main.min.6a025d60334ccde9f765dedcf6936f4c2eb3ea8d22276e9f389bb2efc2d55e11.css" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+<meta property="og:title" content="动态凸包" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hizeci.github.io/post/%E5%8A%A8%E6%80%81%E5%87%B8%E5%8C%85/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-06-02T15:31:09&#43;08:00" />
+<meta property="article:modified_time" content="2021-06-02T15:31:09&#43;08:00" />
+
+<meta itemprop="name" content="动态凸包">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-06-02T15:31:09&#43;08:00" />
+<meta itemprop="dateModified" content="2021-06-02T15:31:09&#43;08:00" />
+<meta itemprop="wordCount" content="6190">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="动态凸包"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">菜</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">动态凸包</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-06-02 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#二维凸包">二维凸包</a>
+          <ul>
+            <li><a href="#几种凸包算法">几种凸包算法</a></li>
+            <li><a href="#完全动态凸包">完全动态凸包</a></li>
+            <li><a href="#可持久化平衡树">可持久化平衡树</a></li>
+            <li><a href="#类线段树实现">类线段树实现</a></li>
+            <li><a href="#凸壳结构">凸壳结构</a></li>
+            <li><a href="#思考">思考</a></li>
+            <li><a href="#凸壳的可持久化树结构">凸壳的可持久化树结构</a></li>
+            <li><a href="#可持久化树">可持久化树？</a></li>
+            <li><a href="#凸壳可持久化树结构">凸壳可持久化树结构</a></li>
+            <li><a href="#完全动态凸包总结与应用">完全动态凸包总结与应用</a></li>
+            <li><a href="#noi2017分身术-uoj319">[NOI2017]分身术 uoj319</a></li>
+            <li><a href="#其他几个凸包算法">其他几个凸包算法</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>这里提供用另外一个角度去提出动态凸包的算法，就可能不需要写可持久化平衡树了&hellip;</p>
+<h2 id="二维凸包">二维凸包</h2>
+<p>凸包：上凸壳 下凸壳 （之后只考虑上凸壳）</p>
+<p>维护点集$S$的上凸壳</p>
+<p>可能需要支持的操作：</p>
+<p>修改类：加入、删除一个点</p>
+<p>询问类：整体/区间 询问 凸包上的边/某个方向最远点</p>
+<p>考虑支持求出凸包</p>
+<p>修改操作的性质：</p>
+<p>离线/在线</p>
+<p>只有加/只有删/又有加又有删</p>
+<p>加的点坐标单调/不单调</p>
+<p>可持久化（回到历史版本）/不可持久化</p>
+<p>离线只有删 &lt;=&gt; 离线只有加</p>
+<p>在线 =&gt; 离线</p>
+<h3 id="几种凸包算法">几种凸包算法</h3>
+<p>Graham 要求加点坐标单调。</p>
+<p>将凸壳上的点顺序存于数组中</p>
+<p>支持在线加点，单次复杂度O(delta凸壳点数)，总复杂度$O(n)$</p>
+<p>魔改版Graham，支持可持久化。要求加点坐标单调</p>
+<p>因为每次加点是删后缀，所以可以将凸壳的点存在树上，一个版本就是树上的一条路径。</p>
+<p>每次加点删点就相当于把一个树的后缀删掉，相当于在树上二分。</p>
+<p>二分在线加点，单次O(log 当前凸壳点数)，总复杂度$O(n\log n)$。</p>
+<p>平衡树版 Graham(?) 不要求加点坐标单调</p>
+<p>将凸壳上的点按照某一维坐标为关键字，排在平衡树上</p>
+<p>在线加点，暴力删除周围点</p>
+<p>如果使用<code>std::set(finger search)</code>。</p>
+<p><code>finger search</code>指对于一棵平衡树，比如<code>set</code>有一个操作为<code>it++</code>或者<code>it--</code>，这实现了一个找前驱后继的过程。找前驱后继时先往上找，然后再往下找。遍历一个大小为$O(sz)$的集合的时间复杂度是$O(sz+\log)$。用这个来实现找前驱后继的，那么遍历一棵平衡树的时间复杂度是$O(n+\log)$的，即$O(n)$级别的。即单次做<code>it++</code>操作最坏复杂度是$O(\log)$的，但是做$sz$遍的时间复杂度是$O(sz+\log)$。</p>
+<p>所以单次复杂度O(delta凸壳点数+log(凸壳点数))，总复杂度$O(n\log n)$，不可持久化。</p>
+<p>如果手写平衡树，$O(1)$删除子树（修改指针），则单次复杂度O(log(凸壳点数))，可持久化。</p>
+<h3 id="完全动态凸包">完全动态凸包</h3>
+<p>在线 不要求单调 可加可删 可持久化</p>
+<p>两类实现方法：</p>
+<ol>
+<li>类线段树实现</li>
+<li>可持久化平衡树 cls论文<a href="https://github.com/morris821028/ACM-ICPC-resource/blob/master/pdf/%E5%8F%AF%E6%8C%81%E4%B9%85%E5%8C%96%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%A0%94%E7%A9%B6.pdf">《可持久化数据结构研究》</a></li>
+</ol>
+<h3 id="可持久化平衡树">可持久化平衡树</h3>
+<p>只是可以回到历史状态的平衡树而已</p>
+<p>可持久化的本质：记录所有时刻的历史版本，“垃圾不回收”</p>
+<p>维护的所有版本原则上不可修改，修改应视为新的版本</p>
+<p>适用于指针维护的数据结构，可持久化代价为一个点所连接的指针数</p>
+<p>理论上非均摊复杂度的平衡树都可以持久化，但是非旋treap比较好写</p>
+<h4 id="可持久化平衡树版完全动态凸包">可持久化平衡树版完全动态凸包</h4>
+<p>对于两个$x$轴上不相交的上凸壳，合并后为前缀+一条边+后缀，大概长这个样子：</p>
+<p><img src="https://files.catbox.moe/a62uu4.png" alt=""></p>
+<p>为快速合并凸壳且保持结构完整，我们可以用可持久化平衡树维护按照$x$坐标排序的凸壳点集</p>
+<p>外层使用平衡树等结构动态维护整个点集，树中每个点维护一个可持久化平衡树表示子树内点集凸壳即可。</p>
+<h3 id="类线段树实现">类线段树实现</h3>
+<p>线段树结构，叶子节点维护一个单独的点，非叶子节点维护子树（区间）内点集凸壳信息</p>
+<p>要求左子树的点集的坐标严格小于右子树的点集的坐标（相当于将所有点按坐标排序后建线段树）</p>
+<p>假设我们已经求出了左右子树的凸壳，那么合并后的凸壳一定是左子树的凸壳的一段前缀+一条边+右子树凸壳的一段后缀</p>
+<p>核心思想：每个节点只维护这条跨左右子树的边</p>
+<p>记号：</p>
+<p>节点$x$维护的边记作$bridge(x)=(p(x),q(x))$</p>
+<p>叶子节点维护的点记作$a(x)$</p>
+<p>对于叶子节点，我们令$bridge(x)=(a(x),a(x))$</p>
+<p>注意我们的结构并没有直接地表示出凸壳</p>
+<p>对于节点$x$，考虑它子树点集的凸壳，将凸壳上的点称为关键点，更小的凸壳上一定会出现这些关键点</p>
+<p>设这些关键点对应的叶子节点集合为$S$，设$T$为$S$形成的虚树</p>
+<p>$T$有$|S|$个叶子节点，$|S|-1$个非叶子节点，这其实就对应这$|S|-1$个横跨边，而这$|S|-1$个非叶子节点维护的边按照中序排列即为$x$的子树的凸壳</p>
+<p>如何判断哪些节点在虚树上？（哪些边是凸壳的边？）</p>
+<p>考虑暴力过程：先求出左右子树的凸壳，再删除被$bridge(x)$包含的边（包含指坐标区间包含）</p>
+<p>等价于：从$x$开始<code>dfs</code>，每次只加入没有被祖先的$bridge$包含的边</p>
+<p>判断$bridge(u)$是否在$x$节点子树的凸壳上的条件：对于所有$fa(u)$到$x$的路径上的$v$，$bridge(u)$不被$bridge(v)$包含</p>
+<p>时间复杂度与虚树时间复杂度一样，$O(md)$，$m$为凸壳上子树个数，$d$为子树深度。</p>
+<p>因为只用判与这个区间有交的横跨边，否则再左或再右就没有必要去管。</p>
+<p>如何计算$bridge$：（合并左右子树的凸壳）</p>
+<p>考虑$bridge(x)$连接了左子树的$p(x)$和右子树的$q(x)$</p>
+<p>所有$p(x)$左方的边向右延长的射线在右子树凸壳的上方，同理$q(x)$右方的边向左延长的射线在左子树凸壳的上方</p>
+<p>考虑二分出$p(x)$和$q(x)$</p>
+<p>单独二分一边时需要另一边求某个方向的最远点，再次二分的话需要两个$\log$</p>
+<p>考虑一起在树上二分，假设我们确定$p(x)$在$u$的子树内，$q(x)$在$v$子树内</p>
+<p>若$bridge(v)$中的某一点在$bridge(u)$射线上方，那么$p(x)$一定在$u$的左子树内</p>
+<p>同理，若$bridge(u)$中的某一点在$bridge(v)$射线上方，那么$q(x)$一定在$v$的内</p>
+<p><img src="https://files.catbox.moe/ikjh78.png" alt=""></p>
+<p>如果出现这两种情况，我们就可以缩小范围。</p>
+<p>如果两个情况都不满足，我们考虑$bridge(u)$和$bridge(v)$射线的交点。</p>
+<p>假设交点的坐标不在$u$子树的坐标范围内，那么$q(x)$一定在$v$的左子树内。同理如果不在$v$子树的坐标范围内，那么$p(x)$一定在$u$的右子树内。</p>
+<p>$u$和$v$的坐标范围不交，所以以上两种情况至少会发生一种。</p>
+<p>计算$bridge(x)$的复杂度O(x子树的深度)。</p>
+<p>我们数据结构里节点需要维护的信息有：$bridge(x)$，$x$子树的坐标范围</p>
+<p>其中$bridge$的计算复杂度依赖于深度，坐标范围可以$O(1)$直接合并</p>
+<p>对于离线（预先知道用到的点坐标），可以使用线段树</p>
+<p>对于在线，可以用非均摊的平衡树（如treap）</p>
+<p>单点修改（包括删点、加点）只会影响到到根的路径上的节点，复杂度严格$O(\log^2 n)$</p>
+<p>区间询问凸包需要合并$O(\log n)$，复杂度严格$O(\log ^2 n)$</p>
+<p>对于用这个数据结构表示的凸包，可以直接遍历求出$O(|S|)$，也可以用隐式树状结构作询问（如某方向最远点）</p>
+<p>空间复杂度$O(n)$</p>
+<h3 id="凸壳结构">凸壳结构</h3>
+<p>注意到每次合并，新建的节点的左儿子是左子树的一段前缀，右儿子是右儿子的一段后缀，我们也可以用cls的可持久化平衡树方法来实现，从而显式地表达出凸壳结构</p>
+<p>前缀、后缀刚好就是可持久化treap的<code>spilt</code>操作。时间复杂度不变（常数就不知道变不变了），空间复杂度$O(n\log n)$</p>
+<p>好处是表示出了凸壳上的点集本身，有更多的应用；合并复杂度严格$O(\log n)$，不与深度挂钩</p>
+<h3 id="思考">思考</h3>
+<p>如何维护一段凸壳上的点信息？（询问凸包面积）</p>
+<p>注意可持久化treap是定义在我们的树结构上的~~（而且这违背了我们不写可持久化平衡树的初心）~~</p>
+<p>我们已经用树结构维护了点集，有着天然的树结构。可持久化平衡树是必要的吗？</p>
+<h3 id="凸壳的可持久化树结构">凸壳的可持久化树结构</h3>
+<p>我们称叶子节点维护一个点，非叶子节点维护一条$bridge$的树状结构称为“外部树结构”。</p>
+<p>凸壳上的点在树中是子树里叶子的一个子集，其在外部树结构中形成的虚树称为“隐式凸壳结构”。</p>
+<p>合并左右子树时，新的凸壳为左凸壳的前缀+$bridge$+右凸壳的后缀，而隐式凸壳结构的前缀后缀可以由$O(d)$个它的子树表示。（设$d$为深度）</p>
+<p>考虑现在有一棵二叉搜索树（二叉搜索树的中序遍历是一个有序序列），想要知道二叉搜索树表示的有序序列的一个前缀它表示的是什么。</p>
+<p>考虑最后的一个点在哪里</p>
+<p>举个例子，比如它在这里：</p>
+<p><img src="https://files.catbox.moe/vecbw7.png" alt=""></p>
+<p>那么所有小于它的点会形成一堆子树（除了一些根到它的几个单点）</p>
+<p><img src="https://files.catbox.moe/iohbrn.png" alt=""></p>
+<p>就相当于从根往下搜索搜它的时候，每次往右走的时候它的左边都会比它小，并且上面还有一些比它小的点</p>
+<p><img src="https://files.catbox.moe/x9he60.png" alt=""></p>
+<p>所以一定可以被$O(d)$个子树来表示，即一个深度为$d$的二叉搜索树的一个前缀或者后缀一定可以由$O(d)$个子树表示。</p>
+<p>所以我们可以使用可持久化树结构维护每个点的隐式凸壳结构。</p>
+<p>因为就相当于可以在隐式数据结构上找出它的那些前缀和后缀的子树的组成了。那么直接新建一个点，然后把那些点的指针连向那些子树，这样就相当于用可持久化的树状结构维护它的隐式凸壳结构。（其实这就是显式的了）</p>
+<h3 id="可持久化树">可持久化树？</h3>
+<p>可持久化树实际上是一个<code>DAG</code>。对于一个点，它维护的信息实际上是它在<code>DAG</code>上不去重的dfs搜索树中所有点的信息和。（一个点可能会重复贡献信息）</p>
+<p>相当于是一个树的压缩结构。</p>
+<p>考虑有一棵树长这个样子，有两个子树是完全相同的：</p>
+<p><img src="https://files.catbox.moe/9yyhzo.png" alt=""></p>
+<p>那么并不需要用树结构把它拷贝一遍，考虑用两个边表示它在树的儿子里出现了两次</p>
+<p><img src="https://files.catbox.moe/znm0mo.png" alt=""></p>
+<p>可就是说可持久化树对于每一个点都是表示一棵树，这个点表示的树就是由它指向的点的树依次排成的</p>
+<p><img src="https://files.catbox.moe/7srlt5.png" alt=""></p>
+<p>所以说最后没有真正地把树维护出来，只是维护了一个类似<code>DAG</code>的东西，那么在<code>DAG</code>上进行dfs的时候就相当于把这棵树展开了。</p>
+<h3 id="凸壳可持久化树结构">凸壳可持久化树结构</h3>
+<p>一个点的凸壳集合可以表示为$O(d)$个点的已有可持久化树结构维护的集合的并，这$O(d)$个点在<code>merge</code>过程中即可求出（一个二叉树的$d$个点在当时二分的过程中已经搞出来了，即已经找出前缀和后缀的分界点，就用分界点将子树给取出来）。（$d$为该点子树深度）</p>
+<p>除了“外部树结构”外，我们称我们维护凸壳的可持久化树结构为“内部树结构”。内部树的每个可持久化节点具有$O(d)$条出边（指向儿子的可持久化树结构的那棵树$\log$个节点）。</p>
+<p>注意我们的修改操作并不会修改“内部树结构”，只会抛弃一些历史版本再加入一些新的版本。对于维护凸壳信息，只需要信息可加性即可。</p>
+<p>该结构应该被认为是定义在外部树结构节点上的一种可加信息，它具有天然的可持久化性（想做可持久化完全动态凸包的话，只需要把外部的树结构给可持久化掉，内部的东西本来就支持可持久化），可以支持历史版本回归。</p>
+<h3 id="完全动态凸包总结与应用">完全动态凸包总结与应用</h3>
+<p>我们本质用树状结构（“外部树结构”）按照坐标顺序维护了点集，并维护了在这个树状结构上定义的可加信息$bridge$，以此维护出了隐式凸壳结构。</p>
+<p>我们也可以显式地使用可持久化树维护凸壳结构（“内部树结构”），虽然空间复杂度会变成$O(n\log n)$，但是可以进行与凸壳点集相关的询问。（如凸包面积）</p>
+<p>操作时间复杂度严格$O(\log^2 n)$。</p>
+<p>由于是可加信息（类似区间和，区间矩阵的积），应用十分广泛，可以有很多推广。比如说我们可以区间增加/修改$y$坐标，区间翻转$y$坐标（这里假设我们按照$x$坐标排序），也可以再加上可持久化。<del>（传说中的可持久化平衡树套可持久化平衡树）</del></p>
+<h3 id="noi2017分身术-uoj319">[NOI2017]分身术 uoj319</h3>
+<p>给定一个点集，每次询问删除其中$k$个点后形成的凸包面积，强制在线</p>
+<p>$n\leq 10^5,M=\sum k=2\times 10^6$</p>
+<p>删除$k$个点后的凸壳相当于$k+1$个区间的凸壳的并</p>
+<p>直接用动态凸包维护可以做到$O(M \log^2 n)$或用论文实现$O(M \log n)$</p>
+<p>可以预处理线段树区间每个前缀后缀的凸壳信息，这样任意一个区间可以通过某个前缀+某个后缀合并而成（似乎就是猫树）。</p>
+<p>线段树在区间询问时是把一个区间拆成$\log$个区间合并起来。每次有一个中点，查询区间一定有一次跨过中点，然后此时考虑直接用左儿子的后缀以及右儿子的前缀把它合并起来。那么前缀和后缀的个数总共为$O(n\log n)$个，在本题中是预处理$O(n\log n)$个凸壳的信息。然后这道题就不管完全动态凸包了，考虑最简单的两个凸包合并，现在是有一个$O(\log)$的算法合并凸包，并且没有低于$O(\log)$的做法合并凸包。然后这道题询问$k$个点相当于询问$k+1$个区间的凸包的并，对于每个区间如果我们在线段树上查询凸包信息再合并起来那每个区间都会变成$O(\log)$个凸包的合并，那么再乘上$O(\log)$的合并复杂度，总时间复杂度就变成了$O(M\log ^2 n)$。然后这题有个优化，多预处理一些东西，线段树其实可以理解成预处理$O(n)$个区间信息，然后这些区间是长成一个线段树的形状的，然后方便我们之后把它分开成$\log$个区间。现在相当于预处理$O(n\log n)$个线段的信息，就把任意询问区间拆成$2$个区间。</p>
+<p>然后就预处理复杂度多了个$\log$，询问的复杂度少了个$\log$。</p>
+<p>总复杂度$O(n\log^2 n+M\log n)$（看起来能过）</p>
+<h3 id="其他几个凸包算法">其他几个凸包算法</h3>
+<p>假设只需要询问某个方向最远点</p>
+<p>比如有一条斜率固定的直线，然后从下往上扫，求最后经过的点是哪个点。几何意义就是上面这个，代数意义就是找一个$\max{a_x+b_y},(x,y)\in S$，其实就是跟直线的法线点积的最大值。在很多斜率优化都可以用到，找最大值就维护上凸壳，找最小值就维护下凸壳。</p>
+<p>性质：</p>
+<p>对于询问点集可以拆分后再取$\max$</p>
+<p>若询问的斜率具有单调性可以使用<code>two pointer</code>优化</p>
+<p>对于单个凸包：</p>
+<p>离线可以将询问按斜率排序，再用<code>two pointer</code>$O(n)$</p>
+<p>在线需要二分，单次$O(\log n)$</p>
+<p>对于区间询问某个方向最远点，可以用线段树拆分成$\log$个询问</p>
+<p>如果坐标单调且只有加点操作（只在凸包右侧加点），可以只建线段树的一部分（等价于二进制分组）</p>
+<p>假如现在有$k$个东西且坐标单调，然后将$k$写成二进制。</p>
+<p>如$k=2^{a_1}+2^{a_2}+\ldots + 2^{a_l}$，</p>
+<p>然后将前$2^{a_1}$个元素并起来（信息具有可加性），即将信息和算出来。然后再把$2^{a_2}$元素并起来，然后这样一直排列下去，就相当于把前$k$个信息分成$\log$组。二进制分组的典型应用就是凸包的最远点问题，因为两个凸包合并是$O(n+m)$的，所以合并的复杂度非常大，用二进制分组就考虑每次二进制个位都加1，如果二进制分组进行了一个进位的话就相当于把两个小块合成了一个大块，可以想象成一个一维的2048，总时间复杂度为$O(n\log n)$（$2^k$被合成了一次，$2^{k-1}$次方被合成了两次，$2^{k-2}$次方被合成了四次……）用二进制分组建单调这些点的凸包，对于每一组因为坐标单调所以可以$O(\log)$的区间查询最远点。所以加点的均摊复杂度是$O(n\log n)$的，查询复杂度为$O(\log^2)$。</p>
+<p>考虑一个足够长的$2^k$方长的线段树，然后二进制分组就相当于把线段树的前$[1,m]$结构建出来</p>
+<p>就比如前$1$个只有这个：</p>
+<p><img src="https://files.catbox.moe/n45mak.png" style="zoom: 50%;" /></p>
+<p>然后前$2$个就是：</p>
+<p><img src="https://files.catbox.moe/3j652x.png" style="zoom:50%;" /></p>
+<p>前$3$个：</p>
+<p><img src="https://files.catbox.moe/8ofqoy.png" style="zoom:50%;" /></p>
+<p>前$4$个：</p>
+<p><img src="https://files.catbox.moe/4tsiue.png" style="zoom:50%;" /></p>
+<p>前$7$个：</p>
+<p><img src="https://files.catbox.moe/qy9ih1.png" style="zoom:50%;" /></p>
+<p>就变成了前4个一棵线段树，中间两个一棵线段树，最后一个点一棵线段树。其实是线段树的一个前缀</p>
+<p>如果又有加点又有删点（撤销），可以用随机增加乱数防止复杂度退化</p>
+<p>因为比如上面一张图再加一个点需要合并好几个凸包</p>
+<p><img src="https://files.catbox.moe/fe3yef.png" style="zoom:50%;" /></p>
+<p>一次的时间复杂度会特别高，为$O(n)$。</p>
+<p>但是这出现的概率并不高，只会在加入$2^k$的最后一个时才会花$O(2^k)$时间合并凸包。所以考虑每次加点时有$50%$的概率加入一个无用点，$50%$不加点。这样就是把$m$变成了一个较随机的数，出题人就不能通过反复加点删点来卡了。</p>
+<p>以及完全动态凸包问题理论复杂度可以做到下界$O(n\log n)$！</p>
+<p><a href="https://arxiv.org/pdf/1902.11169.pdf">https://arxiv.org/pdf/1902.11169.pdf</a></p>
+    </div>
+
+    
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/%E6%9C%80%E5%A4%A7%E6%B5%81-%E6%9C%80%E5%B0%8F%E5%89%B2-2-sat/">
+            <span class="next-text nav-default">最大流 最小割 2-SAT</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  <span id="/post/%E5%8A%A8%E6%80%81%E5%87%B8%E5%8C%85/" class="leancloud_visitors" data-flag-title="动态凸包">
+		<span class="post-meta-item-text">文章阅读量 </span>
+		<span class="leancloud-visitors-count">0</span>
+		<p></p>
+	  </span>
+  <div id="vcomments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'F8xu4BfgVST0H6107wApro6n-gzGzoHsz',
+        appKey: 'qlgvukJKICXwyoy3NkVygfIu',
+        notify:  false ,
+        verify:  false ,
+        avatar:'mm',
+        placeholder: '说点什么吧...',
+        visitor:  true 
+    });
+  </script>
+
+  
+
+      </div>
+    </main>
+
+    
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        tags: 'ams',
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+    docsearch({
+    apiKey: "97c22106dbe3955818bc05a0be5f3511",
+    indexName: "hizeci's blog",
+    appId: "9HLPOQJVAD",
+    inputSelector: '.docsearch-input',
+    debug: false,
+    });
+</script>
+
+
+</body>
+</html>
