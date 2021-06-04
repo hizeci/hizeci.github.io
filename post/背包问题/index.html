@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>背包问题 - having little or no sense, use, or purpose.</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="TRAGEDY:ETERNITY" /><meta name="description" content="" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.81.0 with theme even" />
+
+
+<link rel="canonical" href="https://hizeci.github.io/post/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+
+<link href="/sass/main.min.6a025d60334ccde9f765dedcf6936f4c2eb3ea8d22276e9f389bb2efc2d55e11.css" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+<meta property="og:title" content="背包问题" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hizeci.github.io/post/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-06-03T20:55:28&#43;08:00" />
+<meta property="article:modified_time" content="2021-06-03T20:55:28&#43;08:00" />
+
+<meta itemprop="name" content="背包问题">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-06-03T20:55:28&#43;08:00" />
+<meta itemprop="dateModified" content="2021-06-03T20:55:28&#43;08:00" />
+<meta itemprop="wordCount" content="2197">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="背包问题"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">菜</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">背包问题</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-06-03 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#定义">定义</a>
+          <ul>
+            <li><a href="#判断能否恰好装满背包">判断能否恰好装满背包</a></li>
+            <li><a href="#vi1-硬币找零问题">$v[i]=1$ 硬币找零问题</a></li>
+            <li><a href="#min卷积特殊情况优化">$(+,min)$卷积特殊情况优化</a></li>
+            <li><a href="#最终算法">最终算法</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="定义">定义</h2>
+<p>有$n$种物品，第$i$种质量为$m[i]$，价值为$v[i]$，数量有$1$个或无限个（前者称为$0-1$背包，后者称为无穷背包），背包容量为$T$，设最大质量为$s$。</p>
+<p>特殊情况：</p>
+<p>$v[i]=1$</p>
+<p>恰好装满背包</p>
+<p>只求是否存在一种方案恰好装满背包</p>
+<p>求容量为$1\sim T$的所有答案</p>
+<p>$T$远大于$s$</p>
+<p>……</p>
+<h3 id="判断能否恰好装满背包">判断能否恰好装满背包</h3>
+<p>$n$个物品，第$i$种质量为$m[i]$，对于$t=1\sim T$询问是否存在方案使得质量和恰好为$t$。</p>
+<p>$0-1$情况</p>
+<p>无穷情况</p>
+<p>多项式$\ln$，再$\exp$</p>
+<p>具体：</p>
+<p>设物品质量集合为$S$</p>
+<p>对于$0-1$背包，$\prod\limits_{i\in S} (1+x^i)$</p>
+<p>对于无穷背包，$\prod\limits_{i\in S} \frac{1}{1-x^i}$</p>
+<p>但是对于这些式子并不能直接用<code>FFT</code>搞，因为这个多项式乘积的项数太多了，它并不是$O(1)$的多项式乘法。</p>
+<p>那么就考虑$\ln$和$\exp$</p>
+<p>设$0-1$背包的式子为$P(x)$，无穷背包为$Q(x)$。</p>
+<p>然后就有$\ln \left(Q(x)\right)=\sum\limits_{i\in S} -\ln \left(1-x^i\right)$</p>
+<p>考虑直接算它在$1$处的泰勒展开</p>
+<p>$\ln(1+x)=x-\frac{x^2}{2}+\frac{x^3}{3}-\ldots$</p>
+<p>然后原式等于$\sum \limits_{i\in S} \sum\limits_{j\ge 1} \frac{x^{ij}}{j}$</p>
+<p>然后这个东西直接暴力算就是$O(n\ln n)$的</p>
+<p>因为$\sum [ij\le n]=\frac{n}{1}+\frac{n}{2}+\frac{n}{3}+\ldots$</p>
+<p>最后再$\exp$回去即可</p>
+<p>复杂度$O(T\log T)$算出答案</p>
+<p>概率算法，只能算方案数模大质数。</p>
+<p><a href="https://www.luogu.com.cn/problem/P4389">https://www.luogu.com.cn/problem/P4389</a> 付公主的背包</p>
+<h3 id="vi1-硬币找零问题">$v[i]=1$ 硬币找零问题</h3>
+<p>$n$个物品，第$i$种质量为$m[i]$且有无穷多个，对于$t=1\sim T$询问最少选择几个物品使得质量和恰好为$t$。</p>
+<p>只询问一个质量的最优复杂度？</p>
+<p>二分最少需要几个+<code>FFT</code>优化判断</p>
+<p>令$P(x)=1+\sum \limits_{i\in S} x^i$</p>
+<p>选择$k$个硬币的生成函数就是$P^k(x)$，这可以$O(n\log n)$求出。然后二分也是一个$\log$，所以总复杂度$O(n\log^2 n)$</p>
+<p>$O^{\sim}(T^{1.5})$（这个$\sim$指把$T$的$\log$因子给忽略掉，可以理解为$T^{1.5}\times \operatorname{polylog}$）？还能更优吗？</p>
+<p>设一个阙值$B$，对于质量大于$B$的物品，最多只会使用$\frac{T}{B}$次。</p>
+<p>用$O(\frac{T}{B})$次<code>FFT</code>在$O^{\sim}(\frac{T^{2}}{B})$的时间内计算使用$\frac{T}{B}$次物品的情况，再此基础上用质量小于$B$的物品每次$O(T)$更新$dp$数组，即$O(BT)$。</p>
+<p>当$B=\sqrt{T}$时，可以达到理论复杂度最优$O^{\sim}(T^{1.5})$。</p>
+<p>令$S$为大物品集合，然后还是刚刚那个东西为$P(x)$，已经通过<code>FFT</code>算出$P^{0},P^{1},\ldots ,P^{\frac{T}{B}}$</p>
+<p>然后令$dp_S[i]$表示用$S$集合里面的硬币凑出面值为$i$最少要几个硬币。</p>
+<p>然后用$P^0,\ldots ,P^{\frac{T}{B}}$就已经求出了$dp_S[i]$。</p>
+<p>接下来令$S_0$表示那些小物品，假设$S_0={a_0,a_1,\ldots}$，用$dp_S[i]$更新到$dp_{S'}[i]$而$S'=S+{a_i}$，然后每次将$a_0,a_1,\ldots$分别更新上去。</p>
+<p>考虑如何优化质量小物品的更新效率？</p>
+<p>能否一次增加多个质量小的物品？</p>
+<p>$0-1$情况下，如何在大$dp$数组上增加小物品？</p>
+<p>（$1-\inf$数组和任意数组的$(+,\min)$卷积）</p>
+<h3 id="min卷积特殊情况优化">$(+,min)$卷积特殊情况优化</h3>
+<p>设$A$数组为任意数组，$B$数组要么为$1$要么为$\inf$，两个数组长度都为$L$。他们的$(+,\min)$卷积$C$数组为：
+$$
+C[k]=\min_{i+j=k} A[i]+B[j]
+$$
+将$A$数组按照值从小到大排序，我们相当于询问能从$(i,j)$转移到$k$的最小的$A[i]$是什么</p>
+<p>将$A$按照值域分成根号块，每块与$B$数组卷积。询问时由每块的卷积数组快速判断，可以将$A$的候选数限制在根号内，然后暴力枚举即可。总复杂度$O^{\sim}(L^{1.5})$</p>
+<p>举个例子：</p>
+<p><img src="https://files.catbox.moe/44f1v9.png" style="zoom:50%;" /></p>
+<p>然后按照值域分块，比如$1,2$分一块，$3,4,5$分一块。</p>
+<p>$1,2$分一块就相当于是$x+x^4$多项式与下面的$x+x^3+x^4$乘一下，然后$3,4,5$就相当于$x^2+x^3+x^5$，就是相当于把位置取出来做多项式然后乘一下看能转移到哪些位置。所以说可以将$A$的候选数限制在根号内。</p>
+<p>考虑将质量在$[\frac{k}{2},k]$之间的物品的转移加到我们的$dp$数组上，我们依次对初始质量位于$[0,\frac{k}{2}),[\frac{k}{2},k),[k,\frac{3k}{2}),\ldots$进行$0-1$物品转移，使用上述优化可以做到$O^{\sim}(\frac{T}{K}\times K^{1.5})=O^{\sim}(T\times K^{0.5})$</p>
+<p>为什么会有这个$[\frac{k}{2},k]$？因为如果物品太小且可以转移多次，而<code>FFT</code>并没有这种自己更新自己的操作。但是转移一定是这样转的：</p>
+<p><img src="https://files.catbox.moe/nepfze.png" style="zoom:50%;" /></p>
+<p>就是说我们对于$\frac{k}{2}$这个区间的东西可以批量处理转移（就是用上面这个优化方法）。</p>
+<h3 id="最终算法">最终算法</h3>
+<p>令$B=T^{\frac{2}{3}}$，处理质量大于$B$物品的情况。对于小于$B$的物品，分别取$k=B,\frac{B}{2},\frac{B}{4},\frac{B}{8},\ldots$</p>
+<p>最终时间复杂度$O^{\sim}(T^{\frac{4}{3}})$。</p>
+<p>Open problem：能否做到更优？</p>
+    </div>
+
+    
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/%E5%8A%A8%E6%80%81%E5%87%B8%E5%8C%85/">
+            <span class="next-text nav-default">动态凸包</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  <span id="/post/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/" class="leancloud_visitors" data-flag-title="背包问题">
+		<span class="post-meta-item-text">文章阅读量 </span>
+		<span class="leancloud-visitors-count">0</span>
+		<p></p>
+	  </span>
+  <div id="vcomments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'F8xu4BfgVST0H6107wApro6n-gzGzoHsz',
+        appKey: 'qlgvukJKICXwyoy3NkVygfIu',
+        notify:  false ,
+        verify:  false ,
+        avatar:'mm',
+        placeholder: '说点什么吧...',
+        visitor:  true 
+    });
+  </script>
+
+  
+
+      </div>
+    </main>
+
+    
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        tags: 'ams',
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+    docsearch({
+    apiKey: "97c22106dbe3955818bc05a0be5f3511",
+    indexName: "hizeci's blog",
+    appId: "9HLPOQJVAD",
+    inputSelector: '.docsearch-input',
+    debug: false,
+    });
+</script>
+
+
+</body>
+</html>

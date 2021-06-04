@@ -51,6 +51,8 @@ gym102900J
 
 小米决赛[A.Rikka with Game](https://ac.nowcoder.com/acm/contest/9328/A)以及B、C。
 
+付公主的背包实现
+
 
 
 生成函数的题目部分。
